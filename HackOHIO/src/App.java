@@ -3,4 +3,8 @@ public class App {
         System.out.println("Hello, World!");
     }
 }
+<<<<<<< HEAD
 "Chud"
+=======
+
+>>>>>>> 1c017f7 (Update App.java)
