@@ -1343,7 +1343,117 @@ $("restart-btn").addEventListener("click", () => {
 
 
 /* =========================================
+   MATCHING AGENT INTEGRATION
+   ========================================= */
+
+/*
+   The student whose perspective drives the matching.
+   Adjust these fields to change which mentors rank highest.
+*/
+const currentStudent = {
+    id: "student-001",
+    interests: ["AI", "game development", "software engineering"],
+    desiredSkills: ["Python", "Java", "problem solving"],
+    careerGoal:
+        "Build real-world software projects and grow into a well-rounded engineer."
+};
+
+
+// Convert a UI mentor into the backend MentorProfile shape.
+
+function toMentorProfile(mentor) {
+
+    return {
+        id: String(mentor.id),
+        displayName: mentor.name,
+        expertiseTags: mentor.skills || [],
+        teachableSkills: mentor.skills || [],
+        professionalBackground:
+            `${mentor.role}. ${mentor.description} ` +
+            `${mentor.outcome}`
+    };
+}
+
+
+/*
+   Ask the matching agent to score and rank the mentors.
+
+   On success the mentors are reordered by the agent's score
+   (highest first) and each mentor.match is updated to the
+   real compatibility score.
+
+   If the backend is unavailable, the UI keeps the built-in
+   demo scores and ordering so it still works offline.
+*/
+async function applyMatchingAgent() {
+
+    try {
+
+        const response = await fetch("/api/rank", {
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+                student: currentStudent,
+                mentors: mentors.map(toMentorProfile)
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error("Ranking request failed: " + response.status);
+        }
+
+        const data = await response.json();
+
+        const scoreById = new Map(
+            (data.matches || []).map(
+                match => [String(match.id), match.score]
+            )
+        );
+
+        // Apply the agent's scores to the matching mentors.
+        mentors.forEach(mentor => {
+
+            const score = scoreById.get(String(mentor.id));
+
+            if (typeof score === "number") {
+                mentor.match = score;
+            }
+        });
+
+        // Reorder: highest compatibility first.
+        mentors.sort((a, b) => b.match - a.match);
+
+        showToast("✦ Mentors ranked by the Matching Agent");
+
+    } catch (error) {
+
+        // Offline / server not running: keep the demo data.
+        console.warn(
+            "Matching agent unavailable, using demo scores.",
+            error
+        );
+    }
+}
+
+
+/* =========================================
    START APPLICATION
    ========================================= */
 
+// Show the first mentor immediately with built-in data,
+// then refine the ranking once the agent responds.
+
 showMentor();
+
+applyMatchingAgent().then(() => {
+
+    // Re-render the current mentor so the refreshed score
+    // and ordering are reflected if we are still at the start.
+    if (currentIndex === 0) {
+        showMentor();
+    }
+});
