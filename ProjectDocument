@@ -6,3 +6,36 @@ Student Profile
     Project/Experience
     In app projects + verification of completion
 General Discussion Boards
+
+
+Create a profile: Students select interests, skills they want to learn, and career goals.
+
+
+
+Swipe on mentors: Java calculates compatibility using shared interests and learning goals.
+
+
+
+Get matched: A mentor accepts the student's request.
+
+
+
+Complete a mini challenge: The mentor offers a 15–30-minute learning activity or feedback opportunity.
+
+
+
+Build your portfolio: Students earn a verified contribution record showing what they completed and feedback they received.
+
+
+For your hackathon, I'd focus on four screens: student onboarding, mentor discovery, successful match, and completed challenge with feedback.
+
+Avoid building a full messaging system, complicated authentication, or too many separate features until that flow works.
+
+You can use Java + Spring Boot for the matching algorithm and backend, with HTML, CSS, and JavaScript for the swipe interface.
+
+The PDF specifically says:
+"One complete flow beats five half-built features."
+
+That's the best principle to follow when deciding what to implement.
+
+My strongest suggestion: Make the swipe interface the exciting hook, but make the micro-challenge and earned feedback the feature that actually solves Honda's problem.
