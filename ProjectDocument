@@ -1,20 +1,14 @@
-Tinder matching Students to Mentors
-    Mentees look for Mentors
-    Mentors Accept mentees based of interest
-Student Profile
-    Make portfolio
-    Project/Experience
-    In app projects + verification of completion
-General Discussion Boards
-
-
 Create a profile: Students select interests, skills they want to learn, and career goals.
+    Has must have skills they want to learn when searching for mentor
 
 
 
-Swipe on mentors: Java calculates compatibility using shared interests and learning goals.
-
-
+Swipe on mentors: Ai Agent calculates compatibility using shared interests and learning goals.
+    Tells students matching percentage
+    Can give students mentors that dont have must haves but warns which ones
+    Gives to students in order of best matching
+    Can recalculate mentor compatibility based off what the student has showed interest
+    
 
 Get matched: A mentor accepts the student's request.
 
@@ -27,7 +21,7 @@ Complete a mini challenge: The mentor offers a 15–30-minute learning activity 
 Build your portfolio: Students earn a verified contribution record showing what they completed and feedback they received.
 
 
-For your hackathon, I'd focus on four screens: student onboarding, mentor discovery, successful match, and completed challenge with feedback.
+For your hackathon, I'd focus on five screens: student profile, student peer discovery,  mentor discovery, successful match, and completed challenge with feedback.
 
 Avoid building a full messaging system, complicated authentication, or too many separate features until that flow works.
 

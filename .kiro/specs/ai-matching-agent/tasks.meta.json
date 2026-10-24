@@ -1,0 +1,299 @@
+{
+  "pbtResults": {},
+  "executionHistory": {
+    "1. Set up Maven project structure and dependencies": [
+      {
+        "executionId": "a670f98b-98ab-435f-86a4-d23309e0fa44",
+        "chatSessionId": "sess_357fc003-d583-4ea4-baf3-90d17c8d4ce9",
+        "timestamp": 1792874574753
+      },
+      {
+        "executionId": "a670f98b-98ab-435f-86a4-d23309e0fa44",
+        "chatSessionId": "sess_357fc003-d583-4ea4-baf3-90d17c8d4ce9",
+        "timestamp": 1792874583280
+      },
+      {
+        "executionId": "a670f98b-98ab-435f-86a4-d23309e0fa44",
+        "chatSessionId": "sess_357fc003-d583-4ea4-baf3-90d17c8d4ce9",
+        "timestamp": 1792874715551
+      }
+    ],
+    "2.1 Implement `MatchingAgentException`": [
+      {
+        "executionId": "a670f98b-98ab-435f-86a4-d23309e0fa44",
+        "chatSessionId": "sess_357fc003-d583-4ea4-baf3-90d17c8d4ce9",
+        "timestamp": 1792874575052
+      },
+      {
+        "executionId": "a670f98b-98ab-435f-86a4-d23309e0fa44",
+        "chatSessionId": "sess_357fc003-d583-4ea4-baf3-90d17c8d4ce9",
+        "timestamp": 1792874717796
+      },
+      {
+        "executionId": "a670f98b-98ab-435f-86a4-d23309e0fa44",
+        "chatSessionId": "sess_357fc003-d583-4ea4-baf3-90d17c8d4ce9",
+        "timestamp": 1792875144166
+      }
+    ],
+    "2.2 Implement `StudentProfile`": [
+      {
+        "executionId": "a670f98b-98ab-435f-86a4-d23309e0fa44",
+        "chatSessionId": "sess_357fc003-d583-4ea4-baf3-90d17c8d4ce9",
+        "timestamp": 1792874575170
+      },
+      {
+        "executionId": "a670f98b-98ab-435f-86a4-d23309e0fa44",
+        "chatSessionId": "sess_357fc003-d583-4ea4-baf3-90d17c8d4ce9",
+        "timestamp": 1792874719892
+      },
+      {
+        "executionId": "a670f98b-98ab-435f-86a4-d23309e0fa44",
+        "chatSessionId": "sess_357fc003-d583-4ea4-baf3-90d17c8d4ce9",
+        "timestamp": 1792875146888
+      }
+    ],
+    "2.4 Implement `MentorProfile`": [
+      {
+        "executionId": "a670f98b-98ab-435f-86a4-d23309e0fa44",
+        "chatSessionId": "sess_357fc003-d583-4ea4-baf3-90d17c8d4ce9",
+        "timestamp": 1792874575315
+      },
+      {
+        "executionId": "a670f98b-98ab-435f-86a4-d23309e0fa44",
+        "chatSessionId": "sess_357fc003-d583-4ea4-baf3-90d17c8d4ce9",
+        "timestamp": 1792874721900
+      },
+      {
+        "executionId": "a670f98b-98ab-435f-86a4-d23309e0fa44",
+        "chatSessionId": "sess_357fc003-d583-4ea4-baf3-90d17c8d4ce9",
+        "timestamp": 1792875150001
+      }
+    ],
+    "2.6 Implement `RankedMatch`": [
+      {
+        "executionId": "a670f98b-98ab-435f-86a4-d23309e0fa44",
+        "chatSessionId": "sess_357fc003-d583-4ea4-baf3-90d17c8d4ce9",
+        "timestamp": 1792874575607
+      },
+      {
+        "executionId": "a670f98b-98ab-435f-86a4-d23309e0fa44",
+        "chatSessionId": "sess_357fc003-d583-4ea4-baf3-90d17c8d4ce9",
+        "timestamp": 1792874724078
+      },
+      {
+        "executionId": "a670f98b-98ab-435f-86a4-d23309e0fa44",
+        "chatSessionId": "sess_357fc003-d583-4ea4-baf3-90d17c8d4ce9",
+        "timestamp": 1792875153091
+      }
+    ],
+    "3.1 Implement `EnvironmentConfig`": [
+      {
+        "executionId": "a670f98b-98ab-435f-86a4-d23309e0fa44",
+        "chatSessionId": "sess_357fc003-d583-4ea4-baf3-90d17c8d4ce9",
+        "timestamp": 1792874575875
+      },
+      {
+        "executionId": "a670f98b-98ab-435f-86a4-d23309e0fa44",
+        "chatSessionId": "sess_357fc003-d583-4ea4-baf3-90d17c8d4ce9",
+        "timestamp": 1792875156663
+      },
+      {
+        "executionId": "a670f98b-98ab-435f-86a4-d23309e0fa44",
+        "chatSessionId": "sess_357fc003-d583-4ea4-baf3-90d17c8d4ce9",
+        "timestamp": 1792875264713
+      }
+    ],
+    "4.1 Implement `PromptBuilder`": [
+      {
+        "executionId": "a670f98b-98ab-435f-86a4-d23309e0fa44",
+        "chatSessionId": "sess_357fc003-d583-4ea4-baf3-90d17c8d4ce9",
+        "timestamp": 1792874576207
+      },
+      {
+        "executionId": "a670f98b-98ab-435f-86a4-d23309e0fa44",
+        "chatSessionId": "sess_357fc003-d583-4ea4-baf3-90d17c8d4ce9",
+        "timestamp": 1792875159558
+      },
+      {
+        "executionId": "a670f98b-98ab-435f-86a4-d23309e0fa44",
+        "chatSessionId": "sess_357fc003-d583-4ea4-baf3-90d17c8d4ce9",
+        "timestamp": 1792875267704
+      }
+    ],
+    "5. Checkpoint — verify data models and PromptBuilder": [
+      {
+        "executionId": "a670f98b-98ab-435f-86a4-d23309e0fa44",
+        "chatSessionId": "sess_357fc003-d583-4ea4-baf3-90d17c8d4ce9",
+        "timestamp": 1792874576412
+      },
+      {
+        "executionId": "a670f98b-98ab-435f-86a4-d23309e0fa44",
+        "chatSessionId": "sess_357fc003-d583-4ea4-baf3-90d17c8d4ce9",
+        "timestamp": 1792875339909
+      },
+      {
+        "executionId": "a670f98b-98ab-435f-86a4-d23309e0fa44",
+        "chatSessionId": "sess_357fc003-d583-4ea4-baf3-90d17c8d4ce9",
+        "timestamp": 1792875342242
+      }
+    ],
+    "6.1 Implement `ResponseParser`": [
+      {
+        "executionId": "a670f98b-98ab-435f-86a4-d23309e0fa44",
+        "chatSessionId": "sess_357fc003-d583-4ea4-baf3-90d17c8d4ce9",
+        "timestamp": 1792874576673
+      },
+      {
+        "executionId": "a670f98b-98ab-435f-86a4-d23309e0fa44",
+        "chatSessionId": "sess_357fc003-d583-4ea4-baf3-90d17c8d4ce9",
+        "timestamp": 1792875352591
+      },
+      {
+        "executionId": "a670f98b-98ab-435f-86a4-d23309e0fa44",
+        "chatSessionId": "sess_357fc003-d583-4ea4-baf3-90d17c8d4ce9",
+        "timestamp": 1792875427618
+      }
+    ],
+    "7.1 Implement `LLM_Client`": [
+      {
+        "executionId": "a670f98b-98ab-435f-86a4-d23309e0fa44",
+        "chatSessionId": "sess_357fc003-d583-4ea4-baf3-90d17c8d4ce9",
+        "timestamp": 1792874576969
+      },
+      {
+        "executionId": "a670f98b-98ab-435f-86a4-d23309e0fa44",
+        "chatSessionId": "sess_357fc003-d583-4ea4-baf3-90d17c8d4ce9",
+        "timestamp": 1792875354928
+      },
+      {
+        "executionId": "a670f98b-98ab-435f-86a4-d23309e0fa44",
+        "chatSessionId": "sess_357fc003-d583-4ea4-baf3-90d17c8d4ce9",
+        "timestamp": 1792875430157
+      }
+    ],
+    "8.1 Implement `MatchingAgent`": [
+      {
+        "executionId": "a670f98b-98ab-435f-86a4-d23309e0fa44",
+        "chatSessionId": "sess_357fc003-d583-4ea4-baf3-90d17c8d4ce9",
+        "timestamp": 1792874577224
+      },
+      {
+        "executionId": "a670f98b-98ab-435f-86a4-d23309e0fa44",
+        "chatSessionId": "sess_357fc003-d583-4ea4-baf3-90d17c8d4ce9",
+        "timestamp": 1792875433239
+      },
+      {
+        "executionId": "a670f98b-98ab-435f-86a4-d23309e0fa44",
+        "chatSessionId": "sess_357fc003-d583-4ea4-baf3-90d17c8d4ce9",
+        "timestamp": 1792875551441
+      }
+    ],
+    "9.1 Implement `MatchingAgentDemo`": [
+      {
+        "executionId": "a670f98b-98ab-435f-86a4-d23309e0fa44",
+        "chatSessionId": "sess_357fc003-d583-4ea4-baf3-90d17c8d4ce9",
+        "timestamp": 1792874577556
+      },
+      {
+        "executionId": "a670f98b-98ab-435f-86a4-d23309e0fa44",
+        "chatSessionId": "sess_357fc003-d583-4ea4-baf3-90d17c8d4ce9",
+        "timestamp": 1792875554611
+      },
+      {
+        "executionId": "a670f98b-98ab-435f-86a4-d23309e0fa44",
+        "chatSessionId": "sess_357fc003-d583-4ea4-baf3-90d17c8d4ce9",
+        "timestamp": 1792875609889
+      }
+    ],
+    "10.1 Write `MatchingAgentIntegrationTest`": [
+      {
+        "executionId": "a670f98b-98ab-435f-86a4-d23309e0fa44",
+        "chatSessionId": "sess_357fc003-d583-4ea4-baf3-90d17c8d4ce9",
+        "timestamp": 1792874577849
+      },
+      {
+        "executionId": "a670f98b-98ab-435f-86a4-d23309e0fa44",
+        "chatSessionId": "sess_357fc003-d583-4ea4-baf3-90d17c8d4ce9",
+        "timestamp": 1792875613045
+      },
+      {
+        "executionId": "a670f98b-98ab-435f-86a4-d23309e0fa44",
+        "chatSessionId": "sess_357fc003-d583-4ea4-baf3-90d17c8d4ce9",
+        "timestamp": 1792875764912
+      }
+    ],
+    "11. Final checkpoint — ensure all tests pass": [
+      {
+        "executionId": "a670f98b-98ab-435f-86a4-d23309e0fa44",
+        "chatSessionId": "sess_357fc003-d583-4ea4-baf3-90d17c8d4ce9",
+        "timestamp": 1792874578005
+      },
+      {
+        "executionId": "a670f98b-98ab-435f-86a4-d23309e0fa44",
+        "chatSessionId": "sess_357fc003-d583-4ea4-baf3-90d17c8d4ce9",
+        "timestamp": 1792875768832
+      },
+      {
+        "executionId": "a670f98b-98ab-435f-86a4-d23309e0fa44",
+        "chatSessionId": "sess_357fc003-d583-4ea4-baf3-90d17c8d4ce9",
+        "timestamp": 1792875815010
+      }
+    ],
+    "2. Implement data model classes": [
+      {
+        "executionId": "a670f98b-98ab-435f-86a4-d23309e0fa44",
+        "chatSessionId": "sess_357fc003-d583-4ea4-baf3-90d17c8d4ce9",
+        "timestamp": 1792875153307
+      }
+    ],
+    "3. Implement `EnvironmentConfig`": [
+      {
+        "executionId": "a670f98b-98ab-435f-86a4-d23309e0fa44",
+        "chatSessionId": "sess_357fc003-d583-4ea4-baf3-90d17c8d4ce9",
+        "timestamp": 1792875264797
+      }
+    ],
+    "4. Implement `PromptBuilder`": [
+      {
+        "executionId": "a670f98b-98ab-435f-86a4-d23309e0fa44",
+        "chatSessionId": "sess_357fc003-d583-4ea4-baf3-90d17c8d4ce9",
+        "timestamp": 1792875267758
+      }
+    ],
+    "6. Implement `ResponseParser`": [
+      {
+        "executionId": "a670f98b-98ab-435f-86a4-d23309e0fa44",
+        "chatSessionId": "sess_357fc003-d583-4ea4-baf3-90d17c8d4ce9",
+        "timestamp": 1792875427722
+      }
+    ],
+    "7. Implement `LLM_Client`": [
+      {
+        "executionId": "a670f98b-98ab-435f-86a4-d23309e0fa44",
+        "chatSessionId": "sess_357fc003-d583-4ea4-baf3-90d17c8d4ce9",
+        "timestamp": 1792875430250
+      }
+    ],
+    "8. Implement `MatchingAgent`": [
+      {
+        "executionId": "a670f98b-98ab-435f-86a4-d23309e0fa44",
+        "chatSessionId": "sess_357fc003-d583-4ea4-baf3-90d17c8d4ce9",
+        "timestamp": 1792875551520
+      }
+    ],
+    "9. Implement `MatchingAgentDemo`": [
+      {
+        "executionId": "a670f98b-98ab-435f-86a4-d23309e0fa44",
+        "chatSessionId": "sess_357fc003-d583-4ea4-baf3-90d17c8d4ce9",
+        "timestamp": 1792875609943
+      }
+    ],
+    "10. Write integration test with WireMock": [
+      {
+        "executionId": "a670f98b-98ab-435f-86a4-d23309e0fa44",
+        "chatSessionId": "sess_357fc003-d583-4ea4-baf3-90d17c8d4ce9",
+        "timestamp": 1792875764987
+      }
+    ]
+  }
+}
