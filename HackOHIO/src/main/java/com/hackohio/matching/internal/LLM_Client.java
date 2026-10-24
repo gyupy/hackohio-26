@@ -12,30 +12,31 @@ import java.time.Duration;
 import java.util.Objects;
 
 /**
- * Wraps Java 11's {@link java.net.http.HttpClient} to send a prompt to the LLM API and return
- * the raw response body.
+ * Wraps Java 11's {@link java.net.http.HttpClient} to send a prompt to the Google Gemini
+ * generateContent API and return the raw response body.
  *
- * <p>Request format (Requirement 4.1):
+ * <p>Request format:
  * <pre>
  * POST {LLM_API_URL}
- * Authorization: Bearer {LLM_API_KEY}
- * Content-Type: text/plain
+ * Content-Type: application/json
+ * x-goog-api-key: {LLM_API_KEY}
  *
- * {prompt string}
+ * {"contents":[{"parts":[{"text":"{prompt}"}]}]}
  * </pre>
+ *
+ * <p>The {@code LLM_API_URL} should be the Gemini generateContent endpoint, e.g.
+ * {@code https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent}.
  *
  * <p>Failure handling:
  * <ul>
- *   <li>HTTP status != 200 → {@link MatchingAgentException} carrying the status and body
- *       (Requirement 4.3).</li>
- *   <li>Request timeout → {@link MatchingAgentException} wrapping the cause (Requirement 4.4).</li>
- *   <li>Connection / I/O error → {@link MatchingAgentException} wrapping the cause
- *       (Requirement 4.4).</li>
+ *   <li>HTTP status != 200 → {@link MatchingAgentException} carrying the status and body.</li>
+ *   <li>Request timeout → {@link MatchingAgentException} wrapping the cause.</li>
+ *   <li>Connection / I/O error → {@link MatchingAgentException} wrapping the cause.</li>
  * </ul>
  *
  * <p>The value of {@code LLM_API_KEY} is never included in any exception message or
- * {@link #toString()} output. It is only ever placed in the outgoing {@code Authorization}
- * header (Requirements 4.5, 4.6 for timeout configuration; secret-safety per Requirement 2.6).
+ * {@link #toString()} output. It is only ever placed in the outgoing {@code x-goog-api-key}
+ * header.
  */
 public class LLM_Client {
 
@@ -66,10 +67,6 @@ public class LLM_Client {
         this.httpClient = Objects.requireNonNull(httpClient, "httpClient must not be null");
     }
 
-    /**
-     * Builds the default {@link HttpClient}, applying the configured timeout as the connection
-     * timeout.
-     */
     private static HttpClient buildDefaultClient(EnvironmentConfig config) {
         Objects.requireNonNull(config, "config must not be null");
         return HttpClient.newBuilder()
@@ -78,21 +75,23 @@ public class LLM_Client {
     }
 
     /**
-     * Sends the supplied prompt to the LLM API as an HTTP POST and returns the raw response body.
+     * Sends the supplied prompt to the Gemini API as an HTTP POST and returns the raw response
+     * body (the full Gemini JSON envelope).
      *
-     * @param prompt the fully-formed prompt string to send as the request body
-     * @return the raw response body string returned by the LLM API on an HTTP 200 response
-     * @throws MatchingAgentException if the API returns a non-200 status (carrying status and
-     *                                body), if the request times out, or if a connection/I/O
-     *                                error occurs
+     * @param prompt the fully-formed prompt string to embed in the Gemini request
+     * @return the raw response body string returned on an HTTP 200 response
+     * @throws MatchingAgentException if the API returns a non-200 status, times out, or a
+     *                                connection/I/O error occurs
      */
     public String send(String prompt) throws MatchingAgentException {
+        String requestBody = buildGeminiRequestBody(prompt);
+
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(config.getApiUrl()))
                 .timeout(Duration.ofSeconds(config.getTimeoutSeconds()))
-                .header("Content-Type", "text/plain")
-                .header("Authorization", "Bearer " + config.getApiKey())
-                .POST(HttpRequest.BodyPublishers.ofString(prompt))
+                .header("Content-Type", "application/json")
+                .header("x-goog-api-key", config.getApiKey())
+                .POST(HttpRequest.BodyPublishers.ofString(requestBody))
                 .build();
 
         try {
@@ -101,27 +100,55 @@ public class LLM_Client {
 
             int status = response.statusCode();
             if (status != HTTP_OK) {
-                // Includes status and body only — never the API key (Requirement 4.3, 2.6).
                 throw new MatchingAgentException(
                         "LLM API returned HTTP " + status + ": " + response.body(), status);
             }
             return response.body();
         } catch (HttpTimeoutException e) {
-            // Must be caught before IOException since it is a subclass (Requirement 4.4).
             throw new MatchingAgentException("LLM API request timed out", e);
         } catch (IOException e) {
             throw new MatchingAgentException("LLM API connection error", e);
         } catch (InterruptedException e) {
-            // Restore the interrupt flag so callers can observe the interruption.
             Thread.currentThread().interrupt();
             throw new MatchingAgentException("LLM API connection error", e);
         }
     }
 
     /**
-     * Returns a diagnostic representation that deliberately omits any secret material. The
-     * delegated {@link EnvironmentConfig#toString()} also masks the API key.
+     * Wraps the prompt in the Gemini {@code generateContent} request envelope, JSON-escaping the
+     * prompt text so arbitrary content is transmitted safely.
      */
+    private static String buildGeminiRequestBody(String prompt) {
+        String escaped = jsonEscape(prompt == null ? "" : prompt);
+        return "{\"contents\":[{\"parts\":[{\"text\":\"" + escaped + "\"}]}]}";
+    }
+
+    /**
+     * Minimal JSON string escaper for the prompt text (quotes, backslashes, and control chars).
+     */
+    private static String jsonEscape(String s) {
+        StringBuilder sb = new StringBuilder(s.length() + 16);
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            switch (c) {
+                case '"':  sb.append("\\\""); break;
+                case '\\': sb.append("\\\\"); break;
+                case '\n': sb.append("\\n"); break;
+                case '\r': sb.append("\\r"); break;
+                case '\t': sb.append("\\t"); break;
+                case '\b': sb.append("\\b"); break;
+                case '\f': sb.append("\\f"); break;
+                default:
+                    if (c < 0x20) {
+                        sb.append(String.format("\\u%04x", (int) c));
+                    } else {
+                        sb.append(c);
+                    }
+            }
+        }
+        return sb.toString();
+    }
+
     @Override
     public String toString() {
         return "LLM_Client{config=" + config + "}";
