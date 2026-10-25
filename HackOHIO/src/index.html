@@ -1,17 +1,467 @@
-<html lang=""en">
+
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
-    <title>Mentor Match</title>
-    <link rel="stylesheet" href="style.css"
-</head>
-<body>
-    <h1> Discover Mentors! </h1>
-    <div class ="mentor-card">
-        <h2> Example Name Here</h2>
-        <p> Software Engineering </p>
-        <p>Skills: Java, Python</p>
-    </div>
-</body>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
+    <title>Buckeye Guild</title>
+
+    <!-- Fantasy and storybook fonts -->
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Pirata+One&family=Fondamento:ital@0;1&family=Cormorant+Garamond:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- HANGING GUILD SIGN -->
+    <header class="site-header">
+
+        <div class="hanging-sign">
+            <a href="#quest-board" class="brand">
+                Buckeye Guild
+            </a>
+        </div>
+
+        <a href="#liked-section"
+           id="guild-link"
+           class="guild-link"
+           hidden>
+            ♥ Your Guild (<span id="liked-count">0</span>)
+        </a>
+
+    </header>
+
+
+    <main>
+
+        <!-- MAIN QUEST BOARD -->
+        <section class="quest-board" id="quest-board">
+
+            <div class="page-heading">
+
+                <p class="eyebrow">
+                    ✦ THE QUEST BOARD ✦
+                </p>
+
+                <h1>Discover Mentors</h1>
+
+                <p>
+                    Every adventure begins with a guide.
+                    Swipe right to connect, left to pass.
+                </p>
+
+            </div>
+
+
+            <!-- SWIPEABLE SCROLL AREA -->
+            <div class="swipe-area" id="swipe-area">
+
+                <!-- Decorative left scroll -->
+                <div class="side-scroll side-scroll-left"
+                     aria-hidden="true">
+
+                    <div class="side-scroll-paper"></div>
+
+                    <div class="side-scroll-roller
+                                side-scroll-roller-top"></div>
+
+                    <div class="side-scroll-roller
+                                side-scroll-roller-bottom"></div>
+
+                </div>
+
+
+                <!-- Decorative right scroll -->
+                <div class="side-scroll side-scroll-right"
+                     aria-hidden="true">
+
+                    <div class="side-scroll-paper"></div>
+
+                    <div class="side-scroll-roller
+                                side-scroll-roller-top"></div>
+
+                    <div class="side-scroll-roller
+                                side-scroll-roller-bottom"></div>
+
+                </div>
+
+
+                <!-- Cards stacked behind the current scroll -->
+                <div class="card-behind"
+                     id="card-behind"
+                     aria-hidden="true"></div>
+
+
+                <!-- CURRENT MENTOR SCROLL -->
+                <article class="mentor-card"
+                         id="card"
+                         aria-label="Swipeable mentor profile">
+
+                    <!-- Parchment -->
+                    <div class="scroll-paper" id="scroll-paper">
+
+                        <div class="scroll-content">
+
+                            <!-- Mentor icon and score -->
+                            <div class="card-top">
+
+                                <div class="mentor-icon"
+                                     id="mentor-icon">📜</div>
+
+                                <span class="match-score"
+                                      id="match-score"></span>
+
+                            </div>
+
+
+                            <!-- Mentor information -->
+                            <h2 id="mentor-name"></h2>
+
+                            <p class="mentor-role"
+                               id="mentor-role"></p>
+
+
+                            <!-- Skills -->
+                            <div class="skills"
+                                 id="mentor-skills"></div>
+
+
+                            <!-- Professor description -->
+                            <div class="description">
+
+                                <h3>Mentor's Craft</h3>
+
+                                <p id="mentor-description"></p>
+
+                            </div>
+
+
+                            <!-- Student benefits -->
+                            <div class="gain-box">
+
+                                <h3>✦ Skills You'll Unlock</h3>
+
+                                <p id="mentor-outcome"></p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Wooden scroll rollers -->
+                    <div class="scroll-roller
+                                scroll-roller-top"
+                         aria-hidden="true"></div>
+
+                    <div class="scroll-roller
+                                scroll-roller-bottom"
+                         aria-hidden="true"></div>
+
+
+                    <!-- Swipe indicators -->
+                    <span class="stamp like-stamp"
+                          id="like-stamp">
+                        CONNECT
+                    </span>
+
+                    <span class="stamp pass-stamp"
+                          id="pass-stamp">
+                        PASS
+                    </span>
+
+                </article>
+
+
+                <!-- When the mentor deck is complete -->
+                <div class="empty-state"
+                     id="empty-state"
+                     hidden>
+
+                    <h2>All caught up!</h2>
+
+                    <p>
+                        You've explored every available mentor.
+                    </p>
+
+                    <button id="restart-btn" type="button">
+                        Start Over
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- SWIPE BUTTONS -->
+            <div class="actions" id="actions">
+
+                <button id="pass-btn"
+                        class="pass-button"
+                        type="button"
+                        aria-label="Pass on mentor">
+                    ✕
+                </button>
+
+                <button id="like-btn"
+                        class="like-button"
+                        type="button"
+                        aria-label="Like mentor">
+                    ♥
+                </button>
+
+            </div>
+
+
+            <p class="swipe-hint" id="swipe-hint">
+                ← Pass &nbsp; | &nbsp; Connect →
+            </p>
+
+
+            <!-- PROJECT ARCHIVE BUTTON -->
+            <button id="projects-btn"
+                    class="projects-button"
+                    type="button"
+                    aria-controls="projects-panel"
+                    aria-expanded="false">
+
+                📜 Open Quest Archive ↓
+
+            </button>
+
+
+            <!-- EXPANDABLE PROJECTS -->
+            <section class="projects-panel"
+                     id="projects-panel"
+                     hidden>
+
+                <h2>The Quest Archive</h2>
+
+                <h3>Mentor's Research & Projects</h3>
+
+                <div class="project-list"
+                     id="professor-projects"></div>
+
+                <h3>Previous Student Projects</h3>
+
+                <div class="project-list"
+                     id="student-projects"></div>
+
+            </section>
+
+        </section>
+
+
+        <!-- LIKED MENTORS -->
+        <section class="liked-section"
+                 id="liked-section"
+                 hidden>
+
+            <p class="eyebrow">
+                ✦ YOUR CONNECTIONS ✦
+            </p>
+
+            <h2>Your Guild</h2>
+
+            <p class="liked-subtitle">
+                Mentors you've expressed interest in.
+                Select one to view messages and quests.
+            </p>
+
+
+            <div class="liked-layout">
+
+                <!-- List of liked professors -->
+                <div class="liked-list"
+                     id="liked-list"></div>
+
+
+                <!-- GUILD MESSENGER -->
+                <div class="chat-container">
+
+                    <p class="chat-placeholder"
+                       id="chat-placeholder">
+
+                        Select a mentor to begin a conversation
+                        or accept a quest.
+
+                    </p>
+
+
+                    <section class="chat-panel"
+                             id="chat-panel"
+                             hidden>
+
+                        <div class="chat-header">
+
+                            <strong id="chat-mentor-name"></strong>
+
+                            <span>Guild Messenger · Demo</span>
+
+                        </div>
+
+
+                        <!-- MESSAGES / QUESTS TABS -->
+                        <div class="chat-tabs"
+                             role="tablist"
+                             aria-label="Messenger tabs">
+
+                            <button id="messages-tab"
+                                    class="chat-tab active"
+                                    type="button"
+                                    role="tab"
+                                    aria-selected="true"
+                                    aria-controls="messages-view">
+
+                                 Messages
+
+                            </button>
+
+                            <button id="quests-tab"
+                                    class="chat-tab"
+                                    type="button"
+                                    role="tab"
+                                    aria-selected="false"
+                                    aria-controls="quests-view">
+
+                                ⚔ Quests
+                                <span id="quest-count">1</span>
+
+                            </button>
+
+                        </div>
+
+
+                        <!-- MESSAGES SCREEN -->
+                        <div class="chat-view"
+                             id="messages-view"
+                             role="tabpanel"
+                             aria-labelledby="messages-tab">
+
+                            <div class="chat-messages"
+                                 id="chat-messages"
+                                 role="log"
+                                 aria-live="polite"></div>
+
+
+                            <form class="chat-form"
+                                  id="chat-form">
+
+                                <input id="chat-input"
+                                       type="text"
+                                       maxlength="500"
+                                       placeholder="Write a message..."
+                                       aria-label="Message"
+                                       required>
+
+                                <button type="submit">
+                                    Send
+                                </button>
+
+                            </form>
+
+                        </div>
+
+
+                        <!-- QUESTS SCREEN -->
+                        <div class="chat-view quest-view"
+                             id="quests-view"
+                             role="tabpanel"
+                             aria-labelledby="quests-tab"
+                             hidden>
+
+                            <!-- Available quests -->
+                            <div id="quest-list"></div>
+
+
+                            <!-- Playable quest -->
+                            <div id="quest-game" hidden>
+
+                                <button class="back-button"
+                                        id="back-to-quests"
+                                        type="button">
+
+                                    ← Back to Quests
+
+                                </button>
+
+                                <p class="quest-kicker"
+                                   id="quest-stage"></p>
+
+                                <h3 id="quest-title"></h3>
+
+                                <p id="quest-question"></p>
+
+                                <pre id="quest-code" hidden></pre>
+
+                                <div class="quest-choices"
+                                     id="quest-choices"></div>
+
+                                <p class="quest-feedback"
+                                   id="quest-feedback"
+                                   role="status"
+                                   aria-live="polite"></p>
+
+                                <button class="next-button"
+                                        id="next-stage"
+                                        type="button"
+                                        hidden>
+
+                                    Next Stage →
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </section>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- NOTIFICATION -->
+        <div class="swipe-toast"
+             id="swipe-toast"
+             role="status"
+             aria-live="polite"
+             hidden></div>
+
+
+        <!-- FOOTER -->
+        <footer>
+
+            ✦ Buckeye Guild ✦
+
+            <small>
+                A mentorship adventure.
+                Fictional mentor profiles and demo quests.
+            </small>
+
+        </footer>
+
+    </main>
+
+
+    <script src="script.js"></script>
+
+</body>
 </html>

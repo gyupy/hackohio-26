@@ -1,0 +1,1895 @@
+/* =========================================
+   BUCKEYE GUILD
+   Fantasy Quest Board - Final CSS
+   ========================================= */
+
+/* =========================================
+   1. COLORS
+   ========================================= */
+
+:root {
+    --night: #281a14;
+
+    --wood: #704930;
+    --wood-dark: #40271c;
+    --wood-light: #9b704d;
+
+    --parchment: #f3deb7;
+    --paper-light: #fff0d1;
+    --paper-dark: #d7b37d;
+
+    --ink: #513620;
+    --muted: #806048;
+
+    --gold: #e7be76;
+
+    --sage: #71845e;
+    --sage-light: #e3ebd9;
+
+    --rose: #b76b60;
+}
+
+
+/* =========================================
+   2. GENERAL STYLING
+   ========================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    overflow-x: hidden;
+
+    background:
+        radial-gradient(
+            ellipse at top,
+            #5e4432 0%,
+            #38271e 47%,
+            #211612 100%
+        );
+
+    color: #f8e7cb;
+
+    font-family:
+        "Cormorant Garamond",
+        Cambria,
+        Georgia,
+        serif;
+
+    font-size: 19px;
+}
+
+button,
+input {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+    outline: 3px solid var(--gold);
+    outline-offset: 3px;
+}
+
+
+/* =========================================
+   3. FANTASY FONTS
+   ========================================= */
+
+/* Decorative storybook headings */
+
+.page-heading h1,
+.mentor-card h2,
+.description h3,
+.gain-box h3,
+.projects-panel h2,
+.projects-panel h3,
+.liked-section h2,
+.chat-header strong,
+.quest-card h3,
+#quest-title,
+.empty-state h2 {
+    font-family:
+        "Fondamento",
+        Georgia,
+        serif;
+}
+
+/* Main program name uses Pirata One.
+   Defined separately in .brand below. */
+
+
+/* =========================================
+   4. HANGING GUILD SIGN
+   ========================================= */
+
+.site-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+
+    padding: 32px 20px 22px;
+
+    background: #302018;
+
+    border-bottom: 4px solid #80583d;
+}
+
+/* Sign container */
+
+.hanging-sign {
+    position: relative;
+    padding-top: 18px;
+}
+
+/* Ropes holding wooden sign */
+
+.hanging-sign::before,
+.hanging-sign::after {
+    content: "";
+
+    position: absolute;
+    top: -32px;
+
+    width: 6px;
+    height: 65px;
+
+    background:
+        repeating-linear-gradient(
+            135deg,
+            #d5ad74 0 5px,
+            #93683e 5px 10px
+        );
+}
+
+.hanging-sign::before {
+    left: 17%;
+}
+
+.hanging-sign::after {
+    right: 17%;
+}
+
+/* Gothic Buckeye Guild lettering */
+
+.brand {
+    position: relative;
+    display: block;
+
+    padding: 12px 34px 17px;
+
+    background:
+        repeating-linear-gradient(
+            0deg,
+            #62412b 0 13px,
+            #765035 13px 26px
+        );
+
+    border: 5px double #b88e5d;
+    border-radius: 10px;
+
+    box-shadow:
+        0 8px 0 #1b100c,
+        inset 0 0 20px #170b0870;
+
+    color: #f6ce75;
+
+    font-family:
+        "Pirata One",
+        Georgia,
+        serif;
+
+    font-size: clamp(35px, 6vw, 64px);
+
+    letter-spacing: 2px;
+    font-variant-ligatures: none;
+
+    text-align: center;
+    text-decoration: none;
+
+    line-height: 1.15;
+
+    text-shadow:
+        2px 3px 0 #392314;
+}
+
+/* Your Guild navigation link */
+
+.guild-link {
+    color: #f3d8b4;
+    text-decoration: none;
+
+    font-size: 20px;
+}
+
+.guild-link:hover {
+    color: #fff5e4;
+}
+
+
+/* =========================================
+   5. WOODEN QUEST BOARD
+   ========================================= */
+
+main {
+    max-width: 1060px;
+
+    margin: 0 auto;
+    padding: 30px 18px 65px;
+}
+
+.quest-board {
+    max-width: 900px;
+    margin: 0 auto;
+
+    padding: 30px 25px 36px;
+
+    text-align: center;
+
+    background:
+        linear-gradient(
+            90deg,
+            #1b100b35,
+            transparent 20%,
+            transparent 80%,
+            #1b100b35
+        ),
+        repeating-linear-gradient(
+            0deg,
+            #65432e 0 76px,
+            #79543a 76px 80px,
+            #5c3b29 80px 154px,
+            #41291c 154px 158px
+        );
+
+    border: 8px ridge #a1764d;
+    border-radius: 14px;
+
+    box-shadow:
+        0 18px 45px #0008,
+        inset 0 0 35px #140b0950;
+}
+
+/* Quest board heading */
+
+.page-heading h1 {
+    margin: 10px 0;
+
+    font-size: 42px;
+    font-weight: normal;
+
+    color: #fff0d5;
+
+    text-shadow:
+        1px 3px 3px #21120c;
+}
+
+.page-heading p:not(.eyebrow) {
+    max-width: 520px;
+
+    margin: 0 auto;
+
+    color: #f4dfc1;
+    line-height: 1.45;
+}
+
+.eyebrow {
+    margin: 0;
+
+    color: var(--gold);
+
+    font-family:
+        "Fondamento",
+        Georgia,
+        serif;
+
+    font-size: 17px;
+    letter-spacing: 1px;
+}
+
+
+/* =========================================
+   6. SWIPE AREA
+   ========================================= */
+
+.swipe-area {
+    position: relative;
+
+    width: 580px;
+    max-width: 100%;
+
+    height: 645px;
+
+    margin: 28px auto 20px;
+
+    overflow: visible;
+}
+
+
+/* =========================================
+   7. DECORATIVE SIDE SCROLLS
+   ========================================= */
+
+.side-scroll {
+    position: absolute;
+
+    top: 162px;
+
+    width: 95px;
+    height: 275px;
+
+    z-index: 0;
+
+    opacity: 0.85;
+
+    pointer-events: none;
+
+    filter: saturate(0.85);
+}
+
+/* Left scroll */
+
+.side-scroll-left {
+    left: -47px;
+
+    transform: rotate(-11deg);
+}
+
+/* Right scroll */
+
+.side-scroll-right {
+    right: -47px;
+
+    transform: rotate(11deg);
+}
+
+/* Side scroll parchment */
+
+.side-scroll-paper {
+    position: absolute;
+
+    inset: 17px 7px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #cba36d,
+            #f3dcb2 17%,
+            #fff0d1 50%,
+            #edcfa0 83%,
+            #b98a57
+        );
+
+    border: 2px solid #a77b4d;
+    border-radius: 12px;
+
+    box-shadow:
+        inset 0 0 15px #8f5b3025,
+        0 9px 18px #0005;
+}
+
+/* Side scroll wooden rollers */
+
+.side-scroll-roller {
+    position: absolute;
+
+    left: -5px;
+    right: -5px;
+
+    height: 20px;
+
+    background:
+        linear-gradient(
+            #d6a36d,
+            #9e6b40 40%,
+            #6a4026 80%,
+            #43281a
+        );
+
+    border: 1px solid #5b3722;
+    border-radius: 999px;
+
+    box-shadow:
+        0 4px 6px #0005;
+}
+
+.side-scroll-roller-top {
+    top: 0;
+}
+
+.side-scroll-roller-bottom {
+    bottom: 0;
+}
+
+
+/* =========================================
+   8. STACKED MENTOR CARDS
+   ========================================= */
+
+/* Background card that appears behind
+   the currently displayed mentor scroll */
+
+.card-behind {
+    position: absolute;
+
+    left: 50%;
+    top: 14px;
+
+    width: min(
+        445px,
+        calc(100% - 65px)
+    );
+
+    height: calc(100% - 6px);
+
+    transform:
+        translateX(-50%)
+        rotate(3deg);
+
+    z-index: 1;
+
+    background: #dbc092;
+
+    border: 2px solid #bc9463;
+    border-radius: 17px;
+
+    box-shadow:
+        0 10px 22px #0005;
+}
+
+.card-behind::after {
+    content: "";
+
+    position: absolute;
+    inset: 7px;
+
+    background: #ecd4a9;
+
+    border: 2px solid #c29b6b;
+    border-radius: 15px;
+
+    transform: rotate(-5deg);
+}
+
+
+/* =========================================
+   9. MAIN MENTOR SCROLL
+   ========================================= */
+
+/* Entire scroll moves when dragged */
+
+.mentor-card {
+    position: absolute;
+
+    left: 50%;
+    top: 0;
+
+    width: min(
+        455px,
+        calc(100% - 55px)
+    );
+
+    height: 100%;
+
+    transform: translateX(-50%);
+
+    z-index: 3;
+
+    cursor: grab;
+
+    touch-action: pan-y;
+    user-select: none;
+}
+
+.mentor-card:active {
+    cursor: grabbing;
+}
+
+
+/* =========================================
+   10. AGED PARCHMENT PAPER
+   ========================================= */
+
+.scroll-paper {
+    position: absolute;
+
+    inset: 21px 0;
+
+    overflow: hidden;
+
+    background:
+        radial-gradient(
+            ellipse at top left,
+            #9b5d3030,
+            transparent 30%
+        ),
+        radial-gradient(
+            ellipse at top right,
+            #8e562c24,
+            transparent 28%
+        ),
+        radial-gradient(
+            ellipse at bottom left,
+            #8b522c30,
+            transparent 30%
+        ),
+        radial-gradient(
+            ellipse at bottom right,
+            #a0673930,
+            transparent 30%
+        ),
+        linear-gradient(
+            90deg,
+            #d5b07b 0%,
+            #f4dfb8 10%,
+            #fff0d3 49%,
+            #f0d4a4 91%,
+            #cba16e 100%
+        );
+
+    border: 3px solid #b78b55;
+    border-radius: 18px;
+
+    box-shadow:
+        0 16px 37px #0006,
+        inset 0 0 25px #9160392a;
+}
+
+/* Folded paper corner */
+
+.scroll-paper::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    right: 0;
+
+    z-index: 2;
+
+    width: 31px;
+    height: 31px;
+
+    background:
+        linear-gradient(
+            225deg,
+            #ad7948 0 49%,
+            #f5dfb3 50%
+        );
+
+    clip-path:
+        polygon(
+            0 0,
+            100% 0,
+            100% 100%
+        );
+
+    opacity: 0.75;
+
+    pointer-events: none;
+}
+
+/* Shading around worn parchment edges */
+
+.scroll-paper::after {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    pointer-events: none;
+
+    box-shadow:
+        inset 9px 0 15px #85512525,
+        inset -9px 0 15px #85512525,
+        inset 0 6px 12px #94602f25,
+        inset 0 -6px 12px #94602f25;
+}
+
+/* Contents of the scroll */
+
+.scroll-content {
+    display: flex;
+    flex-direction: column;
+
+    height: 100%;
+
+    overflow-y: auto;
+    overscroll-behavior: contain;
+
+    padding: 53px 34px 54px;
+
+    color: var(--ink);
+    text-align: left;
+
+    scrollbar-width: thin;
+    scrollbar-color: #b58e61 transparent;
+}
+
+
+/* =========================================
+   11. WOODEN SCROLL ROLLERS
+   ========================================= */
+
+.scroll-roller {
+    position: absolute;
+
+    left: -11px;
+    right: -11px;
+
+    z-index: 5;
+
+    height: 27px;
+
+    background:
+        linear-gradient(
+            #c89764,
+            #9a683e 35%,
+            #714528 75%,
+            #482b1c
+        );
+
+    border: 1px solid #5c3925;
+
+    border-radius: 999px;
+
+    box-shadow:
+        inset 0 2px 3px #fff4,
+        0 4px 6px #0005;
+
+    pointer-events: none;
+}
+
+.scroll-roller-top {
+    top: 8px;
+}
+
+.scroll-roller-bottom {
+    bottom: 8px;
+}
+
+
+/* =========================================
+   12. SLOW SCROLL ANIMATIONS
+   ========================================= */
+
+/*
+   Scroll movement timing:
+
+   1.6 seconds to enter and unfold.
+   This matches UNFURL_DURATION = 1600
+   in script.js.
+*/
+
+/* Enter from the left */
+
+.mentor-card.enter-left {
+    animation:
+        scrollEnterLeft 1.6s ease-out both;
+}
+
+/* Enter from the right */
+
+.mentor-card.enter-right {
+    animation:
+        scrollEnterRight 1.6s ease-out both;
+}
+
+/* Unfold parchment vertically */
+
+.mentor-card.unfurl .scroll-paper {
+    animation:
+        paperUnroll 1.6s ease-out both;
+}
+
+/* Separate top roller */
+
+.mentor-card.unfurl .scroll-roller-top {
+    animation:
+        topRollOpen 1.6s ease-out both;
+}
+
+/* Separate bottom roller */
+
+.mentor-card.unfurl .scroll-roller-bottom {
+    animation:
+        bottomRollOpen 1.6s ease-out both;
+}
+
+
+/* =========================================
+   13. SIDE ENTRANCE KEYFRAMES
+   ========================================= */
+
+@keyframes scrollEnterLeft {
+
+    0% {
+        transform:
+            translateX(calc(-50% - 270px))
+            scale(0.6);
+
+        opacity: 0.5;
+    }
+
+    42% {
+        transform:
+            translateX(-50%)
+            scale(0.96);
+
+        opacity: 1;
+    }
+
+    100% {
+        transform:
+            translateX(-50%)
+            scale(1);
+
+        opacity: 1;
+    }
+}
+
+
+@keyframes scrollEnterRight {
+
+    0% {
+        transform:
+            translateX(calc(-50% + 270px))
+            scale(0.6);
+
+        opacity: 0.5;
+    }
+
+    42% {
+        transform:
+            translateX(-50%)
+            scale(0.96);
+
+        opacity: 1;
+    }
+
+    100% {
+        transform:
+            translateX(-50%)
+            scale(1);
+
+        opacity: 1;
+    }
+}
+
+
+/* =========================================
+   14. PARCHMENT UNFURL KEYFRAMES
+   ========================================= */
+
+/* Paper begins rolled up.
+   It opens after reaching the center. */
+
+@keyframes paperUnroll {
+
+    0%, 39% {
+        clip-path:
+            inset(
+                48% 0 48% 0
+                round 12px
+            );
+
+        opacity: 0.5;
+    }
+
+    65% {
+        clip-path:
+            inset(
+                23% 0 23% 0
+                round 12px
+            );
+
+        opacity: 1;
+    }
+
+    100% {
+        clip-path:
+            inset(
+                0 0 0 0
+                round 12px
+            );
+
+        opacity: 1;
+    }
+}
+
+
+/* Top wooden roller moves upward */
+
+@keyframes topRollOpen {
+
+    0%, 39% {
+        transform:
+            translateY(292px)
+            scaleX(0.8);
+    }
+
+    100% {
+        transform:
+            translateY(0)
+            scaleX(1);
+    }
+}
+
+
+/* Bottom wooden roller moves downward */
+
+@keyframes bottomRollOpen {
+
+    0%, 39% {
+        transform:
+            translateY(-292px)
+            scaleX(0.8);
+    }
+
+    100% {
+        transform:
+            translateY(0)
+            scaleX(1);
+    }
+}
+
+
+/* =========================================
+   15. MENTOR CARD INFORMATION
+   ========================================= */
+
+.card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 12px;
+
+    margin-bottom: 18px;
+}
+
+.mentor-icon {
+    display: grid;
+    place-items: center;
+
+    width: 56px;
+    height: 56px;
+
+    background: #ead0a4;
+
+    border: 2px solid #cba374;
+    border-radius: 12px;
+
+    font-size: 27px;
+}
+
+.match-score {
+    padding: 9px 14px;
+
+    background: #e3ebd9;
+    color: #506c44;
+
+    border-radius: 25px;
+
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.mentor-card h2 {
+    margin: 0 0 8px;
+
+    font-size: 32px;
+    font-weight: normal;
+
+    color: #51331f;
+}
+
+.mentor-role {
+    margin: 0 0 19px;
+
+    font-size: 18px;
+    color: #806047;
+}
+
+
+/* =========================================
+   16. MENTOR SKILL TAGS
+   ========================================= */
+
+.skills {
+    display: flex;
+    flex-wrap: wrap;
+
+    gap: 8px;
+
+    margin-bottom: 22px;
+}
+
+.skills span {
+    padding: 6px 12px;
+
+    background: #ead5b2;
+    color: #735038;
+
+    border: 1px solid #cda97b;
+    border-radius: 17px;
+
+    font-size: 17px;
+}
+
+
+/* =========================================
+   17. MENTOR'S CRAFT
+   ========================================= */
+
+.description {
+    padding-top: 18px;
+
+    border-top: 1px solid #c9a476;
+}
+
+.description h3 {
+    margin: 0 0 10px;
+
+    color: #704b2f;
+
+    font-size: 23px;
+    font-weight: normal;
+}
+
+.description p {
+    margin: 0;
+
+    color: #694e37;
+
+    font-size: 19px;
+    line-height: 1.45;
+}
+
+
+/* =========================================
+   18. SKILLS YOU'LL UNLOCK
+   ========================================= */
+
+.gain-box {
+    margin-top: auto;
+
+    padding: 17px;
+
+    background: #e3ebd9;
+
+    border: 2px solid #b6c4a6;
+    border-radius: 13px;
+}
+
+.gain-box h3 {
+    margin: 0 0 9px;
+
+    color: #4c6741;
+
+    font-size: 22px;
+}
+
+.gain-box p {
+    margin: 0;
+
+    color: #506247;
+
+    font-size: 18px;
+    line-height: 1.45;
+}
+
+
+/* =========================================
+   19. SWIPE INDICATORS
+   ========================================= */
+
+.stamp {
+    position: absolute;
+
+    top: 95px;
+    z-index: 6;
+
+    padding: 8px 13px;
+
+    border: 3px solid;
+    border-radius: 9px;
+
+    background: #fff0d1e8;
+
+    font-family:
+        "Fondamento",
+        Georgia,
+        serif;
+
+    font-size: 23px;
+
+    opacity: 0;
+
+    pointer-events: none;
+}
+
+/* Green CONNECT stamp */
+
+.like-stamp {
+    left: 22px;
+
+    color: #57804b;
+
+    transform: rotate(-13deg);
+}
+
+/* Red PASS stamp */
+
+.pass-stamp {
+    right: 22px;
+
+    color: #b35d53;
+
+    transform: rotate(13deg);
+}
+
+
+/* =========================================
+   20. TINDER-STYLE SWIPE BUTTONS
+   ========================================= */
+
+.actions {
+    display: flex;
+    justify-content: center;
+
+    gap: 35px;
+
+    margin: 27px 0 10px;
+}
+
+.actions button {
+    display: grid;
+    place-items: center;
+
+    width: 72px;
+    height: 72px;
+
+    border-radius: 50%;
+
+    font-size: 34px;
+
+    box-shadow:
+        0 7px 16px #0005;
+
+    transition:
+        transform 0.2s,
+        box-shadow 0.2s;
+}
+
+.actions button:hover {
+    transform: scale(1.1);
+}
+
+.actions button:active {
+    transform: scale(0.95);
+}
+
+/* Red pass button */
+
+.pass-button {
+    background: #f7e3d6;
+    color: #b26a5e;
+
+    border: 3px solid #cb9183;
+}
+
+/* Green like button */
+
+.like-button {
+    background: var(--sage);
+    color: white;
+
+    border: 3px solid #abc095;
+}
+
+/* Swipe instructions */
+
+.swipe-hint {
+    color: #f3d8b3;
+
+    font-size: 17px;
+    margin-bottom: 17px;
+}
+
+
+/* =========================================
+   21. QUEST ARCHIVE BUTTON
+   ========================================= */
+
+.projects-button {
+    display: block;
+
+    width: 460px;
+    max-width: 100%;
+
+    margin: 16px auto 0;
+    padding: 14px;
+
+    background: #f0d4a5;
+    color: #65442c;
+
+    border: 2px solid #c39865;
+    border-radius: 10px;
+
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.projects-button:hover {
+    background: #fff0ce;
+}
+
+
+/* =========================================
+   22. EXPANDABLE QUEST ARCHIVE
+   ========================================= */
+
+.projects-panel {
+    width: 545px;
+    max-width: 100%;
+
+    margin: 22px auto 0;
+    padding: 23px;
+
+    text-align: left;
+
+    background: #f2dfbc;
+    color: var(--ink);
+
+    border: 2px solid #b58b58;
+    border-radius: 12px;
+
+    box-shadow:
+        0 12px 25px #0005;
+}
+
+.projects-panel h2 {
+    margin: 0 0 15px;
+
+    font-size: 28px;
+}
+
+.projects-panel h3 {
+    color: #775036;
+
+    font-size: 22px;
+}
+
+.project-list {
+    display: grid;
+
+    gap: 12px;
+}
+
+.project-item {
+    background: #fff0d4;
+
+    border: 1px solid #cda877;
+    border-radius: 11px;
+
+    padding: 15px;
+}
+
+.project-item h4 {
+    margin: 0 0 8px;
+
+    font-size: 22px;
+}
+
+.project-item p {
+    margin: 0 0 8px;
+
+    line-height: 1.45;
+}
+
+.project-item small {
+    color: #557348;
+}
+
+.project-item a {
+    display: block;
+
+    margin-top: 10px;
+
+    color: #476e3c;
+
+    font-weight: bold;
+}
+
+
+/* =========================================
+   23. LIKED MENTORS
+   ========================================= */
+
+.liked-section {
+    max-width: 870px;
+
+    margin: 35px auto 0;
+
+    scroll-margin-top: 20px;
+}
+
+.liked-section h2 {
+    margin: 7px 0;
+
+    font-size: 34px;
+}
+
+.liked-subtitle {
+    margin: 0 0 18px;
+
+    color: #dfc4a4;
+}
+
+/* Mentor list beside chat */
+
+.liked-layout {
+    display: grid;
+
+    grid-template-columns:
+        265px minmax(0, 1fr);
+
+    gap: 17px;
+
+    align-items: start;
+}
+
+.liked-list {
+    display: grid;
+
+    gap: 11px;
+}
+
+/* Individual liked mentor */
+
+.liked-mentor {
+    display: flex;
+    flex-direction: column;
+
+    gap: 7px;
+
+    width: 100%;
+    padding: 15px;
+
+    text-align: left;
+
+    background: #f2dfbc;
+    color: var(--ink);
+
+    border: 2px solid #b58b58;
+    border-radius: 12px;
+}
+
+.liked-mentor strong {
+    font-size: 22px;
+}
+
+.liked-mentor small {
+    font-size: 16px;
+
+    color: #7e5d44;
+}
+
+.liked-mentor:hover {
+    background: #fff0d1;
+}
+
+.liked-mentor.selected {
+    background: #e3ebd9;
+
+    border-color: var(--sage);
+}
+
+
+/* =========================================
+   24. GUILD MESSENGER
+   ========================================= */
+
+.chat-container {
+    min-width: 0;
+}
+
+.chat-placeholder,
+.chat-panel {
+    background: #f3e0bd;
+    color: var(--ink);
+
+    border: 2px solid #b78d59;
+    border-radius: 13px;
+
+    overflow: hidden;
+}
+
+/* Initial placeholder */
+
+.chat-placeholder {
+    padding: 65px 22px;
+
+    text-align: center;
+}
+
+/* Chat title */
+
+.chat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 12px;
+    padding: 16px;
+
+    background: #e5cca1;
+
+    border-bottom: 1px solid #cba579;
+}
+
+.chat-header strong {
+    font-size: 23px;
+}
+
+.chat-header span {
+    font-size: 15px;
+    color: #806145;
+}
+
+
+/* =========================================
+   25. MESSAGES AND QUESTS TABS
+   ========================================= */
+
+.chat-tabs {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    background: #ead8b9;
+}
+
+.chat-tab {
+    padding: 13px 7px;
+
+    background: transparent;
+    color: #765439;
+
+    border: none;
+    border-bottom: 3px solid transparent;
+
+    font-size: 19px;
+    font-weight: bold;
+
+    transition:
+        background 0.2s,
+        color 0.2s;
+}
+
+.chat-tab:hover {
+    background: #f1e1c5;
+}
+
+/* Selected tab */
+
+.chat-tab.active {
+    background: #fff0d4;
+    color: #49673f;
+
+    border-bottom-color: var(--sage);
+}
+
+
+/* =========================================
+   26. CHAT MESSAGES
+   ========================================= */
+
+.chat-messages {
+    display: flex;
+    flex-direction: column;
+
+    gap: 11px;
+
+    height: 260px;
+
+    overflow-y: auto;
+
+    padding: 17px;
+
+    background: #fff0d4;
+}
+
+/* Student messages */
+
+.chat-message {
+    align-self: flex-end;
+
+    max-width: 88%;
+
+    padding: 11px 14px;
+
+    background: #deead5;
+    color: #45613f;
+
+    border-radius:
+        13px 13px 3px 13px;
+
+    font-size: 18px;
+    line-height: 1.35;
+
+    overflow-wrap: anywhere;
+}
+
+/* Professor messages */
+
+.chat-message.mentor-message {
+    align-self: flex-start;
+
+    background: #ebdec5;
+    color: #62452f;
+
+    border-radius:
+        13px 13px 13px 3px;
+}
+
+
+/* =========================================
+   27. CHAT INPUT AND SEND BUTTON
+   ========================================= */
+
+.chat-form {
+    display: flex;
+
+    gap: 9px;
+    padding: 13px;
+
+    background: #e5cca1;
+}
+
+.chat-form input {
+    flex: 1;
+
+    min-width: 0;
+    padding: 10px;
+
+    background: #fff8e9;
+    color: var(--ink);
+
+    border: 1px solid #bd9568;
+    border-radius: 8px;
+}
+
+.chat-form input:focus {
+    outline: 2px solid var(--sage);
+}
+
+/* Send and Next buttons */
+
+.chat-form button,
+.next-button {
+    padding: 10px 15px;
+
+    background: var(--sage);
+    color: white;
+
+    border: none;
+    border-radius: 8px;
+
+    font-weight: bold;
+}
+
+.chat-form button:hover,
+.next-button:hover {
+    background: #5c704c;
+}
+
+
+/* =========================================
+   28. PLAYABLE QUESTS
+   ========================================= */
+
+.quest-view {
+    padding: 18px;
+
+    background: #fff0d4;
+}
+
+/* Quest selection card */
+
+.quest-card {
+    padding: 18px;
+
+    background: #f7e6c3;
+
+    border: 2px solid #c9a172;
+    border-radius: 12px;
+}
+
+.quest-card h3 {
+    margin: 7px 0 10px;
+
+    font-size: 26px;
+}
+
+.quest-card p {
+    line-height: 1.45;
+}
+
+/* Quest details */
+
+.quest-meta,
+.quest-kicker {
+    color: #5d774e;
+
+    font-weight: bold;
+}
+
+.quest-card button {
+    padding: 10px 15px;
+
+    background: var(--sage);
+    color: white;
+
+    border: none;
+    border-radius: 8px;
+
+    font-weight: bold;
+}
+
+.quest-card button:hover {
+    background: #5c704c;
+}
+
+
+/* =========================================
+   29. QUEST GAME SCREEN
+   ========================================= */
+
+/* Back button */
+
+.back-button {
+    margin-bottom: 14px;
+
+    padding: 0;
+
+    background: transparent;
+    color: #755038;
+
+    border: none;
+
+    text-decoration: underline;
+}
+
+#quest-title {
+    margin: 5px 0 12px;
+
+    font-size: 27px;
+}
+
+#quest-question {
+    line-height: 1.5;
+}
+
+/* Code examples */
+
+#quest-code {
+    padding: 13px;
+
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+
+    background: #352a23;
+    color: #f8e7cb;
+
+    border-radius: 9px;
+
+    font:
+        14px/1.5
+        Consolas,
+        monospace;
+}
+
+/* Multiple-choice answers */
+
+.quest-choices {
+    display: grid;
+
+    gap: 10px;
+
+    margin: 16px 0;
+}
+
+.quest-choices button {
+    padding: 12px;
+
+    background: #fff8e9;
+    color: #503520;
+
+    border: 1px solid #c9a57a;
+    border-radius: 9px;
+
+    text-align: left;
+}
+
+.quest-choices button:hover:not(:disabled) {
+    background: #e7efdf;
+}
+
+.quest-choices button:disabled {
+    cursor: default;
+
+    opacity: 0.7;
+}
+
+/* Correct answer */
+
+.quest-choices button.correct {
+    background: #dce9d2;
+
+    border-color: var(--sage);
+
+    opacity: 1;
+}
+
+/* Hints and feedback */
+
+.quest-feedback {
+    min-height: 25px;
+
+    line-height: 1.4;
+
+    color: #694a34;
+}
+
+
+/* =========================================
+   30. ALL CAUGHT UP SCREEN
+   ========================================= */
+
+.empty-state {
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 18px;
+
+    background: #f2dfbd;
+    color: var(--ink);
+
+    border: 3px solid #b78c59;
+    border-radius: 14px;
+}
+
+.empty-state h2 {
+    margin: 4px 0;
+
+    font-size: 27px;
+}
+
+.empty-state p {
+    margin: 8px 0;
+
+    color: #7e6048;
+
+    text-align: center;
+}
+
+.empty-state button {
+    margin-top: 7px;
+
+    padding: 10px 18px;
+
+    background: var(--sage);
+    color: white;
+
+    border: none;
+    border-radius: 8px;
+}
+
+/* Shrink the completed swipe area */
+
+.swipe-area.finished {
+    height: 185px;
+
+    margin: 16px auto;
+}
+
+/* Hide decorative scrolls when finished */
+
+.swipe-area.finished .side-scroll {
+    display: none;
+}
+
+/* Less empty space underneath */
+
+.quest-board.complete {
+    padding-bottom: 23px;
+}
+
+
+/* =========================================
+   31. POPUP NOTIFICATIONS
+   ========================================= */
+
+.swipe-toast {
+    position: fixed;
+
+    right: 18px;
+    bottom: 20px;
+
+    z-index: 50;
+
+    max-width: 320px;
+
+    padding: 15px 20px;
+
+    background: #f5e2bd;
+    color: #503520;
+
+    border: 2px solid #b58a55;
+    border-radius: 11px;
+
+    box-shadow:
+        0 10px 25px #0006;
+}
+
+
+/* =========================================
+   32. FOOTER
+   ========================================= */
+
+footer {
+    margin: 55px 0 0;
+
+    text-align: center;
+    color: #e1c29b;
+}
+
+footer small {
+    display: block;
+
+    margin-top: 7px;
+
+    font-size: 15px;
+}
+
+
+/* =========================================
+   33. TABLET RESPONSIVENESS
+   ========================================= */
+
+@media (max-width: 750px) {
+
+    /* Stack chat below mentor list */
+
+    .liked-layout {
+        grid-template-columns: 1fr;
+    }
+
+    /* Hide decorative scrolls when
+       horizontal space is limited */
+
+    .side-scroll {
+        display: none;
+    }
+}
+
+
+/* =========================================
+   34. MOBILE RESPONSIVENESS
+   ========================================= */
+
+@media (max-width: 500px) {
+
+    main {
+        padding: 22px 10px 50px;
+    }
+
+    .brand {
+        font-size: 39px;
+
+        padding: 12px 19px;
+    }
+
+    .quest-board {
+        padding: 22px 12px 27px;
+
+        border-width: 5px;
+    }
+
+    .page-heading h1 {
+        font-size: 31px;
+    }
+
+    .swipe-area {
+        width: 100%;
+
+        height: 690px;
+    }
+
+    .mentor-card {
+        width: calc(100% - 15px);
+    }
+
+    .card-behind {
+        width: calc(100% - 27px);
+    }
+
+    .scroll-content {
+        padding: 52px 21px 54px;
+    }
+
+    .mentor-card h2 {
+        font-size: 27px;
+    }
+
+    .description p,
+    .gain-box p {
+        font-size: 18px;
+    }
+
+    .scroll-roller {
+        left: -5px;
+        right: -5px;
+    }
+
+    /* Finished card stays compact */
+
+    .swipe-area.finished {
+        height: 185px;
+    }
+
+    .chat-form {
+        padding: 9px;
+
+        gap: 7px;
+    }
+
+    .chat-form button {
+        padding: 10px 11px;
+    }
+}
+
+
+/* =========================================
+   35. ACCESSIBILITY
+   ========================================= */
+
+/* Respect users who prefer fewer animations */
+
+@media (prefers-reduced-motion: reduce) {
+
+    html {
+        scroll-behavior: auto;
+    }
+
+    .mentor-card.enter-left,
+    .mentor-card.enter-right,
+    .mentor-card.unfurl .scroll-paper,
+    .mentor-card.unfurl .scroll-roller {
+        animation: none;
+    }
+}
