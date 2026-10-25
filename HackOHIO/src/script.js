@@ -1,58 +1,82 @@
 
 "use strict";
 
-// Buckeye Guild: single-file frontend demo.
-// Accounts, messages, office hours, and applications are local-only.
-// Only matching preferences are sent to POST /api/rank.
+/*
+  BUCKEYE GUILD
 
-const $ = id => document.getElementById(id) || document.getElementById({
-  "create-tab": "auth-create-tab",
-  "login-tab": "auth-return-tab",
-  "signup-form": "signup-view",
-  "login-form": "return-view",
-  "mentor-subjects": "mentor-specialty",
-  "profile-name": "profile-display-name",
-  "profile-subjects": "profile-subject-tags",
-  "profile-links": "profile-evidence-links",
-  "project-form": "add-project-form",
-  "project-title": "new-project-title",
-  "project-description": "new-project-description",
-  "project-url": "new-project-link",
-  "cancel-edit": "cancel-edit-btn"
-}[id]);
+  Student accounts, messages, office hours and applications
+  are simulated and stored locally.
 
-const el = (tag, text = "", cls = "") => {
-  const node = document.createElement(tag);
-  node.textContent = text;
-  if (cls) node.className = cls;
-  return node;
+  Mentor matching uses POST /api/rank when available.
+  Otherwise, it falls back to local subject matching.
+*/
+
+const $ = id =>
+  document.getElementById(id) ||
+  document.getElementById({
+    "create-tab": "auth-create-tab",
+    "login-tab": "auth-return-tab",
+    "signup-form": "signup-view",
+    "login-form": "return-view",
+    "mentor-subjects": "mentor-specialty",
+    "profile-name": "profile-display-name",
+    "profile-subjects": "profile-subject-tags",
+    "profile-links": "profile-evidence-links",
+    "project-form": "add-project-form",
+    "project-title": "new-project-title",
+    "project-description": "new-project-description",
+    "project-url": "new-project-link",
+    "cancel-edit": "cancel-edit-btn"
+  }[id]);
+
+const node = (tag, value = "", cls = "") => {
+  const element = document.createElement(tag);
+  element.textContent = value;
+  if (cls) element.className = cls;
+  return element;
 };
 
-const on = (id, type, fn) => $(id)?.addEventListener(type, fn);
-const set = (id, text) => {
-  if ($(id)) $(id).textContent = text;
-};
-const show = (id, visible) => {
-  if ($(id)) $(id).hidden = !visible;
+const on = (id, event, handler) =>
+  $(id)?.addEventListener(event, handler);
+
+const text = (id, value) => {
+  if ($(id)) $(id).textContent = value;
 };
 
-const subjects = [
-  "Computer Science", "Mathematics", "Engineering",
-  "Writing", "Business", "Design & Games"
+const visible = (id, yes) => {
+  if ($(id)) $(id).hidden = !yes;
+};
+
+const SUBJECTS = [
+  "Computer Science",
+  "Mathematics",
+  "Engineering",
+  "Writing",
+  "Business",
+  "Design & Games"
 ];
 
-const STORE = "buckeye-guild-integrated-v1";
-const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
-const SWIPE = reduceMotion ? 0 : 700;
-const UNFURL = reduceMotion ? 0 : 1600;
+const STORAGE_KEY = "buckeye-guild-integrated-v1";
 
-const API = String(window.BUCKEYE_API_BASE || "")
-  .replace(/\/$/, "") + "/api/rank";
+const motionOff =
+  matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-// QUEST DATA
-// Each stage: [question, code, answers, correct index, hint]
+const SWIPE_MS = motionOff ? 0 : 700;
+const UNFURL_MS = motionOff ? 0 : 1600;
 
-const quiz = (title, stages) => ({ title, xp: 150, stages });
+const API_URL =
+  String(window.BUCKEYE_API_BASE || "").replace(/\/$/, "") +
+  "/api/rank";
+
+/* ======================================
+   MENTOR AND QUEST DATA
+   ====================================== */
+
+const quest = (title, steps) => ({
+  title,
+  xp: 150,
+  steps
+});
 
 const mentors = [
   {
@@ -62,30 +86,50 @@ const mentors = [
     icon: "🤖",
     subjects: ["Computer Science", "Engineering"],
     skills: ["Python", "AI", "Robotics"],
-    description: "Studies how robots recognize objects, navigate unfamiliar environments, and assist people.",
-    outcome: "Practice Python, learn machine learning concepts, and get feedback on an AI project.",
+
+    description:
+      "Studies how robots recognize objects, navigate unfamiliar environments, and assist people.",
+
+    outcome:
+      "Practice Python, learn machine learning concepts, and get feedback on an AI project.",
+
     research: [
-      ["Autonomous Navigation", "Robots mapping unfamiliar spaces", "Python, ROS"]
+      [
+        "Autonomous Navigation",
+        "Robots mapping unfamiliar spaces",
+        "Python, ROS"
+      ]
     ],
+
     projects: [
-      ["Campus Accessibility Assistant", "Computer vision obstacle detection", "Python, OpenCV"]
+      [
+        "Campus Accessibility Assistant",
+        "Computer vision obstacle detection",
+        "Python, OpenCV"
+      ]
     ],
+
     slots: [
       "Tuesday · 3:00 PM (demo)",
       "Friday · 10:30 AM (demo)"
     ],
-    quest: quiz("Robot Rescue", [
+
+    quest: quest("Robot Rescue", [
       [
         "What value does the robot read?",
         "int[] sensors = {2, 4, 6};\nSystem.out.println(sensors[1]);",
         ["2", "4", "6"],
         1,
-        "Arrays start at index zero."
+        "Java arrays start at zero."
       ],
       [
         "Which condition detects a wall?",
         "boolean wallAhead = true;",
-        ["if (wallAhead)", "if (!wallAhead)", "if (wallAhead = false)"],
+        [
+          "if (wallAhead)",
+          "if (!wallAhead)",
+          "if (wallAhead = false)"
+        ],
         0,
         "A boolean can be used directly."
       ],
@@ -98,10 +142,11 @@ const mentors = [
           "for (int i = 1; i < 3; i++)"
         ],
         0,
-        "Count 0, 1 and 2."
+        "Count 0, 1, and 2."
       ]
     ])
   },
+
   {
     id: "lee",
     name: "Prof. Jordan Lee",
@@ -109,19 +154,35 @@ const mentors = [
     icon: "🎮",
     subjects: ["Computer Science", "Design & Games"],
     skills: ["C++", "Unity", "Unreal Engine"],
-    description: "Develops game systems, procedural worlds, and interactive experiences.",
-    outcome: "Debug game logic, improve a mechanic, and create a playable portfolio project.",
+
+    description:
+      "Develops game systems, procedural worlds, and interactive experiences.",
+
+    outcome:
+      "Debug game logic, improve a mechanic, and create a playable portfolio project.",
+
     research: [
-      ["Procedural World Generator", "Automatically generated environments", "C++, Unreal Engine"]
+      [
+        "Procedural World Generator",
+        "Automatically generated environments",
+        "C++, Unreal Engine"
+      ]
     ],
+
     projects: [
-      ["AI Enemy Combat System", "Enemies adapting to player actions", "Unity, C#"]
+      [
+        "AI Enemy Combat System",
+        "Enemies adapting to player actions",
+        "Unity, C#"
+      ]
     ],
+
     slots: [
       "Monday · 2:00 PM (demo)",
       "Thursday · 4:00 PM (demo)"
     ],
-    quest: quiz("The Bug Hunter", [
+
+    quest: quest("The Bug Hunter", [
       [
         "Which operator compares health to zero in C#?",
         "if (health __ 0) { GameOver(); }",
@@ -138,17 +199,18 @@ const mentors = [
       ],
       [
         "Which Unity check detects the first press of Space?",
-        "// Legacy input API",
+        "// Legacy Unity API",
         [
           "Input.GetKeyDown(KeyCode.Space)",
           "Input.GetKey(KeyCode.Space)",
           "Input.anyKey"
         ],
         0,
-        "GetKeyDown detects the initial press."
+        "GetKeyDown detects the first press."
       ]
     ])
   },
+
   {
     id: "rivera",
     name: "Dr. Alex Rivera",
@@ -156,21 +218,37 @@ const mentors = [
     icon: "🔐",
     subjects: ["Computer Science"],
     skills: ["Java", "Testing", "Cybersecurity"],
-    description: "Researches secure programming, software vulnerabilities, and reliable applications.",
-    outcome: "Practice testing, debugging, and secure coding techniques.",
+
+    description:
+      "Researches secure programming, software vulnerabilities, and reliable applications.",
+
+    outcome:
+      "Practice testing, debugging, and secure coding techniques.",
+
     research: [
-      ["Automated Code Review", "Finding common software vulnerabilities", "Java, Python"]
+      [
+        "Automated Code Review",
+        "Finding common software vulnerabilities",
+        "Java, Python"
+      ]
     ],
+
     projects: [
-      ["Password Safety Checker", "Password policy testing", "Java"]
+      [
+        "Password Safety Checker",
+        "Password policy testing",
+        "Java"
+      ]
     ],
+
     slots: [
       "Wednesday · 1:30 PM (demo)",
       "Friday · 2:00 PM (demo)"
     ],
-    quest: quiz("Shield Keeper", [
+
+    quest: quest("Shield Keeper", [
       [
-        "Which condition detects passwords shorter than 8 characters?",
+        "Which check finds a password shorter than eight characters?",
         'String password = "abc123";',
         [
           "password.length() < 8",
@@ -181,7 +259,7 @@ const mentors = [
         "Shorter means less than eight."
       ],
       [
-        "Which Java comparison checks String contents?",
+        "Which comparison checks String contents?",
         'String input = "admin";',
         [
           'input == "admin"',
@@ -204,6 +282,7 @@ const mentors = [
       ]
     ])
   },
+
   {
     id: "patel",
     name: "Dr. Priya Patel",
@@ -211,19 +290,35 @@ const mentors = [
     icon: "∑",
     subjects: ["Mathematics", "Computer Science"],
     skills: ["Calculus", "Statistics", "Python"],
-    description: "Helps students understand calculus, statistics, and mathematical models.",
-    outcome: "Learn mathematical reasoning and apply it to real problems.",
+
+    description:
+      "Helps students understand calculus, statistics, and mathematical models.",
+
+    outcome:
+      "Learn mathematical reasoning and apply it to real problems.",
+
     research: [
-      ["Everyday Data Models", "Mathematical models of real-world patterns", "Python, R"]
+      [
+        "Everyday Data Models",
+        "Mathematical models of real-world patterns",
+        "Python, R"
+      ]
     ],
+
     projects: [
-      ["Campus Transit Analysis", "Travel-time patterns", "Statistics, R"]
+      [
+        "Campus Transit Analysis",
+        "Travel-time patterns",
+        "Statistics, R"
+      ]
     ],
+
     slots: [
       "Tuesday · 11:00 AM (demo)",
       "Thursday · 1:00 PM (demo)"
     ],
-    quest: quiz("The Numbers Keep", [
+
+    quest: quest("The Numbers Keep", [
       [
         "What is the derivative of x squared?",
         "f(x) = x²",
@@ -239,7 +334,7 @@ const mentors = [
         "Add and divide by three."
       ],
       [
-        "What is P(heads) on a fair coin toss?",
+        "What is P(heads) on one fair coin toss?",
         "P(H)",
         ["1/4", "1/2", "1"],
         1,
@@ -247,6 +342,7 @@ const mentors = [
       ]
     ])
   },
+
   {
     id: "brooks",
     name: "Prof. Samira Brooks",
@@ -254,22 +350,38 @@ const mentors = [
     icon: "✒",
     subjects: ["Writing", "Business"],
     skills: ["Writing", "Presentations", "Feedback"],
-    description: "Helps students communicate complex ideas through writing and presentations.",
-    outcome: "Improve project pitches, writing clarity, and public speaking.",
+
+    description:
+      "Helps students communicate complex ideas through writing and presentations.",
+
+    outcome:
+      "Improve project pitches, writing clarity, and public speaking.",
+
     research: [
-      ["Communicating Technical Ideas", "Making research understandable", "Writing, Media"]
+      [
+        "Communicating Technical Ideas",
+        "Making research understandable",
+        "Writing, Media"
+      ]
     ],
+
     projects: [
-      ["Accessible Science Exhibit", "Explaining research to the public", "Writing, Design"]
+      [
+        "Accessible Science Exhibit",
+        "Explaining research to the public",
+        "Writing, Design"
+      ]
     ],
+
     slots: [
       "Monday · 11:00 AM (demo)",
       "Wednesday · 3:00 PM (demo)"
     ],
-    quest: quiz("The Storysmith", [
+
+    quest: quest("The Storysmith", [
       [
         "Which opening clearly describes a problem?",
-        "// Project introduction",
+        "// Project pitch",
         [
           "We used many technologies.",
           "Students struggle to find academic help, so we connect them with mentors.",
@@ -292,12 +404,17 @@ const mentors = [
       [
         "What should you do after feedback?",
         "// Revision",
-        ["Understand the feedback", "Ignore it", "Add jargon"],
+        [
+          "Understand the feedback",
+          "Ignore it",
+          "Add jargon"
+        ],
         0,
-        "Understanding comes before revising."
+        "Understand feedback before revising."
       ]
     ])
   },
+
   {
     id: "okafor",
     name: "Dr. Nia Okafor",
@@ -305,19 +422,35 @@ const mentors = [
     icon: "⚙",
     subjects: ["Engineering", "Mathematics", "Design & Games"],
     skills: ["Physics", "CAD", "Prototyping"],
-    description: "Guides students in engineering design, measurement, and physical prototyping.",
-    outcome: "Build prototypes, evaluate design tradeoffs, and test ideas.",
+
+    description:
+      "Guides students in engineering design, measurement, and physical prototyping.",
+
+    outcome:
+      "Build prototypes, evaluate design tradeoffs, and test ideas.",
+
     research: [
-      ["Rapid Prototyping", "Measurable design experiments", "CAD, Physics"]
+      [
+        "Rapid Prototyping",
+        "Measurable design experiments",
+        "CAD, Physics"
+      ]
     ],
+
     projects: [
-      ["Bridge Structure Tester", "Comparing structural performance", "CAD, Fabrication"]
+      [
+        "Bridge Structure Tester",
+        "Comparing structural performance",
+        "CAD, Fabrication"
+      ]
     ],
+
     slots: [
       "Tuesday · 4:00 PM (demo)",
       "Friday · 11:00 AM (demo)"
     ],
-    quest: quiz("The Inventor's Trial", [
+
+    quest: quest("The Inventor's Trial", [
       [
         "What is the SI unit of force?",
         "F = ma",
@@ -328,14 +461,22 @@ const mentors = [
       [
         "What should change in a controlled experiment?",
         "// Design test",
-        ["Every variable", "One variable at a time", "Nothing"],
+        [
+          "Every variable",
+          "One variable at a time",
+          "Nothing"
+        ],
         1,
         "Isolate one factor."
       ],
       [
         "What should you do after a prototype fails?",
         "// Iterate",
-        ["Hide the failure", "Guess randomly", "Measure the failure and improve"],
+        [
+          "Hide the failure",
+          "Guess randomly",
+          "Measure the failure and improve"
+        ],
         2,
         "Use evidence for the next design."
       ]
@@ -344,10 +485,10 @@ const mentors = [
 ];
 
 /* ======================================
-   LOCAL STORAGE AND HELPERS
+   STATE AND LOCAL STORAGE
    ====================================== */
 
-const fresh = () => ({
+const blank = () => ({
   profile: null,
   liked: [],
   passed: [],
@@ -361,32 +502,58 @@ const fresh = () => ({
 
 function load() {
   try {
-    const data = JSON.parse(localStorage.getItem(STORE));
+    const stored = JSON.parse(
+      localStorage.getItem(STORAGE_KEY)
+    );
 
-    if (!data || typeof data !== "object") return fresh();
+    if (!stored || typeof stored !== "object") {
+      return blank();
+    }
 
-    const s = { ...fresh(), ...data };
+    const state = {
+      ...blank(),
+      ...stored
+    };
 
-    for (const key of ["liked", "passed", "sessions", "projects", "applications"]) {
-      if (!Array.isArray(s[key])) s[key] = [];
+    for (const key of [
+      "liked",
+      "passed",
+      "sessions",
+      "projects",
+      "applications"
+    ]) {
+      if (!Array.isArray(state[key])) {
+        state[key] = [];
+      }
     }
 
     for (const key of ["messages", "quests"]) {
-      if (!s[key] || typeof s[key] !== "object") s[key] = {};
+      if (!state[key] || typeof state[key] !== "object") {
+        state[key] = {};
+      }
     }
 
-    return s;
+    return state;
+
   } catch {
-    return fresh();
+    return blank();
   }
 }
 
 let state = load();
+
 let signedIn = false;
 let current = null;
 let chatId = null;
 let questId = null;
 let applicationId = null;
+
+let animationTimer;
+let swipeTimer;
+let toastTimer;
+let resumeUrl;
+let rankController;
+let rankNumber = 0;
 
 let dragging = false;
 let pointer = null;
@@ -394,88 +561,135 @@ let startX = 0;
 let dragX = 0;
 let animating = false;
 let arrival = "left";
-
-let animationTimer, swipeTimer, toastTimer, resumeUrl;
 let canAdvance = false;
+
 let rankingLabel = "Local interest matching";
-let rankNumber = 0;
-let rankController = null;
 
 const agentScores = new Map();
-const mentor = id => mentors.find(m => m.id === id);
+
+const mentor = id =>
+  mentors.find(m => m.id === id);
+
+/*
+  IMPORTANT BROWSE AGAIN FIX
+
+  null means the normal deck.
+  An array means we're browsing all mentors again.
+
+  We do NOT delete liked mentors or quest progress.
+*/
+
+let replayDeck = null;
 
 function save() {
   try {
-    localStorage.setItem(STORE, JSON.stringify(state));
-  } catch (e) {
-    console.warn("Browser storage unavailable", e);
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify(state)
+    );
+  } catch (error) {
+    console.warn("Storage unavailable:", error);
   }
 }
 
 function notice(message) {
   clearTimeout(toastTimer);
-  set("toast", message);
-  show("toast", true);
 
-  toastTimer = setTimeout(() => show("toast", false), 2800);
+  text("toast", message);
+  visible("toast", true);
+
+  toastTimer = setTimeout(() => {
+    visible("toast", false);
+  }, 2800);
 }
 
-const skillsFrom = value => [...new Set(
-  value.split(",").map(s => s.trim()).filter(Boolean)
-)].slice(0, 15);
+const uniqueSkills = raw =>
+  [...new Set(
+    raw.split(",")
+      .map(s => s.trim())
+      .filter(Boolean)
+  )].slice(0, 15);
 
-const chosen = id => [...$(id).querySelectorAll("input:checked")]
-  .map(n => n.value);
+const selected = id =>
+  [...$(id).querySelectorAll("input:checked")]
+    .map(input => input.value);
 
 function subjectInputs(id, checked = []) {
-  $(id).replaceChildren(...subjects.map(subject => {
-    const label = el("label", "", "subject-choice");
-    const input = el("input");
-    const span = el("span", subject);
+  $(id).replaceChildren(
+    ...SUBJECTS.map(subject => {
+      const label = node("label", "", "subject-choice");
+      const input = node("input");
 
-    input.type = "checkbox";
-    input.value = subject;
-    input.checked = checked.includes(subject);
+      input.type = "checkbox";
+      input.value = subject;
+      input.checked = checked.includes(subject);
 
-    label.append(input, span);
-    return label;
-  }));
+      label.append(
+        input,
+        node("span", subject)
+      );
+
+      return label;
+    })
+  );
 }
 
-function safeUrl(raw, site = "") {
-  if (!raw.trim()) return "";
-
-  const u = new URL(raw.trim());
-  const host = u.hostname.toLowerCase().replace(/^www\./, "");
-
-  if (u.protocol !== "https:" || (site && host !== site)) {
-    throw Error(`Use a valid https://${site || ""} URL.`);
+function safeURL(raw, host = "") {
+  if (!raw.trim()) {
+    return "";
   }
 
-  return u.href;
+  const url = new URL(raw.trim());
+
+  const domain = url.hostname
+    .toLowerCase()
+    .replace(/^www\./, "");
+
+  if (
+    url.protocol !== "https:" ||
+    (host && domain !== host)
+  ) {
+    throw Error(
+      "Enter a valid HTTPS URL" +
+      (host ? " from " + host : "") +
+      "."
+    );
+  }
+
+  return url.href;
 }
 
-const url = (id, site = "") => safeUrl($(id).value, site);
+const fieldURL = (id, host) =>
+  safeURL($(id).value, host);
 
 function resume(id) {
-  const file = $(id).files[0];
+  const file = $(id)?.files?.[0];
+
   if (!file) return null;
 
-  if (!/\.(pdf|doc|docx)$/i.test(file.name) ||
-      file.size > 5 * 1024 * 1024) {
-    throw Error("Resume must be PDF/Word and under 5 MB.");
+  if (
+    !/\.(pdf|doc|docx)$/i.test(file.name) ||
+    file.size > 5 * 1024 * 1024
+  ) {
+    throw Error(
+      "Resume must be PDF/Word and at most 5 MB."
+    );
   }
 
-  if (resumeUrl) URL.revokeObjectURL(resumeUrl);
+  if (resumeUrl) {
+    URL.revokeObjectURL(resumeUrl);
+  }
 
   resumeUrl = URL.createObjectURL(file);
+
   return file.name;
 }
 
-function link(parent, name, href) {
+function addLink(parent, title, href) {
   if (!href) return;
 
-  const a = el("a", name + " ↗");
+  const a = node("a", title + " ↗");
+
   a.href = href;
   a.target = "_blank";
   a.rel = "noopener noreferrer";
@@ -483,49 +697,63 @@ function link(parent, name, href) {
   parent.append(a);
 }
 
-function evidence(title, body = "", href = "") {
-  const box = el("div", "", "evidence-card");
-  box.append(el("strong", title));
+function evidence(title, description = "", href = "") {
+  const card = node("div", "", "evidence-card");
 
-  if (body) box.append(el("p", body));
+  card.append(node("strong", title));
 
-  link(box, "View project", href);
-  return box;
+  if (description) {
+    card.append(node("p", description));
+  }
+
+  addLink(card, "View project", href);
+
+  return card;
 }
 
 function stats() {
-  set("stat-xp", state.xp);
-  set("stat-mentors", state.liked.length);
-  set("nav-liked-count", state.liked.length);
-  set(
+  text("stat-xp", state.xp);
+  text("stat-mentors", state.liked.length);
+  text("nav-liked-count", state.liked.length);
+  text("guild-count", state.liked.length);
+
+  text(
     "stat-quests",
-    Object.values(state.quests).filter(q => q?.completed).length
+    Object.values(state.quests)
+      .filter(q => q?.completed).length
   );
-  set("guild-count", state.liked.length);
 }
 
 /* ======================================
-   ACCOUNT CREATION / LOGIN
+   ACCOUNT CREATION AND LOGIN
    ====================================== */
 
-function authTab(which) {
-  const create = which === "create";
+function authTab(name) {
+  const create = name === "create";
 
-  show("signup-form", create);
-  show("login-form", !create);
+  visible("signup-form", create);
+  visible("login-form", !create);
 
-  $("create-tab").classList.toggle("active", create);
-  $("login-tab").classList.toggle("active", !create);
+  $("create-tab").classList.toggle(
+    "active",
+    create
+  );
 
-  set(
+  $("login-tab").classList.toggle(
+    "active",
+    !create
+  );
+
+  text(
     "saved-account-note",
     state.profile
       ? `Saved demo: ${state.profile.name} (${state.profile.email})`
-      : "No saved demo account."
+      : "No demo account saved."
   );
 
   if (state.profile) {
-    $("login-email").value = state.profile.email;
+    $("login-email").value =
+      state.profile.email;
   }
 }
 
@@ -533,75 +761,128 @@ on("create-tab", "click", () => authTab("create"));
 on("login-tab", "click", () => authTab("login"));
 
 function createAccount(profile) {
-  state = { ...fresh(), profile };
+  state = {
+    ...blank(),
+    profile
+  };
+
+  replayDeck = null;
   agentScores.clear();
+
   save();
   startApp();
 }
 
-on("signup-form", "submit", e => {
-  e.preventDefault();
-  show("signup-error", false);
+on("signup-form", "submit", event => {
+  event.preventDefault();
+  visible("signup-error", false);
 
   try {
     const profile = {
       name: $("signup-name").value.trim(),
-      email: $("signup-email").value.trim().toLowerCase(),
+
+      email: $("signup-email")
+        .value.trim().toLowerCase(),
+
       major: $("signup-major").value.trim(),
+
       year: $("signup-year").value,
-      subjects: chosen("signup-subjects"),
+
+      subjects: selected("signup-subjects"),
+
       goal: $("signup-goal").value.trim(),
-      desiredSkills: skillsFrom($("signup-skills")?.value || ""),
+
+      desiredSkills: uniqueSkills(
+        $("signup-skills")?.value || ""
+      ),
+
       help: $("signup-help").value,
       time: $("signup-time").value,
-      github: url("signup-github", "github.com"),
-      linkedin: url("signup-linkedin", "linkedin.com"),
-      portfolio: url("signup-portfolio"),
-      resumeName: resume("signup-resume") || ""
+
+      github: fieldURL(
+        "signup-github",
+        "github.com"
+      ),
+
+      linkedin: fieldURL(
+        "signup-linkedin",
+        "linkedin.com"
+      ),
+
+      portfolio: fieldURL("signup-portfolio"),
+
+      resumeName:
+        resume("signup-resume") || ""
     };
 
     if (
-      ![profile.name, profile.email, profile.major,
-        profile.year, profile.goal].every(Boolean) ||
+      ![
+        profile.name,
+        profile.email,
+        profile.major,
+        profile.year,
+        profile.goal
+      ].every(Boolean) ||
       !profile.subjects.length
     ) {
-      throw Error("Complete the required fields and choose a subject.");
+      throw Error(
+        "Complete required fields and choose a subject."
+      );
     }
 
     createAccount(profile);
+
   } catch (error) {
-    set("signup-error", error.message);
-    show("signup-error", true);
+    text("signup-error", error.message);
+    visible("signup-error", true);
   }
 });
 
-on("sample-btn", "click", () => createAccount({
-  name: "Taylor Morgan",
-  email: "taylor.demo@buckeyemail.osu.edu",
-  major: "Computer Science",
-  year: "Second year",
-  subjects: ["Computer Science", "Design & Games"],
-  goal: "Improve my C# skills and build a game.",
-  desiredSkills: ["C#", "Unity"],
-  help: "Office hours",
-  time: "2–3 hours / week",
-  github: "",
-  linkedin: "",
-  portfolio: "",
-  resumeName: ""
-}));
+on("sample-btn", "click", () => {
+  createAccount({
+    name: "Taylor Morgan",
+    email: "taylor.demo@buckeyemail.osu.edu",
+    major: "Computer Science",
+    year: "Second year",
 
-function login(e) {
-  e?.preventDefault();
+    subjects: [
+      "Computer Science",
+      "Design & Games"
+    ],
+
+    goal: "Improve my C# skills and build a game.",
+
+    desiredSkills: [
+      "C#",
+      "Unity"
+    ],
+
+    help: "Office hours",
+    time: "2–3 hours / week",
+
+    github: "",
+    linkedin: "",
+    portfolio: "",
+    resumeName: ""
+  });
+});
+
+function login(event) {
+  event?.preventDefault();
 
   if (
     state.profile?.email ===
     $("login-email").value.trim().toLowerCase()
   ) {
     startApp();
+
   } else {
-    set("login-error", "No matching local demo account exists.");
-    show("login-error", true);
+    text(
+      "login-error",
+      "No matching local demo account exists."
+    );
+
+    visible("login-error", true);
   }
 }
 
@@ -610,12 +891,13 @@ on("login-btn", "click", login);
 
 on("signout-btn", "click", () => {
   signedIn = false;
+
   rankNumber++;
   rankController?.abort();
 
-  show("app-screen", false);
-  show("top-nav", false);
-  show("auth-screen", true);
+  visible("app-screen", false);
+  visible("top-nav", false);
+  visible("auth-screen", true);
 
   authTab("login");
 });
@@ -623,9 +905,9 @@ on("signout-btn", "click", () => {
 function startApp() {
   signedIn = true;
 
-  show("auth-screen", false);
-  show("app-screen", true);
-  show("top-nav", true);
+  visible("auth-screen", false);
+  visible("app-screen", true);
+  visible("top-nav", true);
 
   page("discover");
   rankBackend();
@@ -633,16 +915,32 @@ function startApp() {
   notice("Welcome to Buckeye Guild!");
 }
 
+/* ======================================
+   PAGE NAVIGATION
+   ====================================== */
+
 function page(name) {
   if (!signedIn) return;
 
-  for (const view of ["discover", "guild", "journey", "mentor"]) {
-    show("view-" + view, view === name);
+  for (const view of [
+    "discover",
+    "guild",
+    "journey",
+    "mentor"
+  ]) {
+    visible(
+      "view-" + view,
+      view === name
+    );
   }
 
-  document.querySelectorAll("[data-page]").forEach(b => {
-    b.classList.toggle("active", b.dataset.page === name);
-  });
+  document.querySelectorAll("[data-page]")
+    .forEach(button => {
+      button.classList.toggle(
+        "active",
+        button.dataset.page === name
+      );
+    });
 
   stats();
 
@@ -653,61 +951,93 @@ function page(name) {
     mentor: mentorPreview
   })[name]();
 
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
 }
 
-document.querySelectorAll("[data-page]").forEach(b => {
-  b.addEventListener("click", () => page(b.dataset.page));
-});
+document.querySelectorAll("[data-page]")
+  .forEach(button => {
+    button.addEventListener("click", () => {
+      page(button.dataset.page);
+    });
+  });
 
-on("brand-link", "click", e => {
-  e.preventDefault();
-  if (signedIn) page("discover");
+on("brand-link", "click", event => {
+  event.preventDefault();
+
+  if (signedIn) {
+    page("discover");
+  }
 });
 
 /* ======================================
-   JAVA BACKEND MATCHING
+   JAVA BACKEND MATCHING AGENT
    ====================================== */
 
-// Send only learning goals, subjects and skills.
-// The Java backend is expected at POST /api/rank.
-
-const studentDTO = p => ({
+const studentDTO = profile => ({
   id: "demo-student",
-  interests: p.subjects,
-  desiredSkills: p.desiredSkills?.length
-    ? p.desiredSkills : p.subjects,
-  careerGoal: p.goal
+
+  interests: profile.subjects,
+
+  desiredSkills: profile.desiredSkills?.length
+    ? profile.desiredSkills
+    : profile.subjects,
+
+  careerGoal: profile.goal
 });
 
 const mentorDTO = m => ({
   id: m.id,
   displayName: m.name,
-  expertiseTags: [...new Set([...m.subjects, ...m.skills])],
+
+  expertiseTags: [
+    ...new Set([
+      ...m.subjects,
+      ...m.skills
+    ])
+  ],
+
   teachableSkills: m.skills,
-  professionalBackground: `${m.role}. ${m.description} ${m.outcome}`
+
+  professionalBackground:
+    `${m.role}. ${m.description} ${m.outcome}`
 });
 
-function match(m) {
-  if (agentScores.has(m.id)) return agentScores.get(m.id);
+function score(m) {
+  if (agentScores.has(m.id)) {
+    return agentScores.get(m.id);
+  }
 
-  const overlap = m.subjects.filter(s =>
-    state.profile.subjects.includes(s)
+  const subjectsHit = m.subjects.filter(
+    subject =>
+      state.profile.subjects.includes(subject)
   ).length;
 
-  const skillHits = m.skills.filter(s =>
-    (state.profile.desiredSkills || []).some(w =>
-      w.toLowerCase() === s.toLowerCase()
-    )
+  const skillsHit = m.skills.filter(
+    skill =>
+      (state.profile.desiredSkills || [])
+        .some(wanted =>
+          wanted.toLowerCase() === skill.toLowerCase()
+        )
   ).length;
 
-  return Math.min(97, 65 + overlap * 10 + skillHits * 6);
+  return Math.min(
+    97,
+    65 + subjectsHit * 10 + skillsHit * 6
+  );
 }
 
-function ranking(text, connected = false) {
-  rankingLabel = text;
-  set("ranking-status", text);
-  $("ranking-status")?.classList.toggle("online", connected);
+function ranking(label, connected = false) {
+  rankingLabel = label;
+
+  text("ranking-status", label);
+
+  $("ranking-status")?.classList.toggle(
+    "online",
+    connected
+  );
 }
 
 async function rankBackend() {
@@ -715,28 +1045,40 @@ async function rankBackend() {
 
   rankController?.abort();
 
-  const request = ++rankNumber;
+  const seq = ++rankNumber;
   const controller = new AbortController();
-  const profile = JSON.stringify(studentDTO(state.profile));
 
   rankController = controller;
+
+  const profile = JSON.stringify(
+    studentDTO(state.profile)
+  );
+
   ranking("Checking Java Matching Agent...");
 
-  const timeout = setTimeout(() => controller.abort(), 8000);
+  const timeout = setTimeout(
+    () => controller.abort(),
+    8000
+  );
 
   try {
-    const response = await fetch(API, {
+    const response = await fetch(API_URL, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+
+      headers: {
+        "Content-Type": "application/json"
+      },
+
       body: JSON.stringify({
         student: JSON.parse(profile),
         mentors: mentors.map(mentorDTO)
       }),
+
       signal: controller.signal
     });
 
     if (!response.ok) {
-      throw Error(`HTTP ${response.status}`);
+      throw Error("HTTP " + response.status);
     }
 
     const data = await response.json();
@@ -746,57 +1088,106 @@ async function rankBackend() {
     }
 
     const rows = data.matches
-      .map(r => [
-        String(r.id ?? r.mentorId ?? r.mentor?.id ?? ""),
-        Number(r.score ?? r.matchScore ?? r.compatibilityScore)
+      .map(match => [
+        String(
+          match.id ??
+          match.mentorId ??
+          match.mentor?.id ??
+          ""
+        ),
+
+        Number(
+          match.score ??
+          match.matchScore ??
+          match.compatibilityScore
+        )
       ])
-      .filter(([id, score]) =>
-        mentor(id) && Number.isFinite(score) && score >= 0
+      .filter(([id, value]) =>
+        mentor(id) &&
+        Number.isFinite(value) &&
+        value >= 0
       );
 
-    if (!rows.length) throw Error("No valid mentor scores");
+    if (!rows.length) {
+      throw Error("No valid scores");
+    }
 
-    const normalized = rows.every(([, score]) => score <= 1);
+    const normalized = rows.every(
+      ([, value]) => value <= 1
+    );
+
     const next = new Map();
 
-    rows.forEach(([id, score]) => {
-      const value = normalized ? score * 100 : score;
+    rows.forEach(([id, value]) => {
+      const percent = normalized
+        ? value * 100
+        : value;
 
-      if (value <= 100) {
-        next.set(id, Math.round(value));
+      if (percent <= 100) {
+        next.set(
+          id,
+          Math.round(percent)
+        );
       }
     });
 
-    if (!next.size) throw Error("Scores out of range");
+    if (!next.size) {
+      throw Error("Scores outside 0–100");
+    }
 
     if (
       !signedIn ||
-      request !== rankNumber ||
-      profile !== JSON.stringify(studentDTO(state.profile))
+      seq !== rankNumber ||
+      profile !== JSON.stringify(
+        studentDTO(state.profile)
+      )
     ) {
       return;
     }
 
     agentScores.clear();
-    next.forEach((value, id) => agentScores.set(id, value));
 
-    ranking(`Java Matching Agent connected · ${next.size} ranked`, true);
+    next.forEach((value, id) => {
+      agentScores.set(id, value);
+    });
+
+    ranking(
+      `Java Matching Agent connected · ${next.size} ranked`,
+      true
+    );
 
     if (current) {
-      set("match-score", match(current) + "% Interest Fit");
+      text(
+        "match-score",
+        score(current) + "% Interest Fit"
+      );
     }
 
   } catch (error) {
-    if (!signedIn || request !== rankNumber) return;
-
-    agentScores.clear();
-    ranking("Local matching · Java backend unavailable");
-
-    if (current) {
-      set("match-score", match(current) + "% Interest Fit");
+    if (
+      !signedIn ||
+      seq !== rankNumber
+    ) {
+      return;
     }
 
-    console.warn("Matching Agent fallback:", error.message);
+    agentScores.clear();
+
+    ranking(
+      "Local matching · Java backend unavailable"
+    );
+
+    if (current) {
+      text(
+        "match-score",
+        score(current) + "% Interest Fit"
+      );
+    }
+
+    console.warn(
+      "Matching Agent fallback:",
+      error.message
+    );
 
   } finally {
     clearTimeout(timeout);
@@ -808,71 +1199,178 @@ async function rankBackend() {
 }
 
 /* ======================================
-   MENTOR DISCOVERY AND SWIPING
+   MENTOR DISCOVERY
    ====================================== */
 
-const remaining = () => mentors
-  .filter(m =>
-    !state.liked.includes(m.id) &&
-    !state.passed.includes(m.id)
-  )
-  .sort((a, b) => match(b) - match(a));
+/*
+  ORIGINAL DECK:
+  Hide mentors you already liked or passed.
+
+  REPLAY DECK:
+  Show ALL mentors again.
+
+  This fixes Browse Again without clearing Your Guild.
+*/
+
+function remaining() {
+  return mentors
+    .filter(m =>
+      replayDeck !== null
+        ? replayDeck.includes(m.id)
+        : !state.liked.includes(m.id) &&
+          !state.passed.includes(m.id)
+    )
+    .sort((a, b) =>
+      score(b) - score(a) ||
+      a.name.localeCompare(b.name)
+    );
+}
 
 function discover() {
-  set(
+  text(
     "welcome-copy",
     `Welcome, ${state.profile.name}! Interests: ` +
-    state.profile.subjects.join(", ") + "."
+    state.profile.subjects.join(", ") +
+    "."
   );
 
-  ranking(rankingLabel, agentScores.size > 0);
+  ranking(
+    rankingLabel,
+    agentScores.size > 0
+  );
+
   renderCard();
 }
+
+/* ======================================
+   FIX: AUTO-SIZE THE MENTOR SCROLL
+   ====================================== */
+
+/*
+  The content determines the parchment height.
+
+  This prevents a second vertical scrollbar from
+  appearing inside the mentor scroll.
+*/
+
+function fitScroll() {
+  if (!current || $("card").hidden) {
+    return;
+  }
+
+  const area = $("swipe-area");
+
+  const content = $("scroll-paper")
+    .querySelector(".scroll-content");
+
+  const minHeight = matchMedia(
+    "(max-width:520px)"
+  ).matches
+    ? 770
+    : 690;
+
+  // Reset to normal size before measuring content.
+  area.style.height = minHeight + "px";
+
+  // Add space for paper borders and wooden rollers.
+  const height = Math.max(
+    minHeight,
+    Math.ceil(content.scrollHeight + 54)
+  );
+
+  area.style.height = height + "px";
+
+  // Move the rollers from the card center during unfurling.
+  area.style.setProperty(
+    "--roller-travel",
+    Math.max(0, (height - 62) / 2) + "px"
+  );
+}
+
+/* ======================================
+   DISPLAY CURRENT MENTOR
+   ====================================== */
 
 function renderCard() {
   clearTimeout(animationTimer);
 
   current = remaining()[0] || null;
-  const finished = !current;
+
+  const done = !current;
 
   for (const id of [
-    "card", "card-behind", "actions",
-    "swipe-hint", "projects-btn"
+    "card",
+    "card-behind",
+    "actions",
+    "swipe-hint",
+    "projects-btn"
   ]) {
-    show(id, !finished);
+    visible(id, !done);
   }
 
-  show("empty-state", finished);
-  show("projects-panel", false);
+  visible("empty-state", done);
+  visible("projects-panel", false);
 
-  $("swipe-area").classList.toggle("finished", finished);
+  const area = $("swipe-area");
 
-  if (finished) {
+  area.classList.toggle(
+    "finished",
+    done
+  );
+
+  if (done) {
+    // Allow CSS to size the completed-state box.
+    area.style.height = "";
     animating = false;
     return;
   }
 
-  set("mentor-name", current.name);
-  set("mentor-role", current.role);
-  set("mentor-icon", current.icon);
-  set("mentor-subjects", current.subjects.join(" · "));
-  set("match-score", match(current) + "% Interest Fit");
-  set("mentor-description", current.description);
-  set("mentor-outcome", current.outcome);
-  set("mentor-office", "◷ Typical visit: 15–30 minutes (demo)");
+  const fields = {
+    "mentor-name": current.name,
+    "mentor-role": current.role,
+    "mentor-icon": current.icon,
+
+    "mentor-subjects":
+      current.subjects.join(" · "),
+
+    "match-score":
+      score(current) + "% Interest Fit",
+
+    "mentor-description":
+      current.description,
+
+    "mentor-outcome":
+      current.outcome,
+
+    "mentor-office":
+      "◷ Typical visit: 15–30 minutes (demo)"
+  };
+
+  for (const [id, value] of Object.entries(fields)) {
+    text(id, value);
+  }
 
   $("mentor-skills").replaceChildren(
-    ...current.skills.map(s => el("span", s))
+    ...current.skills.map(skill =>
+      node("span", skill)
+    )
   );
 
-  $("scroll-paper")
-    .querySelector(".scroll-content").scrollTop = 0;
+  // Size the parchment to the new profile.
+  setTimeout(fitScroll, 0);
 
-  set("projects-btn", "📜 Open Quest Archive ↓");
+  text(
+    "projects-btn",
+    "📜 Open Quest Archive ↓"
+  );
 
   const card = $("card");
 
-  card.classList.remove("enter-left", "enter-right", "unfurl");
+  card.classList.remove(
+    "enter-left",
+    "enter-right",
+    "unfurl"
+  );
 
   Object.assign(card.style, {
     transition: "none",
@@ -880,90 +1378,160 @@ function renderCard() {
     opacity: "1"
   });
 
-  $("like-stamp").style.opacity =
-    $("pass-stamp").style.opacity = "0";
+  $("like-stamp").style.opacity = "0";
+  $("pass-stamp").style.opacity = "0";
 
+  // Restart parchment animations.
   void card.offsetWidth;
 
   card.classList.add(
-    arrival === "left" ? "enter-left" : "enter-right",
+    arrival === "left"
+      ? "enter-left"
+      : "enter-right",
     "unfurl"
   );
 
-  animating = UNFURL > 0;
+  animating = UNFURL_MS > 0;
 
   animationTimer = setTimeout(() => {
-    card.classList.remove("enter-left", "enter-right", "unfurl");
-    card.style.transform = "translateX(-50%)";
+    card.classList.remove(
+      "enter-left",
+      "enter-right",
+      "unfurl"
+    );
+
+    card.style.transform =
+      "translateX(-50%)";
+
     animating = false;
-  }, UNFURL + 40);
+
+  }, UNFURL_MS + 40);
 }
+
+// Recalculate parchment height on window resize.
+window.addEventListener("resize", () => {
+  if (
+    signedIn &&
+    !$("view-discover").hidden
+  ) {
+    fitScroll();
+  }
+});
+
+/* ======================================
+   MENTOR PROJECT ARCHIVE
+   ====================================== */
 
 on("projects-btn", "click", () => {
   if (!current) return;
 
-  const opening = $("projects-panel").hidden;
+  const open = $("projects-panel").hidden;
 
-  show("projects-panel", opening);
+  visible("projects-panel", open);
 
-  set(
+  text(
     "projects-btn",
-    opening ? "📜 Close Quest Archive ↑" : "📜 Open Quest Archive ↓"
+    open
+      ? "📜 Close Quest Archive ↑"
+      : "📜 Open Quest Archive ↓"
   );
 
-  $("projects-btn").setAttribute("aria-expanded", String(opening));
+  $("projects-btn").setAttribute(
+    "aria-expanded",
+    String(open)
+  );
 
-  if (opening) {
-    for (const [id, items] of [
-      ["professor-projects", current.research],
-      ["student-projects", current.projects]
-    ]) {
-      $(id).replaceChildren(...items.map(([title, body, tech]) => {
-        const box = el("div", "", "project-item");
+  if (!open) return;
 
-        box.append(
-          el("strong", title),
-          el("p", body),
-          el("small", tech)
+  for (const [id, items] of [
+    ["professor-projects", current.research],
+    ["student-projects", current.projects]
+  ]) {
+    $(id).replaceChildren(
+      ...items.map(([title, description, tech]) => {
+        const card = node(
+          "div",
+          "",
+          "project-item"
         );
 
-        return box;
-      }));
-    }
+        card.append(
+          node("strong", title),
+          node("p", description),
+          node("small", tech)
+        );
+
+        return card;
+      })
+    );
   }
 });
+
+/* ======================================
+   CONNECTIONS AND SWIPING
+   ====================================== */
 
 function ensureChat(id) {
   if (!state.messages[id]) {
     state.messages[id] = [{
       from: "mentor",
+
       text:
-        `Greetings! I've assigned you “${mentor(id).quest.title}.” ` +
-        "Open Quests to begin. (Demo)"
+        `Greetings! I've assigned you ` +
+        `“${mentor(id).quest.title}.” ` +
+        `Open Quests to begin. (Demo)`
     }];
   }
 
   if (!state.quests[id]) {
-    state.quests[id] = { index: 0, completed: false };
+    state.quests[id] = {
+      index: 0,
+      completed: false
+    };
   }
 }
 
 function swipe(kind) {
-  if (animating || !current) return;
+  if (animating || !current) {
+    return;
+  }
 
   animating = true;
 
   const id = current.id;
+
   const like = kind === "like";
   const direction = like ? 1 : -1;
-  const list = like ? state.liked : state.passed;
 
-  if (!list.includes(id)) list.push(id);
+  // Remove this mentor from the current replay deck.
+  if (replayDeck !== null) {
+    replayDeck = replayDeck.filter(
+      key => key !== id
+    );
+  }
 
   if (like) {
+    if (!state.liked.includes(id)) {
+      state.liked.push(id);
+    }
+
+    // A previously passed mentor can now be connected.
+    state.passed = state.passed.filter(
+      key => key !== id
+    );
+
     ensureChat(id);
     chatId = id;
-    notice(`♥ ${current.name} added to Your Guild!`);
+
+    notice(
+      `♥ ${current.name} added to Your Guild!`
+    );
+
+  } else if (
+    !state.liked.includes(id) &&
+    !state.passed.includes(id)
+  ) {
+    state.passed.push(id);
   }
 
   save();
@@ -974,7 +1542,8 @@ function swipe(kind) {
   const card = $("card");
 
   card.style.transition =
-    `transform ${SWIPE}ms ease-in-out, opacity ${SWIPE}ms ease-in-out`;
+    `transform ${SWIPE_MS}ms ease-in-out, ` +
+    `opacity ${SWIPE_MS}ms ease-in-out`;
 
   card.style.transform =
     `translateX(calc(-50% + ${direction * 850}px)) ` +
@@ -982,66 +1551,126 @@ function swipe(kind) {
 
   card.style.opacity = "0";
 
-  $(like ? "like-stamp" : "pass-stamp").style.opacity = "1";
+  $(
+    like ? "like-stamp" : "pass-stamp"
+  ).style.opacity = "1";
 
   clearTimeout(swipeTimer);
-  swipeTimer = setTimeout(renderCard, SWIPE);
+
+  swipeTimer = setTimeout(
+    renderCard,
+    SWIPE_MS
+  );
 }
 
-on("like-btn", "click", () => swipe("like"));
-on("pass-btn", "click", () => swipe("pass"));
+on("like-btn", "click", () => {
+  swipe("like");
+});
+
+on("pass-btn", "click", () => {
+  swipe("pass");
+});
+
+/* ======================================
+   FIX: BROWSE AGAIN BUTTON
+   ====================================== */
 
 on("restart-btn", "click", () => {
-  state.passed = [];
-  save();
+  /*
+    OLD BEHAVIOR:
+    state.passed = [];
+
+    This still hid every already-connected mentor.
+
+    NEW BEHAVIOR:
+    Create a fresh deck containing all six mentors.
+    Keep the student's connections and progress.
+  */
+
+  replayDeck = mentors.map(m => m.id);
+
   arrival = "left";
+
   renderCard();
+
+  notice(
+    "All mentor scrolls are available again!"
+  );
 });
+
+/* ======================================
+   DRAG-TO-SWIPE
+   ====================================== */
 
 function snap() {
   $("card").style.transition =
-    `transform ${reduceMotion ? 0 : 400}ms ease`;
+    `transform ${motionOff ? 0 : 400}ms ease`;
 
-  $("card").style.transform = "translateX(-50%) rotate(0deg)";
+  $("card").style.transform =
+    "translateX(-50%) rotate(0deg)";
 
-  $("like-stamp").style.opacity =
-    $("pass-stamp").style.opacity = "0";
+  $("like-stamp").style.opacity = "0";
+  $("pass-stamp").style.opacity = "0";
 }
 
-on("card", "pointerdown", e => {
+on("card", "pointerdown", event => {
   if (
     animating ||
-    (e.pointerType === "mouse" && e.button !== 0)
+    (
+      event.pointerType === "mouse" &&
+      event.button !== 0
+    )
   ) {
     return;
   }
 
   dragging = true;
-  pointer = e.pointerId;
-  startX = e.clientX;
+  pointer = event.pointerId;
+  startX = event.clientX;
   dragX = 0;
 
-  e.currentTarget.setPointerCapture(pointer);
-  e.currentTarget.style.transition = "none";
+  event.currentTarget.setPointerCapture(
+    pointer
+  );
+
+  event.currentTarget.style.transition =
+    "none";
 });
 
-on("card", "pointermove", e => {
-  if (!dragging || e.pointerId !== pointer) return;
+on("card", "pointermove", event => {
+  if (
+    !dragging ||
+    event.pointerId !== pointer
+  ) {
+    return;
+  }
 
-  dragX = e.clientX - startX;
+  dragX = event.clientX - startX;
 
   $("card").style.transform =
-    `translateX(calc(-50% + ${dragX}px)) rotate(${dragX / 22}deg)`;
+    `translateX(calc(-50% + ${dragX}px)) ` +
+    `rotate(${dragX / 22}deg)`;
 
   $("like-stamp").style.opacity =
-    Math.min(1, Math.max(0, dragX / 100));
+    Math.min(
+      1,
+      Math.max(0, dragX / 100)
+    );
 
   $("pass-stamp").style.opacity =
-    Math.min(1, Math.max(0, -dragX / 100));
+    Math.min(
+      1,
+      Math.max(0, -dragX / 100)
+    );
 });
 
-on("card", "pointerup", e => {
-  if (!dragging || e.pointerId !== pointer) return;
+on("card", "pointerup", event => {
+  if (
+    !dragging ||
+    event.pointerId !== pointer
+  ) {
+    return;
+  }
 
   dragging = false;
   pointer = null;
@@ -1062,38 +1691,57 @@ on("card", "pointercancel", () => {
 });
 
 /* ======================================
-   GUILD, MESSAGES AND OFFICE HOURS
+   YOUR GUILD
    ====================================== */
 
 function guild() {
   const list = $("liked-list");
+
   list.replaceChildren();
 
   if (!state.liked.length) {
-    list.append(el("p", "No connections yet. Swipe right on a mentor."));
-    show("chat-panel", false);
-    show("chat-placeholder", true);
+    list.append(
+      node(
+        "p",
+        "No connections yet. Swipe right to connect."
+      )
+    );
+
+    visible("chat-panel", false);
+    visible("chat-placeholder", true);
+
     return;
   }
 
-  list.replaceChildren(...state.liked.filter(mentor).map(id => {
-    const m = mentor(id);
-    const button = el("button", "", "liked-mentor");
+  list.replaceChildren(
+    ...state.liked
+      .filter(mentor)
+      .map(id => {
+        const m = mentor(id);
 
-    button.type = "button";
+        const button = node(
+          "button",
+          "",
+          "liked-mentor"
+        );
 
-    button.append(
-      el("strong", m.name),
-      el("small", m.role)
-    );
+        button.append(
+          node("strong", m.name),
+          node("small", m.role)
+        );
 
-    button.addEventListener("click", () => openChat(id));
+        button.addEventListener("click", () => {
+          openChat(id);
+        });
 
-    return button;
-  }));
+        return button;
+      })
+  );
 
   openChat(
-    state.liked.includes(chatId) ? chatId : state.liked[0]
+    state.liked.includes(chatId)
+      ? chatId
+      : state.liked[0]
   );
 }
 
@@ -1103,15 +1751,26 @@ function openChat(id) {
 
   ensureChat(id);
 
-  show("chat-panel", true);
-  show("chat-placeholder", false);
+  visible("chat-panel", true);
+  visible("chat-placeholder", false);
 
-  set("chat-mentor-name", mentor(id).name);
-  set("chat-mentor-role", mentor(id).role);
+  text(
+    "chat-mentor-name",
+    mentor(id).name
+  );
 
-  [...$("liked-list").children].forEach((b, i) => {
-    b.classList.toggle("selected", state.liked[i] === id);
-  });
+  text(
+    "chat-mentor-role",
+    mentor(id).role
+  );
+
+  [...$("liked-list").children]
+    .forEach((button, index) => {
+      button.classList.toggle(
+        "selected",
+        state.liked[index] === id
+      );
+    });
 
   messages();
   tab("messages");
@@ -1120,48 +1779,91 @@ function openChat(id) {
 function messages() {
   const box = $("chat-messages");
 
-  box.replaceChildren(...(state.messages[chatId] || []).map(msg =>
-    el(
-      "div",
-      msg.text,
-      "chat-message" +
-      (msg.from === "mentor" ? " mentor-message" : "")
-    )
-  ));
+  box.replaceChildren(
+    ...(state.messages[chatId] || [])
+      .map(message =>
+        node(
+          "div",
+          message.text,
 
-  box.scrollTop = box.scrollHeight;
+          "chat-message" +
+          (
+            message.from === "mentor"
+              ? " mentor-message"
+              : ""
+          )
+        )
+      )
+  );
+
+  box.scrollTop =
+    box.scrollHeight;
 }
 
-on("chat-form", "submit", e => {
-  e.preventDefault();
+on("chat-form", "submit", event => {
+  event.preventDefault();
 
-  const text = $("chat-input").value.trim();
+  const message =
+    $("chat-input").value.trim();
 
-  if (!text || !chatId) return;
+  if (!message || !chatId) {
+    return;
+  }
 
-  state.messages[chatId].push({ from: "student", text });
+  state.messages[chatId].push({
+    from: "student",
+    text: message
+  });
+
   $("chat-input").value = "";
 
   save();
   messages();
 });
 
-function tab(name) {
-  for (const t of ["messages", "quests", "hours"]) {
-    show(t + "-view", t === name);
+/* ======================================
+   MESSAGES, QUESTS, OFFICE HOURS TABS
+   ====================================== */
 
-    $(t + "-tab").classList.toggle("active", t === name);
-    $(t + "-tab").setAttribute(
-      "aria-selected", String(t === name)
+function tab(name) {
+  for (const currentTab of [
+    "messages",
+    "quests",
+    "hours"
+  ]) {
+    visible(
+      currentTab + "-view",
+      currentTab === name
+    );
+
+    $(currentTab + "-tab")?.classList.toggle(
+      "active",
+      currentTab === name
+    );
+
+    $(currentTab + "-tab")?.setAttribute(
+      "aria-selected",
+      String(currentTab === name)
     );
   }
 
-  if (name === "quests") questList();
-  if (name === "hours") hours();
+  if (name === "quests") {
+    questList();
+  }
+
+  if (name === "hours") {
+    hours();
+  }
 }
 
-for (const name of ["messages", "quests", "hours"]) {
-  on(name + "-tab", "click", () => tab(name));
+for (const name of [
+  "messages",
+  "quests",
+  "hours"
+]) {
+  on(name + "-tab", "click", () => {
+    tab(name);
+  });
 }
 
 /* ======================================
@@ -1169,130 +1871,194 @@ for (const name of ["messages", "quests", "hours"]) {
    ====================================== */
 
 function questList() {
-  show("quest-list", true);
-  show("quest-game", false);
+  visible("quest-list", true);
+  visible("quest-game", false);
 
   const m = mentor(chatId);
   const progress = state.quests[chatId];
 
-  const card = el("div", "", "quest-card");
-
-  card.append(
-    el(
-      "p",
-      progress.completed ? "✓ Quest completed" : "⚔ New practice quest"
-    ),
-    el("h3", m.quest.title),
-    el("p", `3 stages · ${m.quest.xp} XP once`)
+  const card = node(
+    "div",
+    "",
+    "quest-card"
   );
 
-  const btn = el(
+  card.append(
+    node(
+      "p",
+      progress.completed
+        ? "✓ Quest complete"
+        : "⚔ Practice quest"
+    ),
+
+    node("h3", m.quest.title),
+
+    node(
+      "p",
+      `3 stages · ${m.quest.xp} XP once`
+    )
+  );
+
+  const button = node(
     "button",
-    progress.completed ? "Replay quest" :
-      progress.index ? "Continue quest" : "Accept quest",
+
+    progress.completed
+      ? "Replay quest"
+      : progress.index
+        ? "Continue quest"
+        : "Accept quest",
+
     "primary-button"
   );
 
-  btn.addEventListener("click", () => {
+  button.addEventListener("click", () => {
     questId = chatId;
 
-    if (progress.completed) progress.index = 0;
+    if (progress.completed) {
+      progress.index = 0;
+    }
 
-    show("quest-list", false);
-    show("quest-game", true);
+    visible("quest-list", false);
+    visible("quest-game", true);
 
     stage();
   });
 
-  card.append(btn);
+  card.append(button);
+
   $("quest-list").replaceChildren(card);
 }
 
 function stage() {
   const m = mentor(questId);
-  const progress = state.quests[questId];
 
-  const [question, code, answers, right, hint] =
-    m.quest.stages[progress.index];
+  const progress =
+    state.quests[questId];
+
+  const [
+    question,
+    code,
+    choices,
+    right,
+    hint
+  ] = m.quest.steps[progress.index];
 
   canAdvance = false;
 
-  set(
+  text(
     "quest-stage",
-    `Stage ${progress.index + 1} of ${m.quest.stages.length}`
+    `Stage ${progress.index + 1} of ${m.quest.steps.length}`
   );
 
-  set("quest-title", m.quest.title);
-  set("quest-question", question);
-  set("quest-code", code);
+  text("quest-title", m.quest.title);
+  text("quest-question", question);
+  text("quest-code", code);
 
-  show("quest-code", !!code);
-  show("next-stage", false);
-  set("quest-feedback", "");
+  visible("quest-code", !!code);
+  visible("next-stage", false);
 
-  $("quest-choices").replaceChildren(...answers.map((answer, i) => {
-    const btn = el("button", answer);
-    btn.type = "button";
+  text("quest-feedback", "");
 
-    btn.addEventListener("click", () => {
-      if (canAdvance) return;
-
-      if (i !== right) {
-        btn.classList.add("wrong");
-        set("quest-feedback", "Not quite. Hint: " + hint);
-        return;
-      }
-
-      canAdvance = true;
-
-      [...$("quest-choices").children].forEach(b => {
-        b.disabled = true;
-        b.classList.remove("wrong");
-      });
-
-      btn.classList.add("correct");
-      set("quest-feedback", "✓ Correct! " + hint);
-
-      set(
-        "next-stage",
-        progress.index === m.quest.stages.length - 1
-          ? "Complete quest ✓"
-          : "Next stage →"
+  $("quest-choices").replaceChildren(
+    ...choices.map((answer, index) => {
+      const button = node(
+        "button",
+        answer
       );
 
-      show("next-stage", true);
-    });
+      button.type = "button";
 
-    return btn;
-  }));
+      button.addEventListener("click", () => {
+        if (canAdvance) {
+          return;
+        }
+
+        if (index !== right) {
+          button.classList.add("wrong");
+
+          text(
+            "quest-feedback",
+            "Not quite. Hint: " + hint
+          );
+
+          return;
+        }
+
+        canAdvance = true;
+
+        [...$("quest-choices").children]
+          .forEach(choice => {
+            choice.disabled = true;
+            choice.classList.remove("wrong");
+          });
+
+        button.classList.add("correct");
+
+        text(
+          "quest-feedback",
+          "✓ Correct! " + hint
+        );
+
+        text(
+          "next-stage",
+
+          progress.index ===
+          m.quest.steps.length - 1
+            ? "Complete quest ✓"
+            : "Next stage →"
+        );
+
+        visible("next-stage", true);
+      });
+
+      return button;
+    })
+  );
 }
 
 on("next-stage", "click", () => {
-  if (!canAdvance || !questId) return;
+  if (!canAdvance || !questId) {
+    return;
+  }
 
-  const progress = state.quests[questId];
+  const progress =
+    state.quests[questId];
+
   const m = mentor(questId);
 
-  if (progress.index < m.quest.stages.length - 1) {
+  if (
+    progress.index <
+    m.quest.steps.length - 1
+  ) {
     progress.index++;
+
     save();
     stage();
+
     return;
   }
 
   if (!progress.completed) {
     progress.completed = true;
+
     state.xp += m.quest.xp;
 
     state.messages[questId].push({
       from: "mentor",
+
       text:
-        `Quest complete! You earned ${m.quest.xp} XP. (Demo message)`
+        `Quest complete! You earned ` +
+        `${m.quest.xp} XP. (Demo message)`
     });
 
-    notice(`Quest complete! +${m.quest.xp} XP`);
+    notice(
+      `Quest complete! +${m.quest.xp} XP`
+    );
+
   } else {
-    notice("Quest replayed. XP is awarded once.");
+    notice(
+      "Quest replayed. XP is awarded once."
+    );
   }
 
   save();
@@ -1303,40 +2069,68 @@ on("next-stage", "click", () => {
 
 on("back-to-quests", "click", questList);
 
+/* ======================================
+   OFFICE HOURS
+   ====================================== */
+
 function hours() {
   if (!chatId) return;
 
   $("hours-slot").replaceChildren(
-    ...mentor(chatId).slots.map(s => {
-      const o = el("option", s);
-      o.value = s;
-      return o;
-    })
+    ...mentor(chatId).slots
+      .map(slot => {
+        const option = node(
+          "option",
+          slot
+        );
+
+        option.value = slot;
+
+        return option;
+      })
   );
 
   $("hours-history").replaceChildren(
     ...state.sessions
-      .filter(s => s.mentorId === chatId)
-      .map(s =>
-        el("div", `${s.slot} · ${s.question}`, "session-entry")
+      .filter(session =>
+        session.mentorId === chatId
+      )
+      .map(session =>
+        node(
+          "div",
+
+          `${session.slot} · ${session.question}`,
+
+          "session-entry"
+        )
       )
   );
 }
 
-on("hours-form", "submit", e => {
-  e.preventDefault();
+on("hours-form", "submit", event => {
+  event.preventDefault();
+
   if (!chatId) return;
 
-  const question = $("hours-question").value.trim();
-  const slot = $("hours-slot").value;
+  const question =
+    $("hours-question").value.trim();
+
+  const slot =
+    $("hours-slot").value;
 
   if (!question) return;
 
-  state.sessions.push({ mentorId: chatId, question, slot });
+  state.sessions.push({
+    mentorId: chatId,
+    slot,
+    question
+  });
 
   state.messages[chatId].push({
     from: "student",
-    text: `Office hours (${slot}): ${question}`
+
+    text:
+      `Office hours (${slot}): ${question}`
   });
 
   $("hours-question").value = "";
@@ -1344,110 +2138,194 @@ on("hours-form", "submit", e => {
   save();
   hours();
 
-  notice("Demo request saved (not a real booking).");
+  notice(
+    "Demo request saved — not a real booking."
+  );
 });
 
 /* ======================================
-   STUDENT PROFILE AND PROJECTS
+   STUDENT JOURNEY
    ====================================== */
 
 function journey() {
-  const p = state.profile;
+  const profile = state.profile;
 
-  set("profile-name", p.name);
-  set("profile-xp", `${state.xp} XP`);
+  text(
+    "profile-name",
+    profile.name
+  );
 
-  set(
+  text(
+    "profile-xp",
+    `${state.xp} XP`
+  );
+
+  text(
     "profile-summary",
-    `${p.year} · ${p.major} · ${p.time}. Goal: ${p.goal}`
+
+    `${profile.year} · ${profile.major} · ` +
+    `${profile.time}. Goal: ${profile.goal}`
   );
 
   $("profile-subjects").replaceChildren(
-    ...p.subjects.map(s => el("span", s))
-  );
-
-  const links = $("profile-links");
-  links.replaceChildren();
-
-  link(links, "GitHub", p.github);
-  link(links, "LinkedIn", p.linkedin);
-  link(links, "Portfolio", p.portfolio);
-
-  set(
-    "resume-note",
-    p.resumeName
-      ? `Resume: ${p.resumeName}. ` +
-        (resumeUrl
-          ? "Available this session."
-          : "Re-upload to preview.")
-      : "No resume selected."
-  );
-
-  $("quest-evidence").replaceChildren(
-    ...mentors
-      .filter(m => state.quests[m.id]?.completed)
-      .map(m => evidence(`✓ ${m.quest.title} · ${m.quest.xp} XP`))
-  );
-
-  $("project-evidence").replaceChildren(
-    ...state.projects.map(p =>
-      evidence(p.title, p.description, p.url)
+    ...profile.subjects.map(subject =>
+      node("span", subject)
     )
   );
 
+  const links = $("profile-links");
+
+  links.replaceChildren();
+
+  addLink(
+    links,
+    "GitHub",
+    profile.github
+  );
+
+  addLink(
+    links,
+    "LinkedIn",
+    profile.linkedin
+  );
+
+  addLink(
+    links,
+    "Portfolio",
+    profile.portfolio
+  );
+
+  text(
+    "resume-note",
+
+    profile.resumeName
+      ? `Resume: ${profile.resumeName}. ` +
+        (
+          resumeUrl
+            ? "Available in this session."
+            : "Re-upload to view."
+        )
+      : "No resume selected."
+  );
+
+  /* Completed quests */
+
+  $("quest-evidence").replaceChildren(
+    ...mentors
+      .filter(m =>
+        state.quests[m.id]?.completed
+      )
+      .map(m =>
+        evidence(
+          `✓ ${m.quest.title} · ${m.quest.xp} XP`
+        )
+      )
+  );
+
+  /* Student projects */
+
+  $("project-evidence").replaceChildren(
+    ...state.projects.map(project =>
+      evidence(
+        project.title,
+        project.description,
+        project.url
+      )
+    )
+  );
+
+  /* Available longer-term applications */
+
   const list = $("path-mentor-list");
+
   list.replaceChildren();
 
   if (!state.liked.length) {
-    list.append(el("p", "Connect with a mentor first."));
-  }
-
-  for (const id of state.liked) {
-    const m = mentor(id);
-    if (!m) continue;
-
-    const card = el("div", "", "path-mentor");
-    const btn = el("button", "Express Interest →", "secondary-button");
-
-    btn.addEventListener("click", () => apply(id));
-
-    card.append(
-      el("strong", m.name),
-      el("small", m.role),
-      btn
-    );
-
-    list.append(card);
-  }
-
-  const apps = $("application-list");
-  apps.replaceChildren();
-
-  if (!state.applications.length) {
-    apps.append(el("p", "No applications yet."));
-  }
-
-  for (const a of state.applications) {
-    apps.append(
-      evidence(
-        `${mentor(a.mentorId)?.name || "Mentor"} · ${a.type}`,
-        `${a.message} · Status: ${a.status}`
+    list.append(
+      node(
+        "p",
+        "Connect with a mentor first."
       )
     );
   }
 
-  show("edit-profile-panel", false);
+  state.liked.forEach(id => {
+    const m = mentor(id);
+
+    if (!m) return;
+
+    const card = node(
+      "div",
+      "",
+      "path-mentor"
+    );
+
+    const button = node(
+      "button",
+      "Express Interest →",
+      "secondary-button"
+    );
+
+    button.addEventListener("click", () => {
+      apply(id);
+    });
+
+    card.append(
+      node("strong", m.name),
+      node("small", m.role),
+      button
+    );
+
+    list.append(card);
+  });
+
+  /* Existing applications */
+
+  const apps = $("application-list");
+
+  apps.replaceChildren();
+
+  if (!state.applications.length) {
+    apps.append(
+      node("p", "No applications yet.")
+    );
+  }
+
+  state.applications.forEach(application => {
+    apps.append(
+      evidence(
+        `${mentor(application.mentorId)?.name || "Mentor"} · ` +
+        application.type,
+
+        `${application.message} · Status: ` +
+        application.status
+      )
+    );
+  });
+
+  visible("edit-profile-panel", false);
 }
 
-on("project-form", "submit", e => {
-  e.preventDefault();
+/* ======================================
+   ADD PROJECT
+   ====================================== */
+
+on("project-form", "submit", event => {
+  event.preventDefault();
 
   try {
-    const title = $("project-title").value.trim();
-    const description = $("project-description").value.trim();
-    const href = url("project-url");
+    const title =
+      $("project-title").value.trim();
 
-    if (!title || !description) return;
+    const description =
+      $("project-description").value.trim();
+
+    const href =
+      fieldURL("project-url");
+
+    if (!title || !description) {
+      return;
+    }
 
     state.projects.push({
       title,
@@ -1456,35 +2334,55 @@ on("project-form", "submit", e => {
     });
 
     save();
+
     $("project-form").reset();
+
     journey();
 
     notice("Project added.");
-  } catch (e) {
-    notice(e.message);
+
+  } catch (error) {
+    notice(error.message);
   }
 });
 
 /* ======================================
-   EDIT PROFILE
+   EDIT STUDENT PROFILE
    ====================================== */
 
 on("edit-profile-btn", "click", () => {
-  const p = state.profile;
+  const profile = state.profile;
 
   for (const key of [
-    "name", "major", "year", "goal", "help",
-    "time", "github", "linkedin", "portfolio"
+    "name",
+    "major",
+    "year",
+    "goal",
+    "help",
+    "time",
+    "github",
+    "linkedin",
+    "portfolio"
   ]) {
-    $("edit-" + key).value = p[key] || "";
+    $("edit-" + key).value =
+      profile[key] || "";
   }
 
   if ($("edit-skills")) {
-    $("edit-skills").value = (p.desiredSkills || []).join(", ");
+    $("edit-skills").value =
+      (profile.desiredSkills || [])
+        .join(", ");
   }
 
-  subjectInputs("edit-subjects", p.subjects);
-  show("edit-profile-panel", true);
+  subjectInputs(
+    "edit-subjects",
+    profile.subjects
+  );
+
+  visible(
+    "edit-profile-panel",
+    true
+  );
 
   $("edit-profile-panel").scrollIntoView({
     behavior: "smooth"
@@ -1492,46 +2390,94 @@ on("edit-profile-btn", "click", () => {
 });
 
 on("cancel-edit", "click", () => {
-  show("edit-profile-panel", false);
+  visible(
+    "edit-profile-panel",
+    false
+  );
 });
 
-on("edit-profile-form", "submit", e => {
-  e.preventDefault();
+on("edit-profile-form", "submit", event => {
+  event.preventDefault();
 
   try {
-    const p = { ...state.profile };
+    const profile = {
+      ...state.profile
+    };
 
     for (const key of [
-      "name", "major", "year", "goal", "help", "time"
+      "name",
+      "major",
+      "year",
+      "goal",
+      "help",
+      "time"
     ]) {
-      p[key] = $("edit-" + key).value.trim();
+      profile[key] =
+        $("edit-" + key).value.trim();
     }
 
-    p.subjects = chosen("edit-subjects");
-    p.desiredSkills = skillsFrom($("edit-skills")?.value || "");
+    profile.subjects =
+      selected("edit-subjects");
 
-    p.github = url("edit-github", "github.com");
-    p.linkedin = url("edit-linkedin", "linkedin.com");
-    p.portfolio = url("edit-portfolio");
+    profile.desiredSkills =
+      uniqueSkills(
+        $("edit-skills")?.value || ""
+      );
 
-    p.resumeName = resume("edit-resume") || p.resumeName;
+    profile.github =
+      fieldURL(
+        "edit-github",
+        "github.com"
+      );
 
-    if (!p.name || !p.major || !p.goal || !p.subjects.length) {
-      throw Error("Fill in required fields and subjects.");
+    profile.linkedin =
+      fieldURL(
+        "edit-linkedin",
+        "linkedin.com"
+      );
+
+    profile.portfolio =
+      fieldURL("edit-portfolio");
+
+    profile.resumeName =
+      resume("edit-resume") ||
+      profile.resumeName;
+
+    if (
+      !profile.name ||
+      !profile.major ||
+      !profile.goal ||
+      !profile.subjects.length
+    ) {
+      throw Error(
+        "Fill out required fields and subjects."
+      );
     }
 
-    state.profile = p;
+    state.profile = profile;
+
     save();
 
     agentScores.clear();
+
     journey();
     rankBackend();
 
-    notice("Preferences saved.");
+    notice(
+      "Preferences saved."
+    );
 
   } catch (error) {
-    set("edit-error", error.message);
-    show("edit-error", true);
+    text(
+      "edit-error",
+      error.message
+    );
+
+    visible(
+      "edit-error",
+      true
+    );
+
     notice(error.message);
   }
 });
@@ -1542,16 +2488,20 @@ on("edit-profile-form", "submit", e => {
 
 function apply(id) {
   if (!state.liked.includes(id)) {
-    return notice("Connect with the mentor first.");
+    return notice(
+      "Connect with this mentor first."
+    );
   }
 
   applicationId = id;
+
   $("application-form").reset();
 
-  set(
+  text(
     "application-mentor-note",
+
     `Applying to ${mentor(id).name}. ` +
-    "This is an expression of interest, not a real vacancy."
+    `Demo only, not a real vacancy.`
   );
 
   $("application-dialog").showModal();
@@ -1572,145 +2522,263 @@ on("close-application", "click", () => {
   $("application-dialog").close();
 });
 
-on("application-form", "submit", e => {
-  e.preventDefault();
+on("application-form", "submit", event => {
+  event.preventDefault();
 
-  if (!applicationId || !$("application-consent").checked) {
+  if (
+    !applicationId ||
+    !$("application-consent").checked
+  ) {
     return;
   }
 
-  const message = $("application-message").value.trim();
+  const message =
+    $("application-message").value.trim();
+
   if (!message) return;
 
   state.applications.push({
-    id: `app-${Date.now()}-${state.applications.length}`,
+    id:
+      `app-${Date.now()}-${state.applications.length}`,
+
     mentorId: applicationId,
-    type: $("application-type").value,
+
+    type:
+      $("application-type").value,
+
     message,
-    availability: $("application-availability").value,
+
+    availability:
+      $("application-availability").value,
+
     status: "Submitted · demo",
+
     consent: true
   });
 
   save();
+
   $("application-dialog").close();
+
   journey();
 
-  notice("Demo application saved for review.");
+  notice(
+    "Demo application saved."
+  );
 });
 
 /* ======================================
-   PROFESSOR / MENTOR PREVIEW
+   MENTOR PREVIEW
    ====================================== */
 
 function mentorPreview() {
   const root = $("review-content");
+
   root.replaceChildren();
 
-  const approved = state.applications.filter(a => a.consent);
+  const applications =
+    state.applications.filter(
+      application => application.consent
+    );
 
-  if (!approved.length) {
+  if (!applications.length) {
     root.append(
       evidence(
         "No applications yet",
-        "Connect with a mentor and apply in My Journey."
+
+        "Connect with a mentor and apply through My Journey."
       )
     );
+
     return;
   }
 
-  for (const app of approved) {
-    const p = state.profile;
-    const m = mentor(app.mentorId);
-    const card = el("article", "", "panel review-card");
+  applications.forEach(application => {
+    const profile = state.profile;
 
-    card.append(
-      el("h2", `${p.name} → ${m?.name || "Mentor"}`),
-      el("p", `${p.major} · ${p.year}`),
-      el("p", `Interest: ${app.type}`),
-      el("p", `Goal: ${p.goal}`),
-      el("p", `Application: ${app.message}`),
-      el("p", `Status: ${app.status}`),
-      el("h3", "Student portfolio")
+    const m =
+      mentor(application.mentorId);
+
+    const card = node(
+      "article",
+      "",
+      "panel review-card"
     );
 
-    const links = el("div", "", "portfolio-links");
+    card.append(
+      node(
+        "h2",
 
-    link(links, "GitHub", p.github);
-    link(links, "LinkedIn", p.linkedin);
-    link(links, "Portfolio", p.portfolio);
+        `${profile.name} → ${m?.name || "Mentor"}`
+      ),
+
+      node(
+        "p",
+        `${profile.major} · ${profile.year}`
+      ),
+
+      node(
+        "p",
+        `Interest: ${application.type}`
+      ),
+
+      node(
+        "p",
+        `Goal: ${profile.goal}`
+      ),
+
+      node(
+        "p",
+        `Application: ${application.message}`
+      ),
+
+      node(
+        "p",
+        `Status: ${application.status}`
+      ),
+
+      node(
+        "h3",
+        "Student portfolio"
+      )
+    );
+
+    const links = node(
+      "div",
+      "",
+      "portfolio-links"
+    );
+
+    addLink(
+      links,
+      "GitHub",
+      profile.github
+    );
+
+    addLink(
+      links,
+      "LinkedIn",
+      profile.linkedin
+    );
+
+    addLink(
+      links,
+      "Portfolio",
+      profile.portfolio
+    );
 
     if (resumeUrl) {
-      link(links, "View resume (this session)", resumeUrl);
-    } else if (p.resumeName) {
+      addLink(
+        links,
+        "View resume (this session)",
+        resumeUrl
+      );
+
+    } else if (profile.resumeName) {
       links.append(
-        el("p", `Resume: ${p.resumeName} (re-upload to view).`)
+        node(
+          "p",
+
+          `Resume: ${profile.resumeName} ` +
+          `(re-upload to view).`
+        )
       );
     }
 
     card.append(
       links,
-      el("h3", "Previous projects"),
+
+      node("h3", "Projects"),
+
       ...state.projects.map(project =>
-        evidence(project.title, project.description, project.url)
+        evidence(
+          project.title,
+          project.description,
+          project.url
+        )
       ),
-      el("h3", "Completed quests"),
+
+      node("h3", "Completed quests"),
+
       ...mentors
-        .filter(x => state.quests[x.id]?.completed)
-        .map(x => evidence(`✓ ${x.quest.title} · ${x.quest.xp} XP`))
+        .filter(m =>
+          state.quests[m.id]?.completed
+        )
+        .map(m =>
+          evidence(
+            `✓ ${m.quest.title} · ${m.quest.xp} XP`
+          )
+        )
     );
 
-    const actions = el("div", "", "dialog-actions");
+    const actions = node(
+      "div",
+      "",
+      "dialog-actions"
+    );
 
     for (const [label, status] of [
       ["Mark Reviewed", "Reviewed"],
-      ["Invite to Discuss (Demo)", "Invited to discuss"]
+
+      [
+        "Invite to Discuss (Demo)",
+        "Invited to discuss"
+      ]
     ]) {
-      const btn = el(
+      const button = node(
         "button",
         label,
-        status === "Reviewed" ? "secondary-button" : "primary-button"
+
+        status === "Reviewed"
+          ? "secondary-button"
+          : "primary-button"
       );
 
-      btn.addEventListener("click", () => {
+      button.addEventListener("click", () => {
         if (
           status === "Invited to discuss" &&
-          app.status !== status
+          application.status !== status
         ) {
-          ensureChat(app.mentorId);
+          ensureChat(
+            application.mentorId
+          );
 
-          state.messages[app.mentorId].push({
+          state.messages[application.mentorId].push({
             from: "mentor",
+
             text:
               "I'd like to discuss next steps. " +
               "(Simulated invitation.)"
           });
         }
 
-        app.status = status;
+        application.status = status;
+
         save();
 
         mentorPreview();
-        notice(`Application: ${status}`);
+
+        notice(
+          `Application: ${status}`
+        );
       });
 
-      actions.append(btn);
+      actions.append(button);
     }
 
     card.append(actions);
     root.append(card);
-  }
+  });
 }
 
 /* ======================================
-   INITIALIZE
+   INITIALIZE APP
    ====================================== */
 
 subjectInputs("signup-subjects");
 
-if (state.profile) {
-  authTab("login");
-} else {
-  authTab("create");
-}
-
+authTab(
+  state.profile
+    ? "login"
+    : "create"
+);

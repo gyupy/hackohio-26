@@ -1,4 +1,9 @@
 
+/* BUCKEYE GUILD - COMPLETE STYLE.CSS
+   The mentor parchment expands to fit its contents.
+   Browse Again stays inside the finished-state box.
+*/
+
 :root {
   --night: #251812;
   --wood: #6b4730;
@@ -12,30 +17,50 @@
   --border: #ba905d;
 }
 
-* { box-sizing: border-box; }
-[hidden] { display: none !important; }
+* {
+  box-sizing: border-box;
+}
 
-html { scroll-behavior: smooth; }
+[hidden] {
+  display: none !important;
+}
+
+html {
+  scroll-behavior: smooth;
+}
 
 body {
   margin: 0;
   min-height: 100vh;
   overflow-x: hidden;
   color: #f9e9d0;
-  background:
-    radial-gradient(ellipse at top, #604332, #38261d 55%, #211612);
+  background: radial-gradient(
+    ellipse at top,
+    #604332,
+    #38261d 55%,
+    #211612
+  );
   font: 20px/1.4 "Cormorant Garamond", Georgia, serif;
 }
 
 h1, h2, h3, h4 {
   font-family: "Fondamento", Georgia, serif;
-  font-weight: normal;
+  font-weight: 400;
   line-height: 1.2;
 }
 
-button, input, select, textarea { font: inherit; }
-button { cursor: pointer; }
-button:disabled { opacity: .65; cursor: default; }
+button, input, select, textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: .65;
+  cursor: default;
+}
 
 button:focus-visible,
 a:focus-visible,
@@ -46,7 +71,7 @@ textarea:focus-visible {
   outline-offset: 3px;
 }
 
-/* HEADER AND GOTHIC SIGN */
+/* HEADER */
 
 .site-header {
   display: flex;
@@ -71,12 +96,19 @@ textarea:focus-visible {
   height: 66px;
   width: 6px;
   background: repeating-linear-gradient(
-    135deg, #d7b07c 0 5px, #916740 5px 10px
+    135deg,
+    #d7b07c 0 5px,
+    #916740 5px 10px
   );
 }
 
-.hanging-sign::before { left: 18%; }
-.hanging-sign::after { right: 18%; }
+.hanging-sign::before {
+  left: 18%;
+}
+
+.hanging-sign::after {
+  right: 18%;
+}
 
 .brand {
   position: relative;
@@ -92,7 +124,9 @@ textarea:focus-visible {
   border: 5px double #b88b56;
   border-radius: 11px;
   background: repeating-linear-gradient(
-    0deg, #62412a 0 13px, #765034 13px 26px
+    0deg,
+    #62412a 0 13px,
+    #765034 13px 26px
   );
   box-shadow: 0 8px #1b100c, inset 0 0 22px #160b0870;
 }
@@ -119,7 +153,7 @@ textarea:focus-visible {
   color: #503720;
 }
 
-/* GENERAL */
+/* GENERAL LAYOUT */
 
 main {
   max-width: 1130px;
@@ -127,7 +161,9 @@ main {
   padding: 28px 18px 55px;
 }
 
-.app-view { min-height: 500px; }
+.app-view {
+  min-height: 500px;
+}
 
 .page-heading {
   text-align: center;
@@ -150,11 +186,14 @@ main {
   color: var(--gold);
 }
 
-.eyebrow.dark { color: #805f3d; }
+.eyebrow.dark,
 .small-label {
-  color: #886747;
+  color: #805f3d;
+}
+
+.small-label {
   font-size: 15px;
-  font-weight: bold;
+  font-weight: 700;
   letter-spacing: 1px;
 }
 
@@ -164,7 +203,8 @@ main {
   line-height: 1.35;
 }
 
-.panel {
+.panel,
+.parchment-panel {
   background: linear-gradient(140deg, #fff0d3, #f0d9b1 90%);
   color: var(--ink);
   border: 2px solid var(--border);
@@ -173,24 +213,29 @@ main {
   box-shadow: 0 13px 29px #0006, inset 0 0 19px #90603120;
 }
 
-.panel h2 { margin-top: 0; }
+.panel h2 {
+  margin-top: 0;
+}
 
 .primary-button,
-.secondary-button {
+.secondary-button,
+.outline-button {
   display: inline-block;
   padding: 10px 16px;
   min-height: 40px;
   border-radius: 9px;
-  font-weight: bold;
+  font-weight: 700;
 }
 
 .primary-button {
   background: var(--sage);
-  color: white;
+  color: #fff;
   border: 2px solid #566b48;
 }
 
-.primary-button:hover { background: #5c734e; }
+.primary-button:hover {
+  background: #5c734e;
+}
 
 .secondary-button {
   color: var(--ink);
@@ -198,18 +243,31 @@ main {
   border: 2px solid #bd915d;
 }
 
-.secondary-button:hover { background: #ffe5b7; }
+.secondary-button:hover {
+  background: #ffe5b7;
+}
+
+.outline-button {
+  color: var(--ink);
+  border: 2px solid #96704d;
+  background: transparent;
+}
 
 .text-button {
-  border: none;
+  border: 0;
   background: transparent;
   text-decoration: underline;
   color: #765338;
   padding: 7px;
-  font-weight: bold;
+  font-weight: 700;
 }
 
-.error { color: #a34139; font-weight: bold; }
+.error,
+.form-error {
+  color: #a34139;
+  font-weight: 700;
+}
+
 .demo-warning {
   background: #efd3a0;
   color: #6c4a2e;
@@ -219,12 +277,15 @@ main {
 
 /* FORMS */
 
-.form-stack { display: grid; gap: 14px; }
+.form-stack {
+  display: grid;
+  gap: 14px;
+}
 
 .form-stack label {
   display: grid;
   gap: 5px;
-  font-weight: bold;
+  font-weight: 700;
   font-size: 18px;
 }
 
@@ -240,9 +301,12 @@ main {
   padding: 10px;
 }
 
-.form-stack textarea { resize: vertical; }
+.form-stack textarea {
+  resize: vertical;
+}
 
-.two-columns {
+.two-columns,
+.form-two {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
@@ -256,7 +320,7 @@ fieldset {
 
 legend {
   margin-bottom: 8px;
-  font-weight: bold;
+  font-weight: 700;
 }
 
 .subject-grid {
@@ -286,7 +350,7 @@ legend {
 }
 
 .subject-choice input:checked + span {
-  color: white;
+  color: #fff;
   background: var(--sage);
   border-color: #536a47;
 }
@@ -303,7 +367,7 @@ legend {
 
 .portfolio-details summary {
   cursor: pointer;
-  font-weight: bold;
+  font-weight: 700;
 }
 
 .portfolio-details[open] {
@@ -313,7 +377,8 @@ legend {
 
 /* STUDENT LOGIN */
 
-.auth-layout {
+.auth-layout,
+.auth-shell {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(400px, 1fr);
   gap: 34px;
@@ -321,7 +386,9 @@ legend {
   margin-top: 25px;
 }
 
-.auth-intro { padding-top: 35px; }
+.auth-intro {
+  padding-top: 35px;
+}
 
 .auth-intro h1 {
   font-size: clamp(37px, 5vw, 58px);
@@ -334,9 +401,12 @@ legend {
   color: #ead0ae;
 }
 
-.auth-panel { padding: 25px; }
+.auth-panel {
+  padding: 25px;
+}
 
-.tabs {
+.tabs,
+.tab-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 5px;
@@ -345,7 +415,8 @@ legend {
   border-radius: 10px;
 }
 
-.tabs button {
+.tabs button,
+.tab-row button {
   border: 0;
   border-radius: 8px;
   padding: 10px;
@@ -353,15 +424,20 @@ legend {
   background: transparent;
 }
 
-.tabs button.active { background: #fff4dd; }
+.tabs button.active,
+.tab-row button.active {
+  background: #fff4dd;
+}
 
-.journey-steps {
+.journey-steps,
+.ladder-mini {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
 }
 
-.journey-steps div {
+.journey-steps div,
+.ladder-mini span {
   padding: 14px;
   background: #634631;
   border: 1px solid #a77a53;
@@ -369,25 +445,39 @@ legend {
 }
 
 .journey-steps strong,
-.journey-steps span { display: block; }
-.journey-steps span { color: #e5c8a5; }
+.journey-steps span,
+.ladder-mini strong,
+.ladder-mini small {
+  display: block;
+}
 
-/* DISCOVERY AND WOODEN BOARD */
+.journey-steps span,
+.ladder-mini small {
+  color: #e5c8a5;
+}
+
+/* QUEST BOARD */
 
 .stats {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
   gap: 12px;
-  margin-top: 16px;
+  margin: 16px 0;
 }
 
-.stats span {
+.stats span,
+.stats > div {
   background: #4c3326;
   border: 1px solid #a2744a;
   border-radius: 10px;
   padding: 8px 14px;
   color: #ffdfa8;
+}
+
+.stats > div strong,
+.stats > div span {
+  display: inline-block;
 }
 
 .quest-board {
@@ -397,25 +487,29 @@ legend {
   border: 8px ridge #a2754c;
   border-radius: 15px;
   text-align: center;
-  background:
-    repeating-linear-gradient(
-      0deg,
-      #66442f 0 74px,
-      #7b543a 74px 78px,
-      #5c3b29 78px 150px,
-      #40281b 150px 154px
-    );
+  background: repeating-linear-gradient(
+    0deg,
+    #66442f 0 74px,
+    #7b543a 74px 78px,
+    #5c3b29 78px 150px,
+    #40281b 150px 154px
+  );
   box-shadow: 0 19px 39px #0008;
 }
 
-.quest-board h2 {
+.quest-board > h2,
+.board-head h2 {
   color: #ffedd0;
   font-size: 34px;
 }
 
-.quest-board > p { color: #ebd5b7; }
+.quest-board > p,
+.board-head > p {
+  color: #ebd5b7;
+}
 
-.ranking-status {
+.ranking-status,
+.match-description {
   display: inline-block;
   border: 1px solid #a78053;
   padding: 6px 12px;
@@ -426,17 +520,22 @@ legend {
 
 .ranking-status.online {
   background: #637951;
-  color: white;
+  color: #fff;
 }
 
-/* SIDE SCROLLS AND MAIN SCROLL */
+/* SCROLLS:
+   The whole webpage scrolls, not the inside
+   of an individual mentor profile.
+*/
 
 .swipe-area {
   position: relative;
   width: 590px;
   max-width: 100%;
-  height: 645px;
+  height: 690px;
   margin: 25px auto 17px;
+  overflow: visible;
+  --roller-travel: 314px;
 }
 
 .side-scroll {
@@ -463,8 +562,12 @@ legend {
   position: absolute;
   inset: 15px 8px;
   background: linear-gradient(
-    90deg, #c49a65, #f4ddb4 18%, #fff0d2 50%,
-    #f0d2a0 82%, #b98a56
+    90deg,
+    #c49a65,
+    #f4ddb4 18%,
+    #fff0d2 50%,
+    #f0d2a0 82%,
+    #b98a56
   );
   border: 2px solid #b88b55;
   border-radius: 12px;
@@ -477,7 +580,10 @@ legend {
   border: 1px solid #5d3924;
   border-radius: 99px;
   background: linear-gradient(
-    #d3a16b, #9d693e 38%, #6c4126 80%, #452719
+    #d3a16b,
+    #9d693e 38%,
+    #6c4126 80%,
+    #452719
   );
   box-shadow: inset 0 2px 3px #fff4, 0 4px 6px #0006;
   pointer-events: none;
@@ -489,8 +595,13 @@ legend {
   height: 19px;
 }
 
-.side-scroll-roller.top { top: 0; }
-.side-scroll-roller.bottom { bottom: 0; }
+.side-scroll-roller.top {
+  top: 0;
+}
+
+.side-scroll-roller.bottom {
+  bottom: 0;
+}
 
 .card-behind {
   position: absolute;
@@ -518,7 +629,9 @@ legend {
   user-select: none;
 }
 
-.mentor-card:active { cursor: grabbing; }
+.mentor-card:active {
+  cursor: grabbing;
+}
 
 .scroll-paper {
   position: absolute;
@@ -527,11 +640,23 @@ legend {
   border: 3px solid #b88c59;
   border-radius: 16px;
   background:
-    radial-gradient(ellipse at top left, #98592b30, transparent 30%),
-    radial-gradient(ellipse at bottom right, #98592b30, transparent 30%),
+    radial-gradient(
+      ellipse at top left,
+      #98592b30,
+      transparent 30%
+    ),
+    radial-gradient(
+      ellipse at bottom right,
+      #98592b30,
+      transparent 30%
+    ),
     linear-gradient(
-      90deg, #cda16c, #f4dfb9 11%, #fff0d2 50%,
-      #f0d6a9 90%, #cda16c
+      90deg,
+      #cda16c,
+      #f4dfb9 11%,
+      #fff0d2 50%,
+      #f0d6a9 90%,
+      #cda16c
     );
   box-shadow: 0 16px 34px #0005, inset 0 0 26px #89592a30;
 }
@@ -540,13 +665,13 @@ legend {
   display: flex;
   flex-direction: column;
   height: 100%;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  padding: 53px 33px 53px;
+  overflow: visible;
+  padding: 37px 30px 35px;
   color: var(--ink);
   text-align: left;
-  scrollbar-width: thin;
 }
+
+/* JavaScript calculates the exact necessary height. */
 
 .scroll-roller {
   left: -12px;
@@ -555,10 +680,15 @@ legend {
   z-index: 5;
 }
 
-.scroll-roller-top { top: 8px; }
-.scroll-roller-bottom { bottom: 8px; }
+.scroll-roller-top {
+  top: 8px;
+}
 
-/* SLOW UNFURL — 1.6 SECONDS */
+.scroll-roller-bottom {
+  bottom: 8px;
+}
+
+/* SCROLL UNFURL ANIMATIONS */
 
 .mentor-card.enter-left {
   animation: enterLeft 1.6s ease-out both;
@@ -626,103 +756,129 @@ legend {
 }
 
 @keyframes rollerTop {
-  0%, 39% { transform: translateY(291px) scaleX(.8); }
-  100% { transform: translateY(0) scaleX(1); }
+  0%, 39% {
+    transform: translateY(var(--roller-travel)) scaleX(.8);
+  }
+  100% {
+    transform: translateY(0) scaleX(1);
+  }
 }
 
 @keyframes rollerBottom {
-  0%, 39% { transform: translateY(-291px) scaleX(.8); }
-  100% { transform: translateY(0) scaleX(1); }
+  0%, 39% {
+    transform: translateY(calc(-1 * var(--roller-travel))) scaleX(.8);
+  }
+  100% {
+    transform: translateY(0) scaleX(1);
+  }
 }
 
-/* MENTOR CONTENT */
+/* CONTENT INSIDE THE PARCHMENT */
 
 .card-top {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 10px;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
 }
 
 .mentor-icon {
   display: grid;
   place-items: center;
-  height: 55px;
-  width: 55px;
+  width: 51px;
+  height: 51px;
   border: 2px solid #caa070;
   border-radius: 11px;
   background: #ead0a5;
-  font-size: 27px;
+  font-size: 26px;
 }
 
-.match-score {
-  padding: 8px 12px;
+.match-score,
+.fit-tag {
+  padding: 7px 11px;
   border-radius: 22px;
   color: #4c6b42;
   background: #dfead8;
-  font-size: 16px;
-  font-weight: bold;
+  font-size: 15px;
+  font-weight: 700;
 }
 
-.mentor-card h2 {
-  margin: 7px 0;
-  font-size: 31px;
+.mentor-card h2,
+.mentor-card h3#mentor-name {
+  margin: 4px 0 6px;
+  font-size: 29px;
   color: #4e3422;
 }
 
 .mentor-role {
-  margin: 0 0 16px;
+  margin: 0 0 11px;
   color: #7c5a40;
-  font-size: 18px;
+  font-size: 17px;
 }
 
 .skills {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 12px;
+  gap: 7px;
+  margin-bottom: 7px;
 }
 
 .skills span {
-  display: inline-block;
-  padding: 6px 11px;
+  padding: 5px 9px;
   border: 1px solid #c9a274;
   border-radius: 25px;
   background: #ead6b3;
   color: #6b4b34;
-  font-size: 16px;
+  font-size: 15px;
 }
 
 .scroll-divider {
-  margin: 12px auto;
+  margin: 8px auto;
   text-align: center;
   color: #b99362;
   letter-spacing: 6px;
 }
 
-.mentor-card h3 {
-  margin: 12px 0 7px;
-  font-size: 21px;
+.mentor-card h3,
+.mentor-card h4 {
+  margin: 8px 0 6px;
+  font-size: 20px;
+  color: #65472d;
 }
 
 #mentor-description {
-  margin: 0 0 16px;
+  margin: 0 0 11px;
   color: #684b35;
-  line-height: 1.45;
+  font-size: 18px;
+  line-height: 1.32;
 }
 
 .gain-box {
   margin-top: auto;
-  padding: 14px;
+  padding: 12px;
   border: 1px solid #b3c39e;
   border-radius: 12px;
   background: #e2ead9;
   color: #4e6544;
 }
 
-.gain-box h3 { margin-top: 0; }
-.gain-box p { margin-bottom: 0; }
+.gain-box h3,
+.gain-box h4 {
+  margin: 0 0 5px;
+}
+
+.gain-box p {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.28;
+}
+
+#mentor-office {
+  margin: 8px 0 0;
+  font-size: 14px;
+  line-height: 1.2;
+}
 
 .stamp {
   position: absolute;
@@ -772,11 +928,12 @@ legend {
 
 .like-button {
   background: var(--sage);
-  color: white;
+  color: #fff;
   border: 3px solid #adbf9d;
 }
 
-.archive-button {
+.archive-button,
+.projects-button {
   display: block;
   margin: 17px auto 0;
   padding: 13px;
@@ -799,7 +956,9 @@ legend {
   text-align: left;
 }
 
-.project-item, .evidence-card, .application-entry {
+.project-item,
+.evidence-card,
+.application-entry {
   margin: 9px 0;
   padding: 12px;
   background: #fff1d4;
@@ -807,28 +966,63 @@ legend {
   border-radius: 10px;
 }
 
-.project-item p, .evidence-card p { margin: 6px 0; }
-.project-item small { color: #5d774e; }
+.project-item p,
+.evidence-card p {
+  margin: 6px 0;
+}
+
+.project-item small {
+  color: #5d774e;
+}
+
+/* ALL CAUGHT UP: THE BUTTON NO LONGER OVERLAPS */
+
+.swipe-area.finished {
+  height: 300px;
+}
+
+.swipe-area.finished .side-scroll {
+  display: none;
+}
 
 .empty-state {
   position: absolute;
   inset: 0;
-  display: grid;
-  align-content: center;
-  justify-items: center;
-  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 28px;
+  text-align: center;
   color: var(--ink);
   background: #f3deba;
   border: 2px solid #b78a56;
   border-radius: 14px;
 }
 
-.empty-state h2 { color: var(--ink); }
+.empty-state h2,
+.empty-state h3 {
+  margin: 0;
+  color: var(--ink);
+  font-size: 30px;
+}
 
-.swipe-area.finished { height: 200px; }
-.swipe-area.finished .side-scroll { display: none; }
+.empty-state p {
+  margin: 0;
+  max-width: 420px;
+  font-size: 20px;
+  line-height: 1.35;
+}
 
-/* GUILD AND MESSAGES */
+.empty-state button {
+  position: static;
+  flex-shrink: 0;
+  margin: 6px 0 0;
+  padding: 12px 22px;
+}
+
+/* GUILD MESSAGES AND QUESTS */
 
 .guild-layout {
   display: grid;
@@ -837,7 +1031,10 @@ legend {
   align-items: start;
 }
 
-.liked-list { display: grid; gap: 9px; }
+.liked-list {
+  display: grid;
+  gap: 9px;
+}
 
 .liked-mentor {
   width: 100%;
@@ -854,15 +1051,22 @@ legend {
   border-color: var(--sage);
 }
 
-.liked-mentor strong, .liked-mentor small {
+.liked-mentor strong,
+.liked-mentor small {
   display: block;
 }
 
-.liked-mentor small { color: #85664b; }
+.liked-mentor small {
+  color: #85664b;
+}
 
-.messenger { padding: 0; overflow: hidden; }
+.messenger {
+  padding: 0;
+  overflow: hidden;
+}
 
-#chat-placeholder {
+#chat-placeholder,
+.chat-placeholder {
   padding: 60px 20px;
   text-align: center;
 }
@@ -877,7 +1081,9 @@ legend {
   background: #e6cca2;
 }
 
-.chat-header h2 { margin: 0; }
+.chat-header h2 {
+  margin: 0;
+}
 
 .chat-tabs {
   display: grid;
@@ -948,6 +1154,13 @@ legend {
   background: #fff0d3;
 }
 
+.quest-card {
+  padding: 18px;
+  background: #f9e8c5;
+  border: 1px solid #cca77a;
+  border-radius: 10px;
+}
+
 .quest-choices {
   display: grid;
   gap: 9px;
@@ -983,11 +1196,22 @@ legend {
   font: 14px/1.5 Consolas, monospace;
 }
 
-#hours-history > div { margin-top: 10px; }
+#hours-history > div {
+  margin-top: 10px;
+}
 
-/* PROFILE, PROJECTS, APPLICATIONS */
+.session-entry {
+  background: #f7e6c6;
+  border: 1px solid #caa67a;
+  border-radius: 9px;
+  padding: 12px;
+  margin: 9px 0;
+}
 
-.journey-layout {
+/* STUDENT PROFILE AND APPLICATIONS */
+
+.journey-layout,
+.journey-grid {
   display: grid;
   grid-template-columns: 1fr 1.1fr;
   align-items: start;
@@ -998,28 +1222,37 @@ legend {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 12px;
 }
 
-.portfolio-links {
+.portfolio-links,
+.evidence-links {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
   margin: 12px 0;
 }
 
-.portfolio-links a, .evidence-card a {
+.portfolio-links a,
+.evidence-links a,
+.evidence-card a {
   color: #4c7140;
-  font-weight: bold;
+  font-weight: 700;
 }
 
-.portfolio-links a {
+.portfolio-links a,
+.evidence-links a {
   padding: 7px 11px;
   border: 1px solid #c6a372;
   border-radius: 8px;
   background: #fff7e2;
 }
 
-.edit-panel, .longer-path { margin-top: 18px; }
+.edit-panel,
+.longer-path,
+.path-section {
+  margin-top: 18px;
+}
 
 .path-mentor-list {
   display: grid;
@@ -1051,20 +1284,25 @@ legend {
   background: #180f0bc9;
 }
 
-.consent {
+.consent,
+.consent-check {
   display: flex !important;
   align-items: start;
   gap: 10px;
 }
 
-.dialog-actions {
+.dialog-actions,
+.form-actions,
+.review-actions {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
   justify-content: flex-end;
 }
 
-.review-card { margin-bottom: 15px; }
+.review-card {
+  margin-bottom: 15px;
+}
 
 .toast {
   position: fixed;
@@ -1080,45 +1318,124 @@ legend {
   box-shadow: 0 10px 25px #0006;
 }
 
-footer {
+footer,
+.site-footer {
   margin: 50px 0 0;
   color: #ddc09d;
   text-align: center;
 }
 
-footer small { display: block; }
+footer small,
+.site-footer small {
+  display: block;
+}
 
-/* RESPONSIVE */
+/* TABLET */
 
 @media (max-width: 800px) {
-  .auth-layout, .guild-layout, .journey-layout {
+  .auth-layout,
+  .auth-shell,
+  .guild-layout,
+  .journey-layout,
+  .journey-grid {
     grid-template-columns: 1fr;
   }
 
-  .side-scroll { display: none; }
+  .side-scroll {
+    display: none;
+  }
 
-  .auth-intro { padding-top: 0; }
+  .auth-intro {
+    padding-top: 0;
+  }
 
   .path-mentor-list {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
+/* MOBILE */
+
 @media (max-width: 520px) {
-  main { padding: 20px 10px; }
-  .brand { font-size: 40px; padding: 12px 19px; }
-  .two-columns { grid-template-columns: 1fr; }
-  .quest-board { padding: 19px 10px; border-width: 5px; }
-  .swipe-area { height: 685px; }
-  .mentor-card { width: calc(100% - 12px); }
-  .scroll-content { padding: 51px 20px; }
-  .scroll-roller { left: -5px; right: -5px; }
-  .path-mentor-list { grid-template-columns: 1fr; }
-  .top-nav button { padding: 7px; font-size: 15px; }
+  main {
+    padding: 20px 10px;
+  }
+
+  .brand {
+    font-size: 40px;
+    padding: 12px 19px;
+  }
+
+  .two-columns,
+  .form-two {
+    grid-template-columns: 1fr;
+  }
+
+  .quest-board {
+    padding: 19px 10px;
+    border-width: 5px;
+  }
+
+  .swipe-area {
+    height: 770px;
+  }
+
+  .mentor-card {
+    width: calc(100% - 12px);
+  }
+
+  .card-behind {
+    width: calc(100% - 25px);
+  }
+
+  .scroll-content {
+    padding: 35px 19px 33px;
+  }
+
+  .scroll-roller {
+    left: -5px;
+    right: -5px;
+  }
+
+  #mentor-description {
+    font-size: 17px;
+  }
+
+  .gain-box p {
+    font-size: 16px;
+  }
+
+  .swipe-area.finished {
+    height: 310px;
+  }
+
+  .empty-state {
+    padding: 22px;
+  }
+
+  .empty-state h2,
+  .empty-state h3 {
+    font-size: 27px;
+  }
+
+  .empty-state p {
+    font-size: 18px;
+  }
+
+  .path-mentor-list {
+    grid-template-columns: 1fr;
+  }
+
+  .top-nav button {
+    padding: 7px;
+    font-size: 15px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
+  html {
+    scroll-behavior: auto;
+  }
 
   .mentor-card.enter-left,
   .mentor-card.enter-right,
