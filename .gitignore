@@ -1,0 +1,18 @@
+# Secrets - never commit API keys
+key.local.txt
+**/key.local.txt
+*.local.txt
+
+# Java build output
+target/
+**/target/
+bin/
+*.class
+
+# jqwik test database
+.jqwik-database
+**/.jqwik-database
+
+# OS / editor noise
+.DS_Store
+Thumbs.db

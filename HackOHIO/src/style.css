@@ -1444,3 +1444,25 @@ footer small,
     animation: none !important;
   }
 }
+
+/* =========================================
+   MENTOR PREVIEW PAGE TEXT COLOR FIX
+   The #view-mentor page renders cards and headings on a light
+   parchment background. Without this, text inherits the light
+   body color (#f9e9d0) and is nearly invisible. Force dark ink.
+   ========================================= */
+
+#view-mentor #review-content,
+#view-mentor #review-content h2,
+#view-mentor #review-content h3,
+#view-mentor #review-content p,
+#view-mentor .review-card,
+#view-mentor .review-card h2,
+#view-mentor .review-card h3,
+#view-mentor .review-card p,
+.evidence-card,
+.evidence-card h2,
+.evidence-card h3,
+.evidence-card p {
+  color: var(--ink);
+}
