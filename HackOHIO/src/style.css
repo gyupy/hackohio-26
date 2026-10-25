@@ -1,1895 +1,1129 @@
-/* =========================================
-   BUCKEYE GUILD
-   Fantasy Quest Board - Final CSS
-   ========================================= */
-
-/* =========================================
-   1. COLORS
-   ========================================= */
 
 :root {
-    --night: #281a14;
-
-    --wood: #704930;
-    --wood-dark: #40271c;
-    --wood-light: #9b704d;
-
-    --parchment: #f3deb7;
-    --paper-light: #fff0d1;
-    --paper-dark: #d7b37d;
-
-    --ink: #513620;
-    --muted: #806048;
-
-    --gold: #e7be76;
-
-    --sage: #71845e;
-    --sage-light: #e3ebd9;
-
-    --rose: #b76b60;
+  --night: #251812;
+  --wood: #6b4730;
+  --wood-dark: #40291b;
+  --paper: #f4e1bd;
+  --paper-light: #fff0d3;
+  --ink: #523820;
+  --gold: #edc785;
+  --sage: #718560;
+  --rose: #b86d61;
+  --border: #ba905d;
 }
 
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
 
-/* =========================================
-   2. GENERAL STYLING
-   ========================================= */
-
-* {
-    box-sizing: border-box;
-}
-
-[hidden] {
-    display: none !important;
-}
-
-html {
-    scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
 body {
-    margin: 0;
-    min-height: 100vh;
-    overflow-x: hidden;
-
-    background:
-        radial-gradient(
-            ellipse at top,
-            #5e4432 0%,
-            #38271e 47%,
-            #211612 100%
-        );
-
-    color: #f8e7cb;
-
-    font-family:
-        "Cormorant Garamond",
-        Cambria,
-        Georgia,
-        serif;
-
-    font-size: 19px;
+  margin: 0;
+  min-height: 100vh;
+  overflow-x: hidden;
+  color: #f9e9d0;
+  background:
+    radial-gradient(ellipse at top, #604332, #38261d 55%, #211612);
+  font: 20px/1.4 "Cormorant Garamond", Georgia, serif;
 }
 
-button,
-input {
-    font: inherit;
+h1, h2, h3, h4 {
+  font-family: "Fondamento", Georgia, serif;
+  font-weight: normal;
+  line-height: 1.2;
 }
 
-button {
-    cursor: pointer;
-}
+button, input, select, textarea { font: inherit; }
+button { cursor: pointer; }
+button:disabled { opacity: .65; cursor: default; }
 
 button:focus-visible,
 a:focus-visible,
-input:focus-visible {
-    outline: 3px solid var(--gold);
-    outline-offset: 3px;
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 3px;
 }
 
-
-/* =========================================
-   3. FANTASY FONTS
-   ========================================= */
-
-/* Decorative storybook headings */
-
-.page-heading h1,
-.mentor-card h2,
-.description h3,
-.gain-box h3,
-.projects-panel h2,
-.projects-panel h3,
-.liked-section h2,
-.chat-header strong,
-.quest-card h3,
-#quest-title,
-.empty-state h2 {
-    font-family:
-        "Fondamento",
-        Georgia,
-        serif;
-}
-
-/* Main program name uses Pirata One.
-   Defined separately in .brand below. */
-
-
-/* =========================================
-   4. HANGING GUILD SIGN
-   ========================================= */
+/* HEADER AND GOTHIC SIGN */
 
 .site-header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
-
-    padding: 32px 20px 22px;
-
-    background: #302018;
-
-    border-bottom: 4px solid #80583d;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  padding: 28px 15px 18px;
+  background: #302019;
+  border-bottom: 4px solid #79563a;
 }
-
-/* Sign container */
 
 .hanging-sign {
-    position: relative;
-    padding-top: 18px;
+  position: relative;
+  padding-top: 20px;
 }
-
-/* Ropes holding wooden sign */
 
 .hanging-sign::before,
 .hanging-sign::after {
-    content: "";
-
-    position: absolute;
-    top: -32px;
-
-    width: 6px;
-    height: 65px;
-
-    background:
-        repeating-linear-gradient(
-            135deg,
-            #d5ad74 0 5px,
-            #93683e 5px 10px
-        );
+  content: "";
+  position: absolute;
+  top: -31px;
+  height: 66px;
+  width: 6px;
+  background: repeating-linear-gradient(
+    135deg, #d7b07c 0 5px, #916740 5px 10px
+  );
 }
 
-.hanging-sign::before {
-    left: 17%;
-}
-
-.hanging-sign::after {
-    right: 17%;
-}
-
-/* Gothic Buckeye Guild lettering */
+.hanging-sign::before { left: 18%; }
+.hanging-sign::after { right: 18%; }
 
 .brand {
-    position: relative;
-    display: block;
-
-    padding: 12px 34px 17px;
-
-    background:
-        repeating-linear-gradient(
-            0deg,
-            #62412b 0 13px,
-            #765035 13px 26px
-        );
-
-    border: 5px double #b88e5d;
-    border-radius: 10px;
-
-    box-shadow:
-        0 8px 0 #1b100c,
-        inset 0 0 20px #170b0870;
-
-    color: #f6ce75;
-
-    font-family:
-        "Pirata One",
-        Georgia,
-        serif;
-
-    font-size: clamp(35px, 6vw, 64px);
-
-    letter-spacing: 2px;
-    font-variant-ligatures: none;
-
-    text-align: center;
-    text-decoration: none;
-
-    line-height: 1.15;
-
-    text-shadow:
-        2px 3px 0 #392314;
+  position: relative;
+  display: block;
+  padding: 10px 36px 16px;
+  text-decoration: none;
+  text-align: center;
+  color: #f7d079;
+  font: clamp(35px, 6vw, 64px)/1.15 "Pirata One", Georgia, serif;
+  letter-spacing: 2px;
+  font-variant-ligatures: none;
+  text-shadow: 2px 3px #3b2416;
+  border: 5px double #b88b56;
+  border-radius: 11px;
+  background: repeating-linear-gradient(
+    0deg, #62412a 0 13px, #765034 13px 26px
+  );
+  box-shadow: 0 8px #1b100c, inset 0 0 22px #160b0870;
 }
 
-/* Your Guild navigation link */
-
-.guild-link {
-    color: #f3d8b4;
-    text-decoration: none;
-
-    font-size: 20px;
+.top-nav {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
-.guild-link:hover {
-    color: #fff5e4;
+.top-nav button {
+  border: 1px solid #a17a55;
+  border-radius: 8px;
+  padding: 9px 15px;
+  color: #f4dfbe;
+  background: #503522;
+  font-size: 17px;
 }
 
+.top-nav button.active,
+.top-nav button:hover {
+  background: #f0dbb7;
+  color: #503720;
+}
 
-/* =========================================
-   5. WOODEN QUEST BOARD
-   ========================================= */
+/* GENERAL */
 
 main {
-    max-width: 1060px;
-
-    margin: 0 auto;
-    padding: 30px 18px 65px;
+  max-width: 1130px;
+  margin: auto;
+  padding: 28px 18px 55px;
 }
 
-.quest-board {
-    max-width: 900px;
-    margin: 0 auto;
+.app-view { min-height: 500px; }
 
-    padding: 30px 25px 36px;
-
-    text-align: center;
-
-    background:
-        linear-gradient(
-            90deg,
-            #1b100b35,
-            transparent 20%,
-            transparent 80%,
-            #1b100b35
-        ),
-        repeating-linear-gradient(
-            0deg,
-            #65432e 0 76px,
-            #79543a 76px 80px,
-            #5c3b29 80px 154px,
-            #41291c 154px 158px
-        );
-
-    border: 8px ridge #a1764d;
-    border-radius: 14px;
-
-    box-shadow:
-        0 18px 45px #0008,
-        inset 0 0 35px #140b0950;
+.page-heading {
+  text-align: center;
+  margin: 20px auto 27px;
 }
-
-/* Quest board heading */
 
 .page-heading h1 {
-    margin: 10px 0;
-
-    font-size: 42px;
-    font-weight: normal;
-
-    color: #fff0d5;
-
-    text-shadow:
-        1px 3px 3px #21120c;
+  font-size: clamp(32px, 5vw, 45px);
+  margin: 8px 0;
 }
 
-.page-heading p:not(.eyebrow) {
-    max-width: 520px;
-
-    margin: 0 auto;
-
-    color: #f4dfc1;
-    line-height: 1.45;
+.page-heading p {
+  color: #e7cca9;
+  margin: 8px 0;
 }
 
 .eyebrow {
-    margin: 0;
-
-    color: var(--gold);
-
-    font-family:
-        "Fondamento",
-        Georgia,
-        serif;
-
-    font-size: 17px;
-    letter-spacing: 1px;
+  font: 16px "Fondamento", serif;
+  letter-spacing: 2px;
+  color: var(--gold);
 }
 
+.eyebrow.dark { color: #805f3d; }
+.small-label {
+  color: #886747;
+  font-size: 15px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
 
-/* =========================================
-   6. SWIPE AREA
-   ========================================= */
+.fineprint {
+  color: #846548;
+  font-size: 16px;
+  line-height: 1.35;
+}
+
+.panel {
+  background: linear-gradient(140deg, #fff0d3, #f0d9b1 90%);
+  color: var(--ink);
+  border: 2px solid var(--border);
+  border-radius: 15px;
+  padding: 23px;
+  box-shadow: 0 13px 29px #0006, inset 0 0 19px #90603120;
+}
+
+.panel h2 { margin-top: 0; }
+
+.primary-button,
+.secondary-button {
+  display: inline-block;
+  padding: 10px 16px;
+  min-height: 40px;
+  border-radius: 9px;
+  font-weight: bold;
+}
+
+.primary-button {
+  background: var(--sage);
+  color: white;
+  border: 2px solid #566b48;
+}
+
+.primary-button:hover { background: #5c734e; }
+
+.secondary-button {
+  color: var(--ink);
+  background: #f3d4a0;
+  border: 2px solid #bd915d;
+}
+
+.secondary-button:hover { background: #ffe5b7; }
+
+.text-button {
+  border: none;
+  background: transparent;
+  text-decoration: underline;
+  color: #765338;
+  padding: 7px;
+  font-weight: bold;
+}
+
+.error { color: #a34139; font-weight: bold; }
+.demo-warning {
+  background: #efd3a0;
+  color: #6c4a2e;
+  border-radius: 10px;
+  padding: 14px;
+}
+
+/* FORMS */
+
+.form-stack { display: grid; gap: 14px; }
+
+.form-stack label {
+  display: grid;
+  gap: 5px;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.form-stack input:not([type="checkbox"]),
+.form-stack select,
+.form-stack textarea {
+  width: 100%;
+  min-width: 0;
+  background: #fff9ea;
+  color: var(--ink);
+  border: 1px solid #c19b6c;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.form-stack textarea { resize: vertical; }
+
+.two-columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+fieldset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+legend {
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.subject-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.subject-choice {
+  position: relative;
+  cursor: pointer;
+}
+
+.subject-choice input {
+  position: absolute;
+  opacity: 0;
+}
+
+.subject-choice span {
+  display: block;
+  padding: 7px 12px;
+  border: 1px solid #c49c6b;
+  border-radius: 25px;
+  color: #6d4c34;
+  background: #f1dfbd;
+  font-size: 16px;
+}
+
+.subject-choice input:checked + span {
+  color: white;
+  background: var(--sage);
+  border-color: #536a47;
+}
+
+.subject-choice input:focus-visible + span {
+  outline: 3px solid #b58639;
+}
+
+.portfolio-details {
+  border: 1px dashed #c59b6a;
+  border-radius: 10px;
+  padding: 12px;
+}
+
+.portfolio-details summary {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.portfolio-details[open] {
+  display: grid;
+  gap: 12px;
+}
+
+/* STUDENT LOGIN */
+
+.auth-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(400px, 1fr);
+  gap: 34px;
+  align-items: start;
+  margin-top: 25px;
+}
+
+.auth-intro { padding-top: 35px; }
+
+.auth-intro h1 {
+  font-size: clamp(37px, 5vw, 58px);
+  color: #ffedcf;
+}
+
+.auth-intro > p {
+  font-size: 24px;
+  max-width: 450px;
+  color: #ead0ae;
+}
+
+.auth-panel { padding: 25px; }
+
+.tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+  background: #e0c496;
+  padding: 5px;
+  border-radius: 10px;
+}
+
+.tabs button {
+  border: 0;
+  border-radius: 8px;
+  padding: 10px;
+  color: #6c4b32;
+  background: transparent;
+}
+
+.tabs button.active { background: #fff4dd; }
+
+.journey-steps {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.journey-steps div {
+  padding: 14px;
+  background: #634631;
+  border: 1px solid #a77a53;
+  border-radius: 11px;
+}
+
+.journey-steps strong,
+.journey-steps span { display: block; }
+.journey-steps span { color: #e5c8a5; }
+
+/* DISCOVERY AND WOODEN BOARD */
+
+.stats {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.stats span {
+  background: #4c3326;
+  border: 1px solid #a2744a;
+  border-radius: 10px;
+  padding: 8px 14px;
+  color: #ffdfa8;
+}
+
+.quest-board {
+  max-width: 900px;
+  margin: auto;
+  padding: 26px 22px 34px;
+  border: 8px ridge #a2754c;
+  border-radius: 15px;
+  text-align: center;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      #66442f 0 74px,
+      #7b543a 74px 78px,
+      #5c3b29 78px 150px,
+      #40281b 150px 154px
+    );
+  box-shadow: 0 19px 39px #0008;
+}
+
+.quest-board h2 {
+  color: #ffedd0;
+  font-size: 34px;
+}
+
+.quest-board > p { color: #ebd5b7; }
+
+.ranking-status {
+  display: inline-block;
+  border: 1px solid #a78053;
+  padding: 6px 12px;
+  border-radius: 20px;
+  color: #f5e2bf;
+  font-size: 15px;
+}
+
+.ranking-status.online {
+  background: #637951;
+  color: white;
+}
+
+/* SIDE SCROLLS AND MAIN SCROLL */
 
 .swipe-area {
-    position: relative;
-
-    width: 580px;
-    max-width: 100%;
-
-    height: 645px;
-
-    margin: 28px auto 20px;
-
-    overflow: visible;
+  position: relative;
+  width: 590px;
+  max-width: 100%;
+  height: 645px;
+  margin: 25px auto 17px;
 }
-
-
-/* =========================================
-   7. DECORATIVE SIDE SCROLLS
-   ========================================= */
 
 .side-scroll {
-    position: absolute;
-
-    top: 162px;
-
-    width: 95px;
-    height: 275px;
-
-    z-index: 0;
-
-    opacity: 0.85;
-
-    pointer-events: none;
-
-    filter: saturate(0.85);
+  position: absolute;
+  z-index: 0;
+  top: 170px;
+  width: 91px;
+  height: 255px;
+  opacity: .84;
+  pointer-events: none;
 }
-
-/* Left scroll */
 
 .side-scroll-left {
-    left: -47px;
-
-    transform: rotate(-11deg);
+  left: -44px;
+  transform: rotate(-11deg);
 }
-
-/* Right scroll */
 
 .side-scroll-right {
-    right: -47px;
-
-    transform: rotate(11deg);
+  right: -44px;
+  transform: rotate(11deg);
 }
-
-/* Side scroll parchment */
 
 .side-scroll-paper {
-    position: absolute;
-
-    inset: 17px 7px;
-
-    background:
-        linear-gradient(
-            90deg,
-            #cba36d,
-            #f3dcb2 17%,
-            #fff0d1 50%,
-            #edcfa0 83%,
-            #b98a57
-        );
-
-    border: 2px solid #a77b4d;
-    border-radius: 12px;
-
-    box-shadow:
-        inset 0 0 15px #8f5b3025,
-        0 9px 18px #0005;
+  position: absolute;
+  inset: 15px 8px;
+  background: linear-gradient(
+    90deg, #c49a65, #f4ddb4 18%, #fff0d2 50%,
+    #f0d2a0 82%, #b98a56
+  );
+  border: 2px solid #b88b55;
+  border-radius: 12px;
+  box-shadow: 0 9px 18px #0005;
 }
 
-/* Side scroll wooden rollers */
+.side-scroll-roller,
+.scroll-roller {
+  position: absolute;
+  border: 1px solid #5d3924;
+  border-radius: 99px;
+  background: linear-gradient(
+    #d3a16b, #9d693e 38%, #6c4126 80%, #452719
+  );
+  box-shadow: inset 0 2px 3px #fff4, 0 4px 6px #0006;
+  pointer-events: none;
+}
 
 .side-scroll-roller {
-    position: absolute;
-
-    left: -5px;
-    right: -5px;
-
-    height: 20px;
-
-    background:
-        linear-gradient(
-            #d6a36d,
-            #9e6b40 40%,
-            #6a4026 80%,
-            #43281a
-        );
-
-    border: 1px solid #5b3722;
-    border-radius: 999px;
-
-    box-shadow:
-        0 4px 6px #0005;
+  left: -5px;
+  right: -5px;
+  height: 19px;
 }
 
-.side-scroll-roller-top {
-    top: 0;
-}
-
-.side-scroll-roller-bottom {
-    bottom: 0;
-}
-
-
-/* =========================================
-   8. STACKED MENTOR CARDS
-   ========================================= */
-
-/* Background card that appears behind
-   the currently displayed mentor scroll */
+.side-scroll-roller.top { top: 0; }
+.side-scroll-roller.bottom { bottom: 0; }
 
 .card-behind {
-    position: absolute;
-
-    left: 50%;
-    top: 14px;
-
-    width: min(
-        445px,
-        calc(100% - 65px)
-    );
-
-    height: calc(100% - 6px);
-
-    transform:
-        translateX(-50%)
-        rotate(3deg);
-
-    z-index: 1;
-
-    background: #dbc092;
-
-    border: 2px solid #bc9463;
-    border-radius: 17px;
-
-    box-shadow:
-        0 10px 22px #0005;
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  top: 15px;
+  width: min(450px, calc(100% - 50px));
+  height: calc(100% - 12px);
+  transform: translateX(-50%) rotate(3deg);
+  background: #dbc39c;
+  border: 2px solid #bc9869;
+  border-radius: 15px;
 }
-
-.card-behind::after {
-    content: "";
-
-    position: absolute;
-    inset: 7px;
-
-    background: #ecd4a9;
-
-    border: 2px solid #c29b6b;
-    border-radius: 15px;
-
-    transform: rotate(-5deg);
-}
-
-
-/* =========================================
-   9. MAIN MENTOR SCROLL
-   ========================================= */
-
-/* Entire scroll moves when dragged */
 
 .mentor-card {
-    position: absolute;
-
-    left: 50%;
-    top: 0;
-
-    width: min(
-        455px,
-        calc(100% - 55px)
-    );
-
-    height: 100%;
-
-    transform: translateX(-50%);
-
-    z-index: 3;
-
-    cursor: grab;
-
-    touch-action: pan-y;
-    user-select: none;
+  position: absolute;
+  z-index: 3;
+  left: 50%;
+  top: 0;
+  width: min(465px, calc(100% - 40px));
+  height: 100%;
+  transform: translateX(-50%);
+  cursor: grab;
+  touch-action: pan-y;
+  user-select: none;
 }
 
-.mentor-card:active {
-    cursor: grabbing;
-}
-
-
-/* =========================================
-   10. AGED PARCHMENT PAPER
-   ========================================= */
+.mentor-card:active { cursor: grabbing; }
 
 .scroll-paper {
-    position: absolute;
-
-    inset: 21px 0;
-
-    overflow: hidden;
-
-    background:
-        radial-gradient(
-            ellipse at top left,
-            #9b5d3030,
-            transparent 30%
-        ),
-        radial-gradient(
-            ellipse at top right,
-            #8e562c24,
-            transparent 28%
-        ),
-        radial-gradient(
-            ellipse at bottom left,
-            #8b522c30,
-            transparent 30%
-        ),
-        radial-gradient(
-            ellipse at bottom right,
-            #a0673930,
-            transparent 30%
-        ),
-        linear-gradient(
-            90deg,
-            #d5b07b 0%,
-            #f4dfb8 10%,
-            #fff0d3 49%,
-            #f0d4a4 91%,
-            #cba16e 100%
-        );
-
-    border: 3px solid #b78b55;
-    border-radius: 18px;
-
-    box-shadow:
-        0 16px 37px #0006,
-        inset 0 0 25px #9160392a;
+  position: absolute;
+  inset: 20px 0;
+  overflow: hidden;
+  border: 3px solid #b88c59;
+  border-radius: 16px;
+  background:
+    radial-gradient(ellipse at top left, #98592b30, transparent 30%),
+    radial-gradient(ellipse at bottom right, #98592b30, transparent 30%),
+    linear-gradient(
+      90deg, #cda16c, #f4dfb9 11%, #fff0d2 50%,
+      #f0d6a9 90%, #cda16c
+    );
+  box-shadow: 0 16px 34px #0005, inset 0 0 26px #89592a30;
 }
-
-/* Folded paper corner */
-
-.scroll-paper::before {
-    content: "";
-
-    position: absolute;
-
-    top: 0;
-    right: 0;
-
-    z-index: 2;
-
-    width: 31px;
-    height: 31px;
-
-    background:
-        linear-gradient(
-            225deg,
-            #ad7948 0 49%,
-            #f5dfb3 50%
-        );
-
-    clip-path:
-        polygon(
-            0 0,
-            100% 0,
-            100% 100%
-        );
-
-    opacity: 0.75;
-
-    pointer-events: none;
-}
-
-/* Shading around worn parchment edges */
-
-.scroll-paper::after {
-    content: "";
-
-    position: absolute;
-    inset: 0;
-
-    pointer-events: none;
-
-    box-shadow:
-        inset 9px 0 15px #85512525,
-        inset -9px 0 15px #85512525,
-        inset 0 6px 12px #94602f25,
-        inset 0 -6px 12px #94602f25;
-}
-
-/* Contents of the scroll */
 
 .scroll-content {
-    display: flex;
-    flex-direction: column;
-
-    height: 100%;
-
-    overflow-y: auto;
-    overscroll-behavior: contain;
-
-    padding: 53px 34px 54px;
-
-    color: var(--ink);
-    text-align: left;
-
-    scrollbar-width: thin;
-    scrollbar-color: #b58e61 transparent;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 53px 33px 53px;
+  color: var(--ink);
+  text-align: left;
+  scrollbar-width: thin;
 }
-
-
-/* =========================================
-   11. WOODEN SCROLL ROLLERS
-   ========================================= */
 
 .scroll-roller {
-    position: absolute;
-
-    left: -11px;
-    right: -11px;
-
-    z-index: 5;
-
-    height: 27px;
-
-    background:
-        linear-gradient(
-            #c89764,
-            #9a683e 35%,
-            #714528 75%,
-            #482b1c
-        );
-
-    border: 1px solid #5c3925;
-
-    border-radius: 999px;
-
-    box-shadow:
-        inset 0 2px 3px #fff4,
-        0 4px 6px #0005;
-
-    pointer-events: none;
+  left: -12px;
+  right: -12px;
+  height: 27px;
+  z-index: 5;
 }
 
-.scroll-roller-top {
-    top: 8px;
-}
+.scroll-roller-top { top: 8px; }
+.scroll-roller-bottom { bottom: 8px; }
 
-.scroll-roller-bottom {
-    bottom: 8px;
-}
-
-
-/* =========================================
-   12. SLOW SCROLL ANIMATIONS
-   ========================================= */
-
-/*
-   Scroll movement timing:
-
-   1.6 seconds to enter and unfold.
-   This matches UNFURL_DURATION = 1600
-   in script.js.
-*/
-
-/* Enter from the left */
+/* SLOW UNFURL — 1.6 SECONDS */
 
 .mentor-card.enter-left {
-    animation:
-        scrollEnterLeft 1.6s ease-out both;
+  animation: enterLeft 1.6s ease-out both;
 }
-
-/* Enter from the right */
 
 .mentor-card.enter-right {
-    animation:
-        scrollEnterRight 1.6s ease-out both;
+  animation: enterRight 1.6s ease-out both;
 }
-
-/* Unfold parchment vertically */
 
 .mentor-card.unfurl .scroll-paper {
-    animation:
-        paperUnroll 1.6s ease-out both;
+  animation: paperUnroll 1.6s ease-out both;
 }
-
-/* Separate top roller */
 
 .mentor-card.unfurl .scroll-roller-top {
-    animation:
-        topRollOpen 1.6s ease-out both;
+  animation: rollerTop 1.6s ease-out both;
 }
-
-/* Separate bottom roller */
 
 .mentor-card.unfurl .scroll-roller-bottom {
-    animation:
-        bottomRollOpen 1.6s ease-out both;
+  animation: rollerBottom 1.6s ease-out both;
 }
 
-
-/* =========================================
-   13. SIDE ENTRANCE KEYFRAMES
-   ========================================= */
-
-@keyframes scrollEnterLeft {
-
-    0% {
-        transform:
-            translateX(calc(-50% - 270px))
-            scale(0.6);
-
-        opacity: 0.5;
-    }
-
-    42% {
-        transform:
-            translateX(-50%)
-            scale(0.96);
-
-        opacity: 1;
-    }
-
-    100% {
-        transform:
-            translateX(-50%)
-            scale(1);
-
-        opacity: 1;
-    }
+@keyframes enterLeft {
+  0% {
+    transform: translateX(calc(-50% - 260px)) scale(.6);
+    opacity: .6;
+  }
+  42% {
+    transform: translateX(-50%) scale(.97);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-50%) scale(1);
+    opacity: 1;
+  }
 }
 
-
-@keyframes scrollEnterRight {
-
-    0% {
-        transform:
-            translateX(calc(-50% + 270px))
-            scale(0.6);
-
-        opacity: 0.5;
-    }
-
-    42% {
-        transform:
-            translateX(-50%)
-            scale(0.96);
-
-        opacity: 1;
-    }
-
-    100% {
-        transform:
-            translateX(-50%)
-            scale(1);
-
-        opacity: 1;
-    }
+@keyframes enterRight {
+  0% {
+    transform: translateX(calc(-50% + 260px)) scale(.6);
+    opacity: .6;
+  }
+  42% {
+    transform: translateX(-50%) scale(.97);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-50%) scale(1);
+    opacity: 1;
+  }
 }
-
-
-/* =========================================
-   14. PARCHMENT UNFURL KEYFRAMES
-   ========================================= */
-
-/* Paper begins rolled up.
-   It opens after reaching the center. */
 
 @keyframes paperUnroll {
-
-    0%, 39% {
-        clip-path:
-            inset(
-                48% 0 48% 0
-                round 12px
-            );
-
-        opacity: 0.5;
-    }
-
-    65% {
-        clip-path:
-            inset(
-                23% 0 23% 0
-                round 12px
-            );
-
-        opacity: 1;
-    }
-
-    100% {
-        clip-path:
-            inset(
-                0 0 0 0
-                round 12px
-            );
-
-        opacity: 1;
-    }
+  0%, 39% {
+    clip-path: inset(48% 0 48% 0 round 12px);
+    opacity: .5;
+  }
+  70% {
+    clip-path: inset(20% 0 20% 0 round 12px);
+    opacity: 1;
+  }
+  100% {
+    clip-path: inset(0 0 0 0 round 12px);
+    opacity: 1;
+  }
 }
 
-
-/* Top wooden roller moves upward */
-
-@keyframes topRollOpen {
-
-    0%, 39% {
-        transform:
-            translateY(292px)
-            scaleX(0.8);
-    }
-
-    100% {
-        transform:
-            translateY(0)
-            scaleX(1);
-    }
+@keyframes rollerTop {
+  0%, 39% { transform: translateY(291px) scaleX(.8); }
+  100% { transform: translateY(0) scaleX(1); }
 }
 
-
-/* Bottom wooden roller moves downward */
-
-@keyframes bottomRollOpen {
-
-    0%, 39% {
-        transform:
-            translateY(-292px)
-            scaleX(0.8);
-    }
-
-    100% {
-        transform:
-            translateY(0)
-            scaleX(1);
-    }
+@keyframes rollerBottom {
+  0%, 39% { transform: translateY(-291px) scaleX(.8); }
+  100% { transform: translateY(0) scaleX(1); }
 }
 
-
-/* =========================================
-   15. MENTOR CARD INFORMATION
-   ========================================= */
+/* MENTOR CONTENT */
 
 .card-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    gap: 12px;
-
-    margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
 }
 
 .mentor-icon {
-    display: grid;
-    place-items: center;
-
-    width: 56px;
-    height: 56px;
-
-    background: #ead0a4;
-
-    border: 2px solid #cba374;
-    border-radius: 12px;
-
-    font-size: 27px;
+  display: grid;
+  place-items: center;
+  height: 55px;
+  width: 55px;
+  border: 2px solid #caa070;
+  border-radius: 11px;
+  background: #ead0a5;
+  font-size: 27px;
 }
 
 .match-score {
-    padding: 9px 14px;
-
-    background: #e3ebd9;
-    color: #506c44;
-
-    border-radius: 25px;
-
-    font-size: 17px;
-    font-weight: bold;
+  padding: 8px 12px;
+  border-radius: 22px;
+  color: #4c6b42;
+  background: #dfead8;
+  font-size: 16px;
+  font-weight: bold;
 }
 
 .mentor-card h2 {
-    margin: 0 0 8px;
-
-    font-size: 32px;
-    font-weight: normal;
-
-    color: #51331f;
+  margin: 7px 0;
+  font-size: 31px;
+  color: #4e3422;
 }
 
 .mentor-role {
-    margin: 0 0 19px;
-
-    font-size: 18px;
-    color: #806047;
+  margin: 0 0 16px;
+  color: #7c5a40;
+  font-size: 18px;
 }
 
-
-/* =========================================
-   16. MENTOR SKILL TAGS
-   ========================================= */
-
 .skills {
-    display: flex;
-    flex-wrap: wrap;
-
-    gap: 8px;
-
-    margin-bottom: 22px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
 }
 
 .skills span {
-    padding: 6px 12px;
-
-    background: #ead5b2;
-    color: #735038;
-
-    border: 1px solid #cda97b;
-    border-radius: 17px;
-
-    font-size: 17px;
+  display: inline-block;
+  padding: 6px 11px;
+  border: 1px solid #c9a274;
+  border-radius: 25px;
+  background: #ead6b3;
+  color: #6b4b34;
+  font-size: 16px;
 }
 
-
-/* =========================================
-   17. MENTOR'S CRAFT
-   ========================================= */
-
-.description {
-    padding-top: 18px;
-
-    border-top: 1px solid #c9a476;
+.scroll-divider {
+  margin: 12px auto;
+  text-align: center;
+  color: #b99362;
+  letter-spacing: 6px;
 }
 
-.description h3 {
-    margin: 0 0 10px;
-
-    color: #704b2f;
-
-    font-size: 23px;
-    font-weight: normal;
+.mentor-card h3 {
+  margin: 12px 0 7px;
+  font-size: 21px;
 }
 
-.description p {
-    margin: 0;
-
-    color: #694e37;
-
-    font-size: 19px;
-    line-height: 1.45;
+#mentor-description {
+  margin: 0 0 16px;
+  color: #684b35;
+  line-height: 1.45;
 }
-
-
-/* =========================================
-   18. SKILLS YOU'LL UNLOCK
-   ========================================= */
 
 .gain-box {
-    margin-top: auto;
-
-    padding: 17px;
-
-    background: #e3ebd9;
-
-    border: 2px solid #b6c4a6;
-    border-radius: 13px;
+  margin-top: auto;
+  padding: 14px;
+  border: 1px solid #b3c39e;
+  border-radius: 12px;
+  background: #e2ead9;
+  color: #4e6544;
 }
 
-.gain-box h3 {
-    margin: 0 0 9px;
-
-    color: #4c6741;
-
-    font-size: 22px;
-}
-
-.gain-box p {
-    margin: 0;
-
-    color: #506247;
-
-    font-size: 18px;
-    line-height: 1.45;
-}
-
-
-/* =========================================
-   19. SWIPE INDICATORS
-   ========================================= */
+.gain-box h3 { margin-top: 0; }
+.gain-box p { margin-bottom: 0; }
 
 .stamp {
-    position: absolute;
-
-    top: 95px;
-    z-index: 6;
-
-    padding: 8px 13px;
-
-    border: 3px solid;
-    border-radius: 9px;
-
-    background: #fff0d1e8;
-
-    font-family:
-        "Fondamento",
-        Georgia,
-        serif;
-
-    font-size: 23px;
-
-    opacity: 0;
-
-    pointer-events: none;
+  position: absolute;
+  z-index: 6;
+  top: 95px;
+  padding: 9px 12px;
+  border: 3px solid;
+  border-radius: 8px;
+  background: #fff0d1e8;
+  font-family: "Fondamento", serif;
+  opacity: 0;
+  pointer-events: none;
 }
-
-/* Green CONNECT stamp */
 
 .like-stamp {
-    left: 22px;
-
-    color: #57804b;
-
-    transform: rotate(-13deg);
+  left: 22px;
+  color: #57804b;
+  transform: rotate(-13deg);
 }
-
-/* Red PASS stamp */
 
 .pass-stamp {
-    right: 22px;
-
-    color: #b35d53;
-
-    transform: rotate(13deg);
+  right: 22px;
+  color: #b35e52;
+  transform: rotate(13deg);
 }
 
-
-/* =========================================
-   20. TINDER-STYLE SWIPE BUTTONS
-   ========================================= */
-
 .actions {
-    display: flex;
-    justify-content: center;
-
-    gap: 35px;
-
-    margin: 27px 0 10px;
+  display: flex;
+  justify-content: center;
+  gap: 35px;
+  margin: 26px 0 9px;
 }
 
 .actions button {
-    display: grid;
-    place-items: center;
-
-    width: 72px;
-    height: 72px;
-
-    border-radius: 50%;
-
-    font-size: 34px;
-
-    box-shadow:
-        0 7px 16px #0005;
-
-    transition:
-        transform 0.2s,
-        box-shadow 0.2s;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  font-size: 33px;
+  box-shadow: 0 6px 15px #0005;
 }
-
-.actions button:hover {
-    transform: scale(1.1);
-}
-
-.actions button:active {
-    transform: scale(0.95);
-}
-
-/* Red pass button */
 
 .pass-button {
-    background: #f7e3d6;
-    color: #b26a5e;
-
-    border: 3px solid #cb9183;
+  color: #b3685b;
+  background: #f8e5d9;
+  border: 3px solid #d19b88;
 }
-
-/* Green like button */
 
 .like-button {
-    background: var(--sage);
-    color: white;
-
-    border: 3px solid #abc095;
+  background: var(--sage);
+  color: white;
+  border: 3px solid #adbf9d;
 }
 
-/* Swipe instructions */
-
-.swipe-hint {
-    color: #f3d8b3;
-
-    font-size: 17px;
-    margin-bottom: 17px;
+.archive-button {
+  display: block;
+  margin: 17px auto 0;
+  padding: 13px;
+  width: min(470px, 100%);
+  color: var(--ink);
+  background: #f0d4a5;
+  border: 2px solid #bc9360;
+  border-radius: 10px;
+  font-family: "Fondamento", serif;
 }
-
-
-/* =========================================
-   21. QUEST ARCHIVE BUTTON
-   ========================================= */
-
-.projects-button {
-    display: block;
-
-    width: 460px;
-    max-width: 100%;
-
-    margin: 16px auto 0;
-    padding: 14px;
-
-    background: #f0d4a5;
-    color: #65442c;
-
-    border: 2px solid #c39865;
-    border-radius: 10px;
-
-    font-size: 20px;
-    font-weight: bold;
-}
-
-.projects-button:hover {
-    background: #fff0ce;
-}
-
-
-/* =========================================
-   22. EXPANDABLE QUEST ARCHIVE
-   ========================================= */
 
 .projects-panel {
-    width: 545px;
-    max-width: 100%;
-
-    margin: 22px auto 0;
-    padding: 23px;
-
-    text-align: left;
-
-    background: #f2dfbc;
-    color: var(--ink);
-
-    border: 2px solid #b58b58;
-    border-radius: 12px;
-
-    box-shadow:
-        0 12px 25px #0005;
+  max-width: 550px;
+  margin: 20px auto;
+  padding: 23px;
+  color: var(--ink);
+  background: #f3dfbd;
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  text-align: left;
 }
 
-.projects-panel h2 {
-    margin: 0 0 15px;
-
-    font-size: 28px;
+.project-item, .evidence-card, .application-entry {
+  margin: 9px 0;
+  padding: 12px;
+  background: #fff1d4;
+  border: 1px solid #c8a473;
+  border-radius: 10px;
 }
 
-.projects-panel h3 {
-    color: #775036;
+.project-item p, .evidence-card p { margin: 6px 0; }
+.project-item small { color: #5d774e; }
 
-    font-size: 22px;
+.empty-state {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  padding: 20px;
+  color: var(--ink);
+  background: #f3deba;
+  border: 2px solid #b78a56;
+  border-radius: 14px;
 }
 
-.project-list {
-    display: grid;
+.empty-state h2 { color: var(--ink); }
 
-    gap: 12px;
+.swipe-area.finished { height: 200px; }
+.swipe-area.finished .side-scroll { display: none; }
+
+/* GUILD AND MESSAGES */
+
+.guild-layout {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: 17px;
+  align-items: start;
 }
 
-.project-item {
-    background: #fff0d4;
-
-    border: 1px solid #cda877;
-    border-radius: 11px;
-
-    padding: 15px;
-}
-
-.project-item h4 {
-    margin: 0 0 8px;
-
-    font-size: 22px;
-}
-
-.project-item p {
-    margin: 0 0 8px;
-
-    line-height: 1.45;
-}
-
-.project-item small {
-    color: #557348;
-}
-
-.project-item a {
-    display: block;
-
-    margin-top: 10px;
-
-    color: #476e3c;
-
-    font-weight: bold;
-}
-
-
-/* =========================================
-   23. LIKED MENTORS
-   ========================================= */
-
-.liked-section {
-    max-width: 870px;
-
-    margin: 35px auto 0;
-
-    scroll-margin-top: 20px;
-}
-
-.liked-section h2 {
-    margin: 7px 0;
-
-    font-size: 34px;
-}
-
-.liked-subtitle {
-    margin: 0 0 18px;
-
-    color: #dfc4a4;
-}
-
-/* Mentor list beside chat */
-
-.liked-layout {
-    display: grid;
-
-    grid-template-columns:
-        265px minmax(0, 1fr);
-
-    gap: 17px;
-
-    align-items: start;
-}
-
-.liked-list {
-    display: grid;
-
-    gap: 11px;
-}
-
-/* Individual liked mentor */
+.liked-list { display: grid; gap: 9px; }
 
 .liked-mentor {
-    display: flex;
-    flex-direction: column;
-
-    gap: 7px;
-
-    width: 100%;
-    padding: 15px;
-
-    text-align: left;
-
-    background: #f2dfbc;
-    color: var(--ink);
-
-    border: 2px solid #b58b58;
-    border-radius: 12px;
-}
-
-.liked-mentor strong {
-    font-size: 22px;
-}
-
-.liked-mentor small {
-    font-size: 16px;
-
-    color: #7e5d44;
-}
-
-.liked-mentor:hover {
-    background: #fff0d1;
+  width: 100%;
+  padding: 13px;
+  text-align: left;
+  color: var(--ink);
+  background: #fff0d3;
+  border: 2px solid #c49c6b;
+  border-radius: 10px;
 }
 
 .liked-mentor.selected {
-    background: #e3ebd9;
-
-    border-color: var(--sage);
+  background: #e1ebd7;
+  border-color: var(--sage);
 }
 
-
-/* =========================================
-   24. GUILD MESSENGER
-   ========================================= */
-
-.chat-container {
-    min-width: 0;
+.liked-mentor strong, .liked-mentor small {
+  display: block;
 }
 
-.chat-placeholder,
-.chat-panel {
-    background: #f3e0bd;
-    color: var(--ink);
+.liked-mentor small { color: #85664b; }
 
-    border: 2px solid #b78d59;
-    border-radius: 13px;
+.messenger { padding: 0; overflow: hidden; }
 
-    overflow: hidden;
+#chat-placeholder {
+  padding: 60px 20px;
+  text-align: center;
 }
-
-/* Initial placeholder */
-
-.chat-placeholder {
-    padding: 65px 22px;
-
-    text-align: center;
-}
-
-/* Chat title */
 
 .chat-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    gap: 12px;
-    padding: 16px;
-
-    background: #e5cca1;
-
-    border-bottom: 1px solid #cba579;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  background: #e6cca2;
 }
 
-.chat-header strong {
-    font-size: 23px;
-}
-
-.chat-header span {
-    font-size: 15px;
-    color: #806145;
-}
-
-
-/* =========================================
-   25. MESSAGES AND QUESTS TABS
-   ========================================= */
+.chat-header h2 { margin: 0; }
 
 .chat-tabs {
-    display: grid;
-
-    grid-template-columns: 1fr 1fr;
-
-    background: #ead8b9;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  background: #ead5b1;
 }
 
-.chat-tab {
-    padding: 13px 7px;
-
-    background: transparent;
-    color: #765439;
-
-    border: none;
-    border-bottom: 3px solid transparent;
-
-    font-size: 19px;
-    font-weight: bold;
-
-    transition:
-        background 0.2s,
-        color 0.2s;
+.chat-tabs button {
+  padding: 13px 5px;
+  background: transparent;
+  color: #765038;
+  border: 0;
+  border-bottom: 3px solid transparent;
+  font-size: 17px;
 }
 
-.chat-tab:hover {
-    background: #f1e1c5;
+.chat-tabs button.active {
+  background: #fff0d4;
+  border-bottom-color: var(--sage);
+  color: #4e6c42;
 }
-
-/* Selected tab */
-
-.chat-tab.active {
-    background: #fff0d4;
-    color: #49673f;
-
-    border-bottom-color: var(--sage);
-}
-
-
-/* =========================================
-   26. CHAT MESSAGES
-   ========================================= */
 
 .chat-messages {
-    display: flex;
-    flex-direction: column;
-
-    gap: 11px;
-
-    height: 260px;
-
-    overflow-y: auto;
-
-    padding: 17px;
-
-    background: #fff0d4;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 300px;
+  padding: 16px;
+  overflow-y: auto;
+  background: #fff0d3;
 }
-
-/* Student messages */
 
 .chat-message {
-    align-self: flex-end;
-
-    max-width: 88%;
-
-    padding: 11px 14px;
-
-    background: #deead5;
-    color: #45613f;
-
-    border-radius:
-        13px 13px 3px 13px;
-
-    font-size: 18px;
-    line-height: 1.35;
-
-    overflow-wrap: anywhere;
+  align-self: flex-end;
+  max-width: 85%;
+  padding: 10px 13px;
+  border-radius: 12px;
+  color: #45613c;
+  background: #deebd6;
+  overflow-wrap: anywhere;
 }
-
-/* Professor messages */
 
 .chat-message.mentor-message {
-    align-self: flex-start;
-
-    background: #ebdec5;
-    color: #62452f;
-
-    border-radius:
-        13px 13px 13px 3px;
+  align-self: flex-start;
+  color: #5d432e;
+  background: #eadcc3;
 }
 
-
-/* =========================================
-   27. CHAT INPUT AND SEND BUTTON
-   ========================================= */
-
 .chat-form {
-    display: flex;
-
-    gap: 9px;
-    padding: 13px;
-
-    background: #e5cca1;
+  display: flex;
+  gap: 9px;
+  padding: 12px;
+  background: #e6cba0;
 }
 
 .chat-form input {
-    flex: 1;
-
-    min-width: 0;
-    padding: 10px;
-
-    background: #fff8e9;
-    color: var(--ink);
-
-    border: 1px solid #bd9568;
-    border-radius: 8px;
+  flex: 1;
+  min-width: 0;
+  border: 1px solid #ba9262;
+  border-radius: 8px;
+  padding: 10px;
+  color: var(--ink);
+  background: #fff8e9;
 }
 
-.chat-form input:focus {
-    outline: 2px solid var(--sage);
+.chat-view {
+  padding: 18px;
+  background: #fff0d3;
 }
-
-/* Send and Next buttons */
-
-.chat-form button,
-.next-button {
-    padding: 10px 15px;
-
-    background: var(--sage);
-    color: white;
-
-    border: none;
-    border-radius: 8px;
-
-    font-weight: bold;
-}
-
-.chat-form button:hover,
-.next-button:hover {
-    background: #5c704c;
-}
-
-
-/* =========================================
-   28. PLAYABLE QUESTS
-   ========================================= */
-
-.quest-view {
-    padding: 18px;
-
-    background: #fff0d4;
-}
-
-/* Quest selection card */
-
-.quest-card {
-    padding: 18px;
-
-    background: #f7e6c3;
-
-    border: 2px solid #c9a172;
-    border-radius: 12px;
-}
-
-.quest-card h3 {
-    margin: 7px 0 10px;
-
-    font-size: 26px;
-}
-
-.quest-card p {
-    line-height: 1.45;
-}
-
-/* Quest details */
-
-.quest-meta,
-.quest-kicker {
-    color: #5d774e;
-
-    font-weight: bold;
-}
-
-.quest-card button {
-    padding: 10px 15px;
-
-    background: var(--sage);
-    color: white;
-
-    border: none;
-    border-radius: 8px;
-
-    font-weight: bold;
-}
-
-.quest-card button:hover {
-    background: #5c704c;
-}
-
-
-/* =========================================
-   29. QUEST GAME SCREEN
-   ========================================= */
-
-/* Back button */
-
-.back-button {
-    margin-bottom: 14px;
-
-    padding: 0;
-
-    background: transparent;
-    color: #755038;
-
-    border: none;
-
-    text-decoration: underline;
-}
-
-#quest-title {
-    margin: 5px 0 12px;
-
-    font-size: 27px;
-}
-
-#quest-question {
-    line-height: 1.5;
-}
-
-/* Code examples */
-
-#quest-code {
-    padding: 13px;
-
-    white-space: pre-wrap;
-    overflow-wrap: anywhere;
-
-    background: #352a23;
-    color: #f8e7cb;
-
-    border-radius: 9px;
-
-    font:
-        14px/1.5
-        Consolas,
-        monospace;
-}
-
-/* Multiple-choice answers */
 
 .quest-choices {
-    display: grid;
-
-    gap: 10px;
-
-    margin: 16px 0;
+  display: grid;
+  gap: 9px;
+  margin: 15px 0;
 }
 
 .quest-choices button {
-    padding: 12px;
-
-    background: #fff8e9;
-    color: #503520;
-
-    border: 1px solid #c9a57a;
-    border-radius: 9px;
-
-    text-align: left;
+  padding: 12px;
+  text-align: left;
+  border: 1px solid #cca77a;
+  border-radius: 9px;
+  background: #fff8e9;
+  color: var(--ink);
 }
-
-.quest-choices button:hover:not(:disabled) {
-    background: #e7efdf;
-}
-
-.quest-choices button:disabled {
-    cursor: default;
-
-    opacity: 0.7;
-}
-
-/* Correct answer */
 
 .quest-choices button.correct {
-    background: #dce9d2;
-
-    border-color: var(--sage);
-
-    opacity: 1;
+  border-color: #6a8a5a;
+  background: #dce9d5;
 }
 
-/* Hints and feedback */
-
-.quest-feedback {
-    min-height: 25px;
-
-    line-height: 1.4;
-
-    color: #694a34;
+.quest-choices button.wrong {
+  border-color: #c77d68;
+  background: #f1d9cc;
 }
 
-
-/* =========================================
-   30. ALL CAUGHT UP SCREEN
-   ========================================= */
-
-.empty-state {
-    position: absolute;
-    inset: 0;
-
-    display: flex;
-    flex-direction: column;
-
-    align-items: center;
-    justify-content: center;
-
-    padding: 18px;
-
-    background: #f2dfbd;
-    color: var(--ink);
-
-    border: 3px solid #b78c59;
-    border-radius: 14px;
+#quest-code {
+  padding: 14px;
+  border-radius: 9px;
+  color: #ffe8ca;
+  background: #352820;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font: 14px/1.5 Consolas, monospace;
 }
 
-.empty-state h2 {
-    margin: 4px 0;
+#hours-history > div { margin-top: 10px; }
 
-    font-size: 27px;
+/* PROFILE, PROJECTS, APPLICATIONS */
+
+.journey-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  align-items: start;
+  gap: 17px;
 }
 
-.empty-state p {
-    margin: 8px 0;
-
-    color: #7e6048;
-
-    text-align: center;
+.panel-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.empty-state button {
-    margin-top: 7px;
-
-    padding: 10px 18px;
-
-    background: var(--sage);
-    color: white;
-
-    border: none;
-    border-radius: 8px;
+.portfolio-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 12px 0;
 }
 
-/* Shrink the completed swipe area */
-
-.swipe-area.finished {
-    height: 185px;
-
-    margin: 16px auto;
+.portfolio-links a, .evidence-card a {
+  color: #4c7140;
+  font-weight: bold;
 }
 
-/* Hide decorative scrolls when finished */
-
-.swipe-area.finished .side-scroll {
-    display: none;
+.portfolio-links a {
+  padding: 7px 11px;
+  border: 1px solid #c6a372;
+  border-radius: 8px;
+  background: #fff7e2;
 }
 
-/* Less empty space underneath */
+.edit-panel, .longer-path { margin-top: 18px; }
 
-.quest-board.complete {
-    padding-bottom: 23px;
+.path-mentor-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
 }
 
-
-/* =========================================
-   31. POPUP NOTIFICATIONS
-   ========================================= */
-
-.swipe-toast {
-    position: fixed;
-
-    right: 18px;
-    bottom: 20px;
-
-    z-index: 50;
-
-    max-width: 320px;
-
-    padding: 15px 20px;
-
-    background: #f5e2bd;
-    color: #503520;
-
-    border: 2px solid #b58a55;
-    border-radius: 11px;
-
-    box-shadow:
-        0 10px 25px #0006;
+.path-mentor {
+  padding: 14px;
+  border: 1px solid #caa678;
+  border-radius: 10px;
+  background: #fff0d3;
 }
 
+.path-mentor strong,
+.path-mentor small {
+  display: block;
+  margin-bottom: 8px;
+}
 
-/* =========================================
-   32. FOOTER
-   ========================================= */
+.application-dialog {
+  width: min(600px, calc(100% - 20px));
+  max-height: 90vh;
+  overflow: auto;
+  margin: auto;
+}
+
+.application-dialog::backdrop {
+  background: #180f0bc9;
+}
+
+.consent {
+  display: flex !important;
+  align-items: start;
+  gap: 10px;
+}
+
+.dialog-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.review-card { margin-bottom: 15px; }
+
+.toast {
+  position: fixed;
+  z-index: 99;
+  right: 20px;
+  bottom: 20px;
+  padding: 14px 18px;
+  max-width: 330px;
+  color: var(--ink);
+  background: #f4e0bd;
+  border: 2px solid #bd905a;
+  border-radius: 11px;
+  box-shadow: 0 10px 25px #0006;
+}
 
 footer {
-    margin: 55px 0 0;
-
-    text-align: center;
-    color: #e1c29b;
+  margin: 50px 0 0;
+  color: #ddc09d;
+  text-align: center;
 }
 
-footer small {
-    display: block;
+footer small { display: block; }
 
-    margin-top: 7px;
+/* RESPONSIVE */
 
-    font-size: 15px;
+@media (max-width: 800px) {
+  .auth-layout, .guild-layout, .journey-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .side-scroll { display: none; }
+
+  .auth-intro { padding-top: 0; }
+
+  .path-mentor-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
-
-/* =========================================
-   33. TABLET RESPONSIVENESS
-   ========================================= */
-
-@media (max-width: 750px) {
-
-    /* Stack chat below mentor list */
-
-    .liked-layout {
-        grid-template-columns: 1fr;
-    }
-
-    /* Hide decorative scrolls when
-       horizontal space is limited */
-
-    .side-scroll {
-        display: none;
-    }
+@media (max-width: 520px) {
+  main { padding: 20px 10px; }
+  .brand { font-size: 40px; padding: 12px 19px; }
+  .two-columns { grid-template-columns: 1fr; }
+  .quest-board { padding: 19px 10px; border-width: 5px; }
+  .swipe-area { height: 685px; }
+  .mentor-card { width: calc(100% - 12px); }
+  .scroll-content { padding: 51px 20px; }
+  .scroll-roller { left: -5px; right: -5px; }
+  .path-mentor-list { grid-template-columns: 1fr; }
+  .top-nav button { padding: 7px; font-size: 15px; }
 }
-
-
-/* =========================================
-   34. MOBILE RESPONSIVENESS
-   ========================================= */
-
-@media (max-width: 500px) {
-
-    main {
-        padding: 22px 10px 50px;
-    }
-
-    .brand {
-        font-size: 39px;
-
-        padding: 12px 19px;
-    }
-
-    .quest-board {
-        padding: 22px 12px 27px;
-
-        border-width: 5px;
-    }
-
-    .page-heading h1 {
-        font-size: 31px;
-    }
-
-    .swipe-area {
-        width: 100%;
-
-        height: 690px;
-    }
-
-    .mentor-card {
-        width: calc(100% - 15px);
-    }
-
-    .card-behind {
-        width: calc(100% - 27px);
-    }
-
-    .scroll-content {
-        padding: 52px 21px 54px;
-    }
-
-    .mentor-card h2 {
-        font-size: 27px;
-    }
-
-    .description p,
-    .gain-box p {
-        font-size: 18px;
-    }
-
-    .scroll-roller {
-        left: -5px;
-        right: -5px;
-    }
-
-    /* Finished card stays compact */
-
-    .swipe-area.finished {
-        height: 185px;
-    }
-
-    .chat-form {
-        padding: 9px;
-
-        gap: 7px;
-    }
-
-    .chat-form button {
-        padding: 10px 11px;
-    }
-}
-
-
-/* =========================================
-   35. ACCESSIBILITY
-   ========================================= */
-
-/* Respect users who prefer fewer animations */
 
 @media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
 
-    html {
-        scroll-behavior: auto;
-    }
-
-    .mentor-card.enter-left,
-    .mentor-card.enter-right,
-    .mentor-card.unfurl .scroll-paper,
-    .mentor-card.unfurl .scroll-roller {
-        animation: none;
-    }
+  .mentor-card.enter-left,
+  .mentor-card.enter-right,
+  .mentor-card.unfurl .scroll-paper,
+  .mentor-card.unfurl .scroll-roller {
+    animation: none !important;
+  }
 }

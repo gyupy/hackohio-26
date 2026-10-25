@@ -1,467 +1,582 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Buckeye Guild</title>
 
-    <title>Buckeye Guild</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pirata+One&family=Fondamento&family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- Fantasy and storybook fonts -->
-    <link rel="preconnect"
-          href="https://fonts.googleapis.com">
-
-    <link rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossorigin>
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Pirata+One&family=Fondamento:ital@0;1&family=Cormorant+Garamond:wght@400;500;600;700&display=swap"
-        rel="stylesheet">
-
-    <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
 </head>
 
 <body>
+  <header class="site-header">
+    <div class="hanging-sign">
+      <a class="brand" href="#" id="brand-link">Buckeye Guild</a>
+    </div>
 
-    <!-- HANGING GUILD SIGN -->
-    <header class="site-header">
+    <nav id="top-nav" class="top-nav" hidden>
+      <button type="button" data-page="discover" class="active">✦ Discover</button>
+      <button type="button" data-page="guild">
+        ♥ Your Guild (<span id="nav-liked-count">0</span>)
+      </button>
+      <button type="button" data-page="journey">⚔ My Journey</button>
+      <button type="button" data-page="mentor">◈ Mentor Preview</button>
+      <button type="button" id="signout-btn">Sign out</button>
+    </nav>
+  </header>
 
-        <div class="hanging-sign">
-            <a href="#quest-board" class="brand">
-                Buckeye Guild
-            </a>
+  <main>
+    <!-- ACCOUNT CREATION -->
+    <section id="auth-screen" class="auth-layout">
+      <div class="auth-intro">
+        <p class="eyebrow">✦ WELCOME TO THE GUILD ✦</p>
+        <h1>Every great quest starts with a question.</h1>
+        <p>
+          Find a mentor for office hours, practice skills through quests,
+          and grow toward research projects or longer-term mentorship.
+        </p>
+
+        <div class="journey-steps">
+          <div><strong>01 · Discover</strong><span>Meet mentors</span></div>
+          <div><strong>02 · Practice</strong><span>Complete quests</span></div>
+          <div><strong>03 · Connect</strong><span>Office hours</span></div>
+          <div><strong>04 · Grow</strong><span>Longer projects</span></div>
+        </div>
+      </div>
+
+      <div class="panel auth-panel">
+        <div class="tabs">
+          <button id="create-tab" type="button" class="active">Create Account</button>
+          <button id="login-tab" type="button">Log In</button>
         </div>
 
-        <a href="#liked-section"
-           id="guild-link"
-           class="guild-link"
-           hidden>
-            ♥ Your Guild (<span id="liked-count">0</span>)
-        </a>
+        <form id="signup-form" class="form-stack">
+          <h2>Create Your Adventurer Profile</h2>
+          <p>Personalize the mentors and subjects you discover.</p>
 
-    </header>
+          <div class="two-columns">
+            <label>Full name
+              <input id="signup-name" required maxlength="70" placeholder="Taylor Morgan">
+            </label>
 
+            <label>OSU email
+              <input id="signup-email" required type="email" placeholder="name@buckeyemail.osu.edu">
+            </label>
 
-    <main>
+            <label>Major / program
+              <input id="signup-major" required placeholder="Computer Science">
+            </label>
 
-        <!-- MAIN QUEST BOARD -->
-        <section class="quest-board" id="quest-board">
+            <label>Year
+              <select id="signup-year" required>
+                <option value="">Choose year</option>
+                <option>First year</option>
+                <option>Second year</option>
+                <option>Third year</option>
+                <option>Fourth year</option>
+                <option>Graduate student</option>
+                <option>Other</option>
+              </select>
+            </label>
+          </div>
 
-            <div class="page-heading">
+          <fieldset>
+            <legend>What subjects are you interested in?</legend>
+            <div id="signup-subjects" class="subject-grid"></div>
+          </fieldset>
 
-                <p class="eyebrow">
-                    ✦ THE QUEST BOARD ✦
-                </p>
+          <label>What would you like to learn?
+            <textarea id="signup-goal" rows="3" required
+              placeholder="I want to learn Unity and get feedback on my projects."></textarea>
+          </label>
 
-                <h1>Discover Mentors</h1>
+          <label>Skills you want to practice (comma-separated)
+            <input id="signup-skills" placeholder="Java, Python, Unity">
+          </label>
 
-                <p>
-                    Every adventure begins with a guide.
-                    Swipe right to connect, left to pass.
-                </p>
+          <div class="two-columns">
+            <label>Preferred mentorship
+              <select id="signup-help">
+                <option>Office hours</option>
+                <option>Practice quest</option>
+                <option>Project feedback</option>
+              </select>
+            </label>
 
+            <label>Weekly availability
+              <select id="signup-time">
+                <option>1 hour / week</option>
+                <option>2–3 hours / week</option>
+                <option>4–6 hours / week</option>
+                <option>7+ hours / week</option>
+              </select>
+            </label>
+          </div>
+
+          <details class="portfolio-details">
+            <summary>Connect your portfolio (optional)</summary>
+
+            <label>GitHub
+              <input id="signup-github" type="url" placeholder="https://github.com/username">
+            </label>
+
+            <label>LinkedIn
+              <input id="signup-linkedin" type="url" placeholder="https://linkedin.com/in/username">
+            </label>
+
+            <label>Portfolio website
+              <input id="signup-portfolio" type="url" placeholder="https://example.com">
+            </label>
+
+            <label>Resume — PDF or Word, max 5 MB
+              <input id="signup-resume" type="file" accept=".pdf,.doc,.docx">
+            </label>
+          </details>
+
+          <p class="fineprint">
+            Demo only: your profile is saved in this browser.
+            Resume files are not uploaded. No real professor is contacted.
+          </p>
+
+          <button type="submit" class="primary-button">
+            Create Account →
+          </button>
+
+          <p id="signup-error" class="error" role="alert" hidden></p>
+
+          <button type="button" class="text-button" id="sample-btn">
+            Enter with a sample student profile
+          </button>
+        </form>
+
+        <form id="login-form" class="form-stack" hidden>
+          <h2>Welcome Back!</h2>
+          <p>Open the demo profile saved in this browser.</p>
+
+          <label>Account email
+            <input id="login-email" type="email" required>
+          </label>
+
+          <button type="submit" class="primary-button">
+            Enter Guild →
+          </button>
+
+          <p id="login-error" class="error" role="alert" hidden></p>
+          <p class="fineprint">
+            This is a local demo login, not secure authentication.
+          </p>
+        </form>
+      </div>
+    </section>
+
+    <!-- MAIN APPLICATION -->
+    <div id="app-screen" hidden>
+      <!-- DISCOVER -->
+      <section id="view-discover" class="app-view">
+        <div class="page-heading">
+          <p class="eyebrow">✦ THE QUEST BOARD ✦</p>
+          <h1>Discover Mentors</h1>
+          <p id="welcome-copy">
+            Find your next learning adventure.
+          </p>
+
+          <div class="stats">
+            <span>⚔ <b id="stat-xp">0</b> XP</span>
+            <span>📜 <b id="stat-quests">0</b> Quests</span>
+            <span>♥ <b id="stat-mentors">0</b> Connections</span>
+          </div>
+        </div>
+
+        <div class="quest-board">
+          <h2>The Mentor Scrolls</h2>
+          <p>Swipe right to connect. Swipe left to pass.</p>
+
+          <p id="ranking-status" class="ranking-status" role="status">
+            Local interest matching
+          </p>
+
+          <div class="swipe-area" id="swipe-area">
+            <div class="side-scroll side-scroll-left" aria-hidden="true">
+              <div class="side-scroll-paper"></div>
+              <div class="side-scroll-roller top"></div>
+              <div class="side-scroll-roller bottom"></div>
             </div>
 
-
-            <!-- SWIPEABLE SCROLL AREA -->
-            <div class="swipe-area" id="swipe-area">
-
-                <!-- Decorative left scroll -->
-                <div class="side-scroll side-scroll-left"
-                     aria-hidden="true">
-
-                    <div class="side-scroll-paper"></div>
-
-                    <div class="side-scroll-roller
-                                side-scroll-roller-top"></div>
-
-                    <div class="side-scroll-roller
-                                side-scroll-roller-bottom"></div>
-
-                </div>
-
-
-                <!-- Decorative right scroll -->
-                <div class="side-scroll side-scroll-right"
-                     aria-hidden="true">
-
-                    <div class="side-scroll-paper"></div>
-
-                    <div class="side-scroll-roller
-                                side-scroll-roller-top"></div>
-
-                    <div class="side-scroll-roller
-                                side-scroll-roller-bottom"></div>
-
-                </div>
-
-
-                <!-- Cards stacked behind the current scroll -->
-                <div class="card-behind"
-                     id="card-behind"
-                     aria-hidden="true"></div>
-
-
-                <!-- CURRENT MENTOR SCROLL -->
-                <article class="mentor-card"
-                         id="card"
-                         aria-label="Swipeable mentor profile">
-
-                    <!-- Parchment -->
-                    <div class="scroll-paper" id="scroll-paper">
-
-                        <div class="scroll-content">
-
-                            <!-- Mentor icon and score -->
-                            <div class="card-top">
-
-                                <div class="mentor-icon"
-                                     id="mentor-icon">📜</div>
-
-                                <span class="match-score"
-                                      id="match-score"></span>
-
-                            </div>
-
-
-                            <!-- Mentor information -->
-                            <h2 id="mentor-name"></h2>
-
-                            <p class="mentor-role"
-                               id="mentor-role"></p>
-
-
-                            <!-- Skills -->
-                            <div class="skills"
-                                 id="mentor-skills"></div>
-
-
-                            <!-- Professor description -->
-                            <div class="description">
-
-                                <h3>Mentor's Craft</h3>
-
-                                <p id="mentor-description"></p>
-
-                            </div>
-
-
-                            <!-- Student benefits -->
-                            <div class="gain-box">
-
-                                <h3>✦ Skills You'll Unlock</h3>
-
-                                <p id="mentor-outcome"></p>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- Wooden scroll rollers -->
-                    <div class="scroll-roller
-                                scroll-roller-top"
-                         aria-hidden="true"></div>
-
-                    <div class="scroll-roller
-                                scroll-roller-bottom"
-                         aria-hidden="true"></div>
-
-
-                    <!-- Swipe indicators -->
-                    <span class="stamp like-stamp"
-                          id="like-stamp">
-                        CONNECT
-                    </span>
-
-                    <span class="stamp pass-stamp"
-                          id="pass-stamp">
-                        PASS
-                    </span>
-
-                </article>
-
-
-                <!-- When the mentor deck is complete -->
-                <div class="empty-state"
-                     id="empty-state"
-                     hidden>
-
-                    <h2>All caught up!</h2>
-
-                    <p>
-                        You've explored every available mentor.
-                    </p>
-
-                    <button id="restart-btn" type="button">
-                        Start Over
-                    </button>
-
-                </div>
-
+            <div class="side-scroll side-scroll-right" aria-hidden="true">
+              <div class="side-scroll-paper"></div>
+              <div class="side-scroll-roller top"></div>
+              <div class="side-scroll-roller bottom"></div>
             </div>
 
+            <div class="card-behind" id="card-behind" aria-hidden="true"></div>
 
-            <!-- SWIPE BUTTONS -->
-            <div class="actions" id="actions">
+            <article class="mentor-card" id="card">
+              <div class="scroll-paper" id="scroll-paper">
+                <div class="scroll-content">
+                  <div class="card-top">
+                    <div id="mentor-icon" class="mentor-icon">📜</div>
+                    <div id="match-score" class="match-score"></div>
+                  </div>
 
-                <button id="pass-btn"
-                        class="pass-button"
-                        type="button"
-                        aria-label="Pass on mentor">
-                    ✕
+                  <p id="mentor-subjects" class="small-label"></p>
+                  <h2 id="mentor-name"></h2>
+                  <p id="mentor-role" class="mentor-role"></p>
+
+                  <div id="mentor-skills" class="skills"></div>
+
+                  <div class="scroll-divider">✧ ✧ ✧</div>
+
+                  <h3>Mentor's Craft</h3>
+                  <p id="mentor-description"></p>
+
+                  <div class="gain-box">
+                    <h3>✦ Skills You'll Unlock</h3>
+                    <p id="mentor-outcome"></p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="scroll-roller scroll-roller-top"></div>
+              <div class="scroll-roller scroll-roller-bottom"></div>
+
+              <span class="stamp like-stamp" id="like-stamp">CONNECT</span>
+              <span class="stamp pass-stamp" id="pass-stamp">PASS</span>
+            </article>
+
+            <div class="empty-state" id="empty-state" hidden>
+              <h2>All Caught Up!</h2>
+              <p>Explore Your Guild for office hours and quests.</p>
+              <button id="restart-btn" class="secondary-button" type="button">
+                Browse Again
+              </button>
+            </div>
+          </div>
+
+          <div class="actions" id="actions">
+            <button id="pass-btn" class="pass-button" type="button">✕</button>
+            <button id="like-btn" class="like-button" type="button">♥</button>
+          </div>
+
+          <p id="swipe-hint">← Pass | Connect →</p>
+
+          <button id="projects-btn" class="archive-button" type="button">
+            📜 Open Quest Archive ↓
+          </button>
+
+          <div class="projects-panel" id="projects-panel" hidden>
+            <h2>Quest Archive</h2>
+            <h3>Mentor's Research</h3>
+            <div id="professor-projects"></div>
+            <h3>Previous Student Projects</h3>
+            <div id="student-projects"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- MENTOR MESSAGES -->
+      <section id="view-guild" class="app-view" hidden>
+        <div class="page-heading">
+          <p class="eyebrow">✦ YOUR CONNECTIONS ✦</p>
+          <h1>Your Guild</h1>
+          <p>Ask questions, complete quests, and request office hours.</p>
+        </div>
+
+        <div class="guild-layout">
+          <aside class="panel">
+            <h2>Connected Mentors</h2>
+            <div id="liked-list" class="liked-list"></div>
+          </aside>
+
+          <div class="panel messenger">
+            <div id="chat-placeholder">
+              <h3>Select a Mentor</h3>
+              <p>Your conversations will appear here.</p>
+            </div>
+
+            <div id="chat-panel" hidden>
+              <div class="chat-header">
+                <h2 id="chat-mentor-name"></h2>
+                <button id="apply-from-chat" class="secondary-button" type="button">
+                  Longer Path ↗
                 </button>
+              </div>
 
-                <button id="like-btn"
-                        class="like-button"
-                        type="button"
-                        aria-label="Like mentor">
-                    ♥
-                </button>
+              <div class="chat-tabs">
+                <button id="messages-tab" class="active" type="button">✉ Messages</button>
+                <button id="quests-tab" type="button">⚔ Quests</button>
+                <button id="hours-tab" type="button">◷ Office Hours</button>
+              </div>
 
+              <div id="messages-view">
+                <div id="chat-messages" class="chat-messages" role="log"></div>
+                <form id="chat-form" class="chat-form">
+                  <input id="chat-input" maxlength="500" required
+                    placeholder="Write your message...">
+                  <button class="primary-button" type="submit">Send</button>
+                </form>
+              </div>
+
+              <div id="quests-view" class="chat-view" hidden>
+                <div id="quest-list"></div>
+
+                <div id="quest-game" hidden>
+                  <button id="back-to-quests" class="text-button" type="button">
+                    ← Back to Quests
+                  </button>
+
+                  <p id="quest-stage" class="small-label"></p>
+                  <h2 id="quest-title"></h2>
+                  <p id="quest-question"></p>
+                  <pre id="quest-code" hidden></pre>
+                  <div id="quest-choices" class="quest-choices"></div>
+                  <p id="quest-feedback" role="status"></p>
+                  <button id="next-stage" class="primary-button" type="button" hidden>
+                    Next Stage →
+                  </button>
+                </div>
+              </div>
+
+              <div id="hours-view" class="chat-view" hidden>
+                <h2>Request Office Hours</h2>
+                <p class="fineprint">Sample slots, not live bookings.</p>
+
+                <form id="hours-form" class="form-stack">
+                  <label>Choose a sample time
+                    <select id="hours-slot"></select>
+                  </label>
+
+                  <label>What do you need help with?
+                    <textarea id="hours-question" rows="3" required></textarea>
+                  </label>
+
+                  <button type="submit" class="primary-button">
+                    Request Session
+                  </button>
+                </form>
+
+                <div id="hours-history"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- STUDENT PROFILE AND LONGER PATH -->
+      <section id="view-journey" class="app-view" hidden>
+        <div class="page-heading">
+          <p class="eyebrow">✦ LEARN · BUILD · GROW ✦</p>
+          <h1>My Journey</h1>
+          <p>Show your work and explore longer-term opportunities.</p>
+        </div>
+
+        <div class="journey-layout">
+          <div class="panel">
+            <div class="panel-title">
+              <h2 id="profile-name"></h2>
+              <span id="profile-xp"></span>
             </div>
 
+            <p id="profile-summary"></p>
+            <div id="profile-subjects" class="skills"></div>
+            <div id="profile-links" class="portfolio-links"></div>
+            <p id="resume-note" class="fineprint"></p>
 
-            <p class="swipe-hint" id="swipe-hint">
-                ← Pass &nbsp; | &nbsp; Connect →
-            </p>
-
-
-            <!-- PROJECT ARCHIVE BUTTON -->
-            <button id="projects-btn"
-                    class="projects-button"
-                    type="button"
-                    aria-controls="projects-panel"
-                    aria-expanded="false">
-
-                📜 Open Quest Archive ↓
-
+            <button id="edit-profile-btn" class="secondary-button" type="button">
+              Edit Profile
             </button>
-
-
-            <!-- EXPANDABLE PROJECTS -->
-            <section class="projects-panel"
-                     id="projects-panel"
-                     hidden>
-
-                <h2>The Quest Archive</h2>
-
-                <h3>Mentor's Research & Projects</h3>
-
-                <div class="project-list"
-                     id="professor-projects"></div>
-
-                <h3>Previous Student Projects</h3>
-
-                <div class="project-list"
-                     id="student-projects"></div>
-
-            </section>
-
-        </section>
-
-
-        <!-- LIKED MENTORS -->
-        <section class="liked-section"
-                 id="liked-section"
-                 hidden>
-
-            <p class="eyebrow">
-                ✦ YOUR CONNECTIONS ✦
-            </p>
-
-            <h2>Your Guild</h2>
-
-            <p class="liked-subtitle">
-                Mentors you've expressed interest in.
-                Select one to view messages and quests.
-            </p>
-
-
-            <div class="liked-layout">
-
-                <!-- List of liked professors -->
-                <div class="liked-list"
-                     id="liked-list"></div>
-
-
-                <!-- GUILD MESSENGER -->
-                <div class="chat-container">
-
-                    <p class="chat-placeholder"
-                       id="chat-placeholder">
-
-                        Select a mentor to begin a conversation
-                        or accept a quest.
-
-                    </p>
-
-
-                    <section class="chat-panel"
-                             id="chat-panel"
-                             hidden>
-
-                        <div class="chat-header">
-
-                            <strong id="chat-mentor-name"></strong>
-
-                            <span>Guild Messenger · Demo</span>
-
-                        </div>
-
-
-                        <!-- MESSAGES / QUESTS TABS -->
-                        <div class="chat-tabs"
-                             role="tablist"
-                             aria-label="Messenger tabs">
-
-                            <button id="messages-tab"
-                                    class="chat-tab active"
-                                    type="button"
-                                    role="tab"
-                                    aria-selected="true"
-                                    aria-controls="messages-view">
-
-                                 Messages
-
-                            </button>
-
-                            <button id="quests-tab"
-                                    class="chat-tab"
-                                    type="button"
-                                    role="tab"
-                                    aria-selected="false"
-                                    aria-controls="quests-view">
-
-                                ⚔ Quests
-                                <span id="quest-count">1</span>
-
-                            </button>
-
-                        </div>
-
-
-                        <!-- MESSAGES SCREEN -->
-                        <div class="chat-view"
-                             id="messages-view"
-                             role="tabpanel"
-                             aria-labelledby="messages-tab">
-
-                            <div class="chat-messages"
-                                 id="chat-messages"
-                                 role="log"
-                                 aria-live="polite"></div>
-
-
-                            <form class="chat-form"
-                                  id="chat-form">
-
-                                <input id="chat-input"
-                                       type="text"
-                                       maxlength="500"
-                                       placeholder="Write a message..."
-                                       aria-label="Message"
-                                       required>
-
-                                <button type="submit">
-                                    Send
-                                </button>
-
-                            </form>
-
-                        </div>
-
-
-                        <!-- QUESTS SCREEN -->
-                        <div class="chat-view quest-view"
-                             id="quests-view"
-                             role="tabpanel"
-                             aria-labelledby="quests-tab"
-                             hidden>
-
-                            <!-- Available quests -->
-                            <div id="quest-list"></div>
-
-
-                            <!-- Playable quest -->
-                            <div id="quest-game" hidden>
-
-                                <button class="back-button"
-                                        id="back-to-quests"
-                                        type="button">
-
-                                    ← Back to Quests
-
-                                </button>
-
-                                <p class="quest-kicker"
-                                   id="quest-stage"></p>
-
-                                <h3 id="quest-title"></h3>
-
-                                <p id="quest-question"></p>
-
-                                <pre id="quest-code" hidden></pre>
-
-                                <div class="quest-choices"
-                                     id="quest-choices"></div>
-
-                                <p class="quest-feedback"
-                                   id="quest-feedback"
-                                   role="status"
-                                   aria-live="polite"></p>
-
-                                <button class="next-button"
-                                        id="next-stage"
-                                        type="button"
-                                        hidden>
-
-                                    Next Stage →
-
-                                </button>
-
-                            </div>
-
-                        </div>
-
-                    </section>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- NOTIFICATION -->
-        <div class="swipe-toast"
-             id="swipe-toast"
-             role="status"
-             aria-live="polite"
-             hidden></div>
-
-
-        <!-- FOOTER -->
-        <footer>
-
-            ✦ Buckeye Guild ✦
-
-            <small>
-                A mentorship adventure.
-                Fictional mentor profiles and demo quests.
-            </small>
-
-        </footer>
-
-    </main>
-
-
-    <script src="script.js"></script>
-
+          </div>
+
+          <div class="panel">
+            <h2>Projects & Completed Quests</h2>
+            <div id="quest-evidence"></div>
+            <div id="project-evidence"></div>
+
+            <h3>Add a Project</h3>
+
+            <form id="project-form" class="form-stack">
+              <label>Project name
+                <input id="project-title" required maxlength="80">
+              </label>
+
+              <label>Description
+                <textarea id="project-description" required rows="2"></textarea>
+              </label>
+
+              <label>Project URL (optional)
+                <input id="project-url" type="url" placeholder="https://github.com/...">
+              </label>
+
+              <button type="submit" class="secondary-button">Add Project</button>
+            </form>
+          </div>
+        </div>
+
+        <div id="edit-profile-panel" class="panel edit-panel" hidden>
+          <h2>Edit Your Student Profile</h2>
+
+          <form id="edit-profile-form" class="form-stack">
+            <label>Full name
+              <input id="edit-name" required>
+            </label>
+
+            <label>Major
+              <input id="edit-major" required>
+            </label>
+
+            <label>Year
+              <select id="edit-year">
+                <option>First year</option>
+                <option>Second year</option>
+                <option>Third year</option>
+                <option>Fourth year</option>
+                <option>Graduate student</option>
+                <option>Other</option>
+              </select>
+            </label>
+
+            <fieldset>
+              <legend>Subjects</legend>
+              <div id="edit-subjects" class="subject-grid"></div>
+            </fieldset>
+
+            <label>Learning goals
+              <textarea id="edit-goal" rows="2" required></textarea>
+            </label>
+
+            <label>Skills to practice
+              <input id="edit-skills" placeholder="Java, Python, Unity">
+            </label>
+
+            <label>Preferred mentorship
+              <select id="edit-help">
+                <option>Office hours</option>
+                <option>Practice quest</option>
+                <option>Project feedback</option>
+              </select>
+            </label>
+
+            <label>Availability
+              <select id="edit-time">
+                <option>1 hour / week</option>
+                <option>2–3 hours / week</option>
+                <option>4–6 hours / week</option>
+                <option>7+ hours / week</option>
+              </select>
+            </label>
+
+            <label>GitHub URL
+              <input id="edit-github" type="url">
+            </label>
+
+            <label>LinkedIn URL
+              <input id="edit-linkedin" type="url">
+            </label>
+
+            <label>Portfolio URL
+              <input id="edit-portfolio" type="url">
+            </label>
+
+            <label>Replace resume
+              <input id="edit-resume" type="file" accept=".pdf,.doc,.docx">
+            </label>
+
+            <button type="submit" class="primary-button">Save Profile</button>
+            <button id="cancel-edit" type="button" class="text-button">Cancel</button>
+          </form>
+        </div>
+
+        <div class="panel longer-path">
+          <p class="eyebrow dark">✦ THE LONGER PATH ✦</p>
+          <h2>Apply for a Longer Adventure</h2>
+
+          <p>
+            Begin with quick learning sessions. When you're ready,
+            apply for a 4–6-week team project, a 2–3-month mentorship,
+            or a possible internship conversation.
+          </p>
+
+          <p class="fineprint">
+            These are interest forms, not real positions or offers.
+          </p>
+
+          <div id="path-mentor-list" class="path-mentor-list"></div>
+
+          <h3>Your Applications</h3>
+          <div id="application-list"></div>
+        </div>
+      </section>
+
+      <!-- MENTOR-SIDE DEMONSTRATION -->
+      <section id="view-mentor" class="app-view" hidden>
+        <div class="page-heading">
+          <p class="eyebrow">✦ MENTOR DEMONSTRATION ✦</p>
+          <h1>The Mentor's Desk</h1>
+          <p>Preview student projects and longer-term applications.</p>
+        </div>
+
+        <p class="demo-warning">
+          This is a simulated mentor view, not a real professor account.
+        </p>
+
+        <div id="review-content"></div>
+      </section>
+    </div>
+  </main>
+
+  <!-- APPLICATION FORM -->
+  <dialog id="application-dialog" class="panel application-dialog">
+    <form id="application-form" class="form-stack">
+      <h2>Apply for a Longer Path</h2>
+      <p id="application-mentor-note"></p>
+
+      <label>Opportunity type
+        <select id="application-type">
+          <option>4–6 week team project</option>
+          <option>2–3 month ongoing mentorship</option>
+          <option>Future internship conversation</option>
+        </select>
+      </label>
+
+      <label>Why do you want to work together?
+        <textarea id="application-message" rows="4" required></textarea>
+      </label>
+
+      <label>Weekly commitment
+        <select id="application-availability">
+          <option>1–3 hours / week</option>
+          <option>4–6 hours / week</option>
+          <option>7–10 hours / week</option>
+          <option>10+ hours / week</option>
+        </select>
+      </label>
+
+      <label class="consent">
+        <input id="application-consent" type="checkbox" required>
+        I agree to share my project links and profile in this demo review.
+      </label>
+
+      <div class="dialog-actions">
+        <button id="cancel-application" class="secondary-button" type="button">
+          Cancel
+        </button>
+        <button type="submit" class="primary-button">
+          Submit Application
+        </button>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" hidden></div>
+
+  <footer>
+    ✦ Buckeye Guild ✦
+    <small>HackOHI/O demo · Fictional mentors and opportunities</small>
+  </footer>
 </body>
 </html>
